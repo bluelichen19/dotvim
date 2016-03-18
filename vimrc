@@ -34,6 +34,10 @@ Plugin 'VundleVim/Vundle.vim'
 "Plugin 'ascenator/L9', {'name': 'newL9'}
 "树形资源管理器
 Plugin 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
+"帮助文档
+Plugin 'asins/vimcdoc'
+let helptags=$VIM."/vimfiles/doc"
+set helplang=cn
 
 
 " All of your Plugins must be added before the following line
@@ -58,8 +62,13 @@ syntax enable
 if has('gui_running')
     "set background=light
     set background=dark
+    "全屏
+    set fu
+    "如果底部有黑边
+    "defaults write org.vim.MacVim MMNativeFullScreen 0
 else
 	set background=light
+	"set nofu
     "set background=dark
 endif
 "set background=dark
@@ -69,6 +78,20 @@ filetype plugin indent on
 "========================================================================================================
 set nocompatible
 set number
+" 总是显示状态栏
+set laststatus=2
+" 显示光标当前位置
+set ruler
+" 开启行号显示
+set number
+" 高亮显示当前行/列
+set cursorline
+set cursorcolumn
+" 高亮显示搜索结果
+set hlsearch
+"使用鼠标
+set mouse=a
+"========================================================================================================
 " The default for 'backspace' is very confusing to new users, so change it to a
 " more sensible value.  Add "set backspace&" to your ~/.vimrc to reset it.
 set backspace+=indent,eol,start
