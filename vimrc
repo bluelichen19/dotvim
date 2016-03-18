@@ -55,7 +55,14 @@ filetype plugin indent on    " required
 execute pathogen#infect()
 syntax on
 syntax enable
-set background=dark
+if has('gui_running')
+    "set background=light
+    set background=dark
+else
+	set background=light
+    "set background=dark
+endif
+"set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
 filetype plugin indent on
