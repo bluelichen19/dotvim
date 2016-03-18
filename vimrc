@@ -54,6 +54,10 @@ filetype plugin indent on    " required
 "pathogen.vim插件管理配置
 execute pathogen#infect()
 syntax on
+syntax enable
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized
 filetype plugin indent on
 "========================================================================================================
 set nocompatible
