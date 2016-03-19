@@ -1,7 +1,7 @@
 " System vimrc file for MacVim
 "
-" Maintainer:	Bjorn Winckler <bjorn.winckler@gmail.com>
-" Last Change:	Sat Aug 29 2009
+" Maintainer:   Bjorn Winckler <bjorn.winckler@gmail.com>
+" Last Change:  Sat Aug 29 2009
 "========================================================================================================
 "Vundle.vim插件管理配置
 set nocompatible              " be iMproved, required
@@ -14,7 +14,7 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+"Plugin 'VundleVim/Vundle.vim'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -33,15 +33,17 @@ Plugin 'VundleVim/Vundle.vim'
 " different version somewhere else.
 "Plugin 'ascenator/L9', {'name': 'newL9'}
 "树形资源管理器
-Plugin 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
+"Plugin 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
 "帮助文档
-Plugin 'asins/vimcdoc'
-let helptags=$VIM."/vimfiles/doc"
+"Plugin 'asins/vimcdoc'
+"let helptags=$VIM."/vimfiles/doc"
+"set helplang=cn
+set langmenu=zh_CN.UTF-8
 set helplang=cn
 "函数导航
-Plugin 'majutsushi/tagbar'
+"Plugin 'majutsushi/tagbar'
 "power-line
-Plugin 'Lokaltog/vim-powerline'
+"Plugin 'Lokaltog/vim-powerline'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -57,7 +59,18 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-"========================================================================================================
+"=====================================Pathogen===================================================================
+""
+"1\git submodule add https://github.com/vim-airline/vim-airline bundle/vim-airline  目标路径是bundle/自己起一个名字
+"2\git add --all git stautus
+"3\git commit -m "air-line"
+"4\git push origin master
+"删除
+"git rm -r --cached /Users/BLUE/.vim/bundle/Vundle.vim
+"重装
+"git submodule init
+"git submodule update
+""
 "pathogen.vim插件管理配置
 execute pathogen#infect()
 syntax on
@@ -70,8 +83,8 @@ if has('gui_running')
     "如果底部有黑边
     "defaults write org.vim.MacVim MMNativeFullScreen 0
 else
-	set background=light
-	"set nofu
+    set background=light
+    "set nofu
     "set background=dark
 endif
 "set background=dark
@@ -88,22 +101,22 @@ let g:ctrlp_working_path_mode = 'ra'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " Linux/MacOSX
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
-	\ 'file': '\v\.(exe|so|dll)$',
-	\ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
-	\ }	
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(exe|so|dll)$',
+    \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+    \ } 
 let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 let g:ctrlp_user_command = ['.hg', 'hg --cwd %s locate -I .']
 let g:ctrlp_user_command = {
-	\ 'types': {
-		\ 1: ['.git', 'cd %s && git ls-files'],
-		\ 2: ['.hg', 'hg --cwd %s locate -I .'],
-		\ },
-	\ 'fallback': 'find %s -type f'
-	\ }
-"===================================TagbarToggle===================================================================
+    \ 'types': {
+        \ 1: ['.git', 'cd %s && git ls-files'],
+        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+        \ },
+    \ 'fallback': 'find %s -type f'
+    \ }
+"===================================TagbarToggle=========================================================
 nmap <F9> :TagbarToggle<CR>
 " 启动时自动focus
 let g:tagbar_autofocus = 1
@@ -119,8 +132,7 @@ let g:tagbar_type_ruby = {
         \ 'F:singleton methods'
     \ ]
 \ }
-"=========================================NERDTree======================================================================
-" close NERDTree after a file is opened
+"=========================================NERDTree=======================================================
 let g:NERDTreeQuitOnOpen=0
 " show hidden files in NERDTree
 let NERDTreeShowHidden=1
@@ -145,12 +157,23 @@ let g:ctrlp_custom_ignore = {
 " search the nearest ancestor that contains .git, .hg, .svn
 let g:ctrlp_working_path_mode = 2
 "========================================================================================================
-"=========================================power-line===============================================================
-let g:Powerline_symbols = 'fancy'
+"=========================================air-line=======================================================
+""
+":set guifont=*  调出字体设置
+":set guifont    显示当前字体
+"设置时，注意下划线代替空格，或者用\（转义字符）代替空格  =（等号）后面不能有空格
+"
+""
+""
+""
+"let g:Powerline_symbols = 'fancy'
 set encoding=utf-8
 "set fillchars+=stl:\ ,stlnc:\
-set laststatus=2
+"set laststatus=2
 "set -g default-terminal "screen-256color"
+set guifont=Meslo_LG_M_DZ_Regular_for_Powerline:h11
+let g:airline_powerline_fonts = 1
+"let g:Powerline_symbols="fancy"
 "========================================================================================================
 set nocompatible
 set number
@@ -167,6 +190,17 @@ set cursorcolumn
 set hlsearch
 "使用鼠标
 set mouse=a
+"去掉输入错误的提示声音
+set noeb
+
+
+
+
+"中文帮助和中文菜单
+"if version >= 603
+set helplang=cn
+"set encoding=utf-8
+"endif
 "========================================================================================================
 " The default for 'backspace' is very confusing to new users, so change it to a
 " more sensible value.  Add "set backspace&" to your ~/.vimrc to reset it.
