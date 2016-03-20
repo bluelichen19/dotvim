@@ -133,6 +133,7 @@ let g:tagbar_type_ruby = {
     \ ]
 \ }
 "=========================================NERDTree=======================================================
+autocmd vimenter * NERDTree
 let g:NERDTreeQuitOnOpen=0
 " show hidden files in NERDTree
 let NERDTreeShowHidden=1
@@ -175,6 +176,34 @@ set guifont=Meslo_LG_M_DZ_Regular_for_Powerline:h11
 let g:airline_powerline_fonts = 1
 "let g:Powerline_symbols="fancy"
 "========================================================================================================
+"=========================================Syntastic======================================================
+""
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+"========================================================================================================
+"=========================================gundo==========================================================
+nnoremap <F5> :GundoToggle<CR>
+"let g:gundo_width = 60
+"let g:gundo_preview_height = 40
+"let g:gundo_right = 1
+"===================================================================================================
+"=========================================YCM==========================================================
+"let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+"let g:ycm_confirm_extra_conf = 0
+let g:ycm_global_ycm_extra_conf = '/Users/BLUE/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_server_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
+"===================================================================================================
+"===================================================================================================
+
 set nocompatible
 set number
 " 总是显示状态栏
