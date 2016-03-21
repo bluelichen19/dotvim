@@ -59,6 +59,9 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+
+
+
 "=====================================Pathogen===================================================================
 ""
 "1\git submodule add https://github.com/vim-airline/vim-airline bundle/vim-airline  目标路径是bundle/自己起一个名字
@@ -81,7 +84,7 @@ if has('gui_running')
     "全屏
     set fu
     "如果底部有黑边
-    "defaults write org.vim.MacVim MMNativeFullScreen 0
+    defaults write org.vim.MacVim MMNativeFullScreen 0
 else
     set background=light
     "set nofu
@@ -175,8 +178,8 @@ set encoding=utf-8
 set guifont=Meslo_LG_M_DZ_Regular_for_Powerline:h11
 let g:airline_powerline_fonts = 1
 "let g:Powerline_symbols="fancy"
-"========================================================================================================
-"=========================================Syntastic======================================================
+"==================================================================================================
+"=========================================Syntastic================================================
 ""
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -185,50 +188,101 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-"========================================================================================================
-"=========================================gundo==========================================================
+
+let g:syntastic_check_on_open = 1
+let g:syntastic_cpp_include_dirs = ['/usr/include/']
+let g:syntastic_cpp_remove_include_errors = 1
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
+"set error or warning signs
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠'
+"whether to show balloons
+let g:syntastic_enable_balloons = 1
+"==================================================================================================
+"=========================================gundo====================================================
+let g:gundo_prefer_python3 = 1
 nnoremap <F5> :GundoToggle<CR>
 "let g:gundo_width = 60
 "let g:gundo_preview_height = 40
 "let g:gundo_right = 1
-"===================================================================================================
-"=========================================YCM==========================================================
-"let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-"let g:ycm_confirm_extra_conf = 0
+"==================================================================================================
+"==========================================YCM========================================================
+let g:ycm_confirm_extra_conf = 1
+"let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_global_ycm_extra_conf = '/Users/BLUE/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
+set tags+=~/work/test/ctest/UPlayer_Refactoring_Tudou/tags
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_server_keep_logfiles = 1
 let g:ycm_server_log_level = 'debug'
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"注释和字符串中的文字也会被收入补全
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" 输入第2个字符开始补全
+let g:ycm_min_num_of_chars_for_completion=2
+" 禁止缓存匹配项,每次都重新生成匹配项
+let g:ycm_cache_omnifunc=0
+" 开启语义补全
+let g:ycm_seed_identifiers_with_syntax=1    
+"在注释输入中也能补全
+let g:ycm_complete_in_comments = 1
+"在字符串输入中也能补全
+let g:ycm_complete_in_strings = 1
+
+let g:ycm_use_ultisnips_completer = 1
+" 设置在下面几种格式的文件上屏蔽ycm
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'nerdtree' : 1,
+      \}
+"youcompleteme  默认tab  s-tab 和 ultisnips 冲突
+let g:ycm_key_list_select_completion = ['<Down>']
+let g:ycm_key_list_previous_completion = ['<Up>']
+" 修改对C函数的补全快捷键，默认是CTRL + space，修改为ALT + ;
+let g:ycm_key_invoke_completion = '<M-;>'
 "===================================================================================================
-"=======================================ultisnips============================================================
+"=======================================ultisnips===================================================
 " Track the engine.
-Plugin 'SirVer/ultisnips'
+"Plugin 'SirVer/ultisnips'
 
 " Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
+"Plugin 'honza/vim-snippets'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+
+let g:UltiSnipsExpandTrigger = "<c-j>"
+let g:UltiSnipsJumpForwardTrigger = "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+" 定义存放代码片段的文件夹 .vim/additional_snippets下，使用自定义和默认的，将会的到全局，有冲突的会提示
+let g:UltiSnipsSnippetDirectories=["additional_snippets", 'UltiSnips']
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 "===================================================================================================
-"========================================EasyAlign===========================================================
+"========================================EasyAlign==================================================
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 "===================================================================================================
-"=========================================AG==========================================================
+"=========================================AG========================================================
 let g:ag_prg="<custom-ag-path-goes-here> --vimgrep"
 let g:ag_working_path_mode="r"
 "===================================================================================================
-"=========================================BufferLine==========================================================
+"=========================================BufferLine================================================
 "" 开启tabline
 "let g:airline#extensions#tabline#enabled = 1
 "" tabline中当前buffer两端的分隔符
@@ -241,13 +295,13 @@ let g:ag_working_path_mode="r"
 "let g:airline#extensions#bufferline#overwrite_variables = 1
 
 " enable tabline
-let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#enabled = 1
 " set left separator
-let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_sep = ' '
 " set left separator which are not editting
-let g:airline#extensions#tabline#left_alt_sep = '|'
+"let g:airline#extensions#tabline#left_alt_sep = '|'
 " show buffer number
-let g:airline#extensions#tabline#buffer_nr_show = 1
+"let g:airline#extensions#tabline#buffer_nr_show = 1
 "===================================================================================================
 "===================================================================================================
 "===================================================================================================
@@ -265,7 +319,8 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 "===================================================================================================
 "===================================================================================================
 "===================================================================================================
-
+"let g:pymode_python = 'python3'
+"let g:pymode_python = 'python'
 set nocompatible
 set number
 " 总是显示状态栏
@@ -283,8 +338,9 @@ set hlsearch
 set mouse=a
 "去掉输入错误的提示声音
 set noeb
-
-
+"ctags -R --c++-kinds=+p --fields=+iaS --extra=+q src
+map <c-F12> :!CTags -R --c++-kinds=+p --fields=+iaSl --extra=+q .<CR><CR>
+map <C-F12> :!ctags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++ ./
 
 
 "中文帮助和中文菜单
