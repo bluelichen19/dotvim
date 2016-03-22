@@ -74,6 +74,20 @@ filetype plugin indent on    " required
 "git submodule init
 "git submodule update
 ""
+
+"git status
+"git commit -m "add .vim plugins"
+"cp ~/.vimrc .
+"git add .vimrc
+"git status
+"git commit -m "add .vimrc file"
+"git status
+"git remote add origin https://github.com/zhchnchn/VimConfig.git
+"git push -u origin master
+"git push -u origin master：Push到远程仓库，同时设置跟踪分支，下次push的时候，直接输入git push即可，系统会自动用本地master分支跟踪远程master分支
+"将.vim配置clone到别的机器的～/.vim目录下（如果没有.vim则新建一个）
+"git clone git@github.com:zhchnchn/VimConfig.git ~/.vim
+
 "pathogen.vim插件管理配置
 execute pathogen#infect()
 syntax on
