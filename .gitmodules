@@ -49,3 +49,6 @@
 [submodule "bundle/ag"]
 	path = bundle/ag
 	url = https://github.com/rking/ag.vim.git
+[submodule "bundle/vim-snippets"]
+	path = bundle/vim-snippets
+	url = https://github.com/honza/vim-snippets
