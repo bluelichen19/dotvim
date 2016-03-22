@@ -75,6 +75,12 @@ filetype plugin indent on    " required
 "git submodule update
 ""
 
+
+" 将 pathogen 自身也置于独立目录中，需指定其路径 
+"runtime bundle/pathogen/autoload/pathogen.vim
+" 运行 pathogen
+"execute pathogen#infect()
+
 "git status
 "git commit -m "add .vim plugins"
 "cp ~/.vimrc .
@@ -133,6 +139,26 @@ let g:ctrlp_user_command = {
         \ },
     \ 'fallback': 'find %s -type f'
     \ }
+
+"CtrlP会沿着vim打开的目录一直向上查找类似.git/.svn等这样的项目管理的目录，如果找到则将这个作为项目的根目录 vimrc中配置如下：
+" "for file search ctrlp, 文件搜索
+"" 打开ctrlp搜索
+"let g:ctrlp_map = '<leader>ff'
+"let g:ctrlp_cmd = 'CtrlP'
+"" 相当于mru功能，show recently opened files
+"map <leader>fp :CtrlPMRU<CR>
+""set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux"
+"let g:ctrlp_custom_ignore = {
+"    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+"    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz)$',
+"    \ }
+""\ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+"let g:ctrlp_working_path_mode=0
+"let g:ctrlp_match_window_bottom=1
+"let g:ctrlp_max_height=15
+"let g:ctrlp_match_window_reversed=0
+"let g:ctrlp_mruf_max=500
+"let g:ctrlp_follow_symlinks=1
 "===================================TagbarToggle=========================================================
 nmap <F9> :TagbarToggle<CR>
 " 启动时自动focus
@@ -149,6 +175,8 @@ let g:tagbar_type_ruby = {
         \ 'F:singleton methods'
     \ ]
 \ }
+"nmap <leader>tb :TagbarToggle<CR>  " \tb 打开tagbar窗口
+"let g:tagbar_autofocus = 1
 "=========================================NERDTree=======================================================
 autocmd vimenter * NERDTree
 let g:NERDTreeQuitOnOpen=0
@@ -174,6 +202,13 @@ let g:ctrlp_custom_ignore = {
 
 " search the nearest ancestor that contains .git, .hg, .svn
 let g:ctrlp_working_path_mode = 2
+
+"nmap <leader>nt :NERDTree<CR>
+"let NERDTreeHighlightCursorline=1
+"let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+"let g:netrw_home='~/bak'
+""close vim if the only window left open is a NERDTree
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
 "========================================================================================================
 "=========================================air-line=======================================================
 ""
@@ -181,7 +216,9 @@ let g:ctrlp_working_path_mode = 2
 ":set guifont    显示当前字体
 "设置时，注意下划线代替空格，或者用\（转义字符）代替空格  =（等号）后面不能有空格
 "
-""
+"let g:airline_detect_whitespace          = 0 "关闭空白符检测
+"let g:airline#extensions#tabline#enabled = 1 "顶部tab栏显示
+"let g:airline_theme                      = "bubblegum" "设定主题
 ""
 ""
 "let g:Powerline_symbols = 'fancy'
@@ -259,6 +296,30 @@ let g:ycm_key_list_select_completion = ['<Down>']
 let g:ycm_key_list_previous_completion = ['<Up>']
 " 修改对C函数的补全快捷键，默认是CTRL + space，修改为ALT + ;
 let g:ycm_key_invoke_completion = '<M-;>'
+
+" YCM 补全菜单配色
+" 菜单
+"highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
+" 选中项
+"highlight PmenuSel ctermfg=2 ctermbg=3 guifg=#AFD700 guibg=#106900
+" 补全功能在注释中同样有效
+"let g:ycm_complete_in_comments=1
+" 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
+"let g:ycm_confirm_extra_conf=0
+" 开启 YCM 标签补全引擎
+"let g:ycm_collect_identifiers_from_tags_files=1
+" 引入 C++ 标准库tags
+"set tags+=/data/misc/software/misc./vim/stdcpp.tags
+" YCM 集成 OmniCppComplete 补全引擎，设置其快捷键
+"inoremap <leader>; <C-x><C-o>
+" 补全内容不以分割子窗口形式出现，只显示补全列表
+"set completeopt-=preview
+" 从第一个键入字符就开始罗列匹配项
+"let g:ycm_min_num_of_chars_for_completion=1
+" 禁止缓存匹配项，每次都重新生成匹配项
+"let g:ycm_cache_omnifunc=0
+" 语法关键字补全         
+"let g:ycm_seed_identifiers_with_syntax=1
 "===================================================================================================
 "=======================================ultisnips===================================================
 " Track the engine.
@@ -317,6 +378,68 @@ let g:ag_working_path_mode="r"
 " show buffer number
 "let g:airline#extensions#tabline#buffer_nr_show = 1
 "===================================================================================================
+"============================================vimproc=======================================================
+"sudo git submodule add -f  https://github.com/Shougo/vimproc.vim.git bundle/vimproc.vim
+"===================================================================================================
+"==============================================vimshell=====================================================
+"sudo git submodule add -f  https://github.com/Shougo/vimshell.vim.git bundle/vimshell.vim
+"let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+"used VimShellPop open windows
+	"let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+	
+	if has('win32') || has('win64')
+	  " Display user name on Windows.
+	  let g:vimshell_prompt = $USERNAME."% "
+	else
+	  " Display user name on Linux.
+	  let g:vimshell_prompt = $USER."% "
+	endif
+let g:vimshell_environment_term = 'zsh'
+"===================================================================================================
+"==============================================vim-indent-guides=============================================
+"sudo git submodule add https://github.com/nathanaelkane/vim-indent-guides.git bundle/vim-indentt-guides.vim
+" 随 vim 自启动
+let g:indent_guides_enable_on_vim_startup=1
+" 从第二层开始可视化显示缩进
+let g:indent_guides_start_level=2
+" 色块宽度
+let g:indent_guides_guide_size=1
+" 快捷键 i 开/关缩进可视化
+:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+
+if has('gui_running')
+"
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
+
+"hi IndentGuidesOdd  guibg=red   ctermbg=3
+"hi IndentGuidesEven guibg=green ctermbg=4
+
+"hi IndentGuidesOdd  ctermbg=black
+"hi IndentGuidesEven ctermbg=darkgrey
+else
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
+
+"hi IndentGuidesOdd  guibg=red   ctermbg=3
+"hi IndentGuidesEven guibg=green ctermbg=4
+
+"hi IndentGuidesOdd  ctermbg=white
+"hi IndentGuidesEven ctermbg=lightgrey
+endif
+
+
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
+"===================================================================================================
+"==============================================a.vim=====================================================
+"sudo git submodule add https://github.com/vim-scripts/a.vim.git bundle/a.vim
+" *.cpp 和 *.h 间切换
+nmap <Leader>ch :A<CR>
+" 子窗口中显示 *.cpp 或 *.h
+nmap <Leader>sch :AS<CR>
+这样，键入 ;ch 就能在实现文件和接口文件间切换，键入 ;sch 子窗口中将显示实现文件/接口文件。
 "===================================================================================================
 "===================================================================================================
 "===================================================================================================
@@ -326,15 +449,7 @@ let g:ag_working_path_mode="r"
 "===================================================================================================
 "===================================================================================================
 "===================================================================================================
-"===================================================================================================
-"===================================================================================================
-"===================================================================================================
-"===================================================================================================
-"===================================================================================================
-"===================================================================================================
-"===================================================================================================
-"let g:pymode_python = 'python3'
-"let g:pymode_python = 'python'
+
 set nocompatible
 set number
 " 总是显示状态栏
@@ -371,3 +486,130 @@ set backspace+=indent,eol,start
 " the entire MacVim menu is set up in a nib file which currently only is
 " translated to English).
 set langmenu=none
+
+"========================================================================================================
+":buffers	列示缓冲区状态
+":buffer	编辑指定缓冲区
+":ball	编辑所有缓冲区
+":bnext	到下一缓冲区
+":bprevious	到前一缓冲区
+":blast	到最后一个缓冲区
+":bfirst	到第一个缓冲区
+":badd	增加缓冲区
+":bdelete	删除缓冲区
+":bunload	卸载缓冲区
+":buffers	列示缓冲区状态
+":buffer	编辑指定缓冲区
+":ball	编辑所有缓冲区
+":bnext	到下一缓冲区
+":bprevious	到前一缓冲区
+":blast	到最后一个缓冲区
+":bfirst	到第一个缓冲区
+":badd	增加缓冲区
+":bdelete	删除缓冲区
+":bunload	卸载缓冲区
+":bwipe		彻底删除缓冲区
+
+"========================================================================================================
+" 定义快捷键的前缀，即<Leader>
+"let mapleader=";"
+" 定义快捷键到行首和行尾
+"nmap LB 0
+"nmap LE $
+" 设置快捷键将选中文本块复制至系统剪贴板
+"vnoremap <Leader>y "+y
+" 设置快捷键将系统剪贴板内容粘贴至 vim
+"nmap <Leader>p "+p
+" 定义快捷键关闭当前分割窗口
+"nmap <Leader>q :q<CR>
+" 定义快捷键保存当前窗口内容
+"nmap <Leader>w :w<CR>
+" 定义快捷键保存所有窗口内容并退出 vim
+"nmap <Leader>WQ :wa<CR>:q<CR>
+" 不做任何保存，直接退出 vim
+"nmap <Leader>Q :qa!<CR>
+" 依次遍历子窗口
+"nnoremap nw <C-W><C-W>
+" 跳转至右方的窗口
+"nnoremap <Leader>lw <C-W>l
+" 跳转至左方的窗口
+"nnoremap <Leader>hw <C-W>h
+" 跳转至上方的子窗口
+"nnoremap <Leader>kw <C-W>k
+" 跳转至下方的子窗口
+"nnoremap <Leader>jw <C-W>j
+" 定义快捷键在结对符之间跳转
+"nmap <Leader>M %
+
+
+" 开启实时搜索功能
+"set incsearch
+" 搜索时大小写不敏感
+"set ignorecase
+" 关闭兼容模式
+"set nocompatible
+" vim 自身命令行模式智能补全
+"set wildmenu
+" 禁止光标闪烁
+"set gcr=a:block-blinkon0
+" 禁止显示滚动条
+"set guioptions-=l
+"set guioptions-=L
+"set guioptions-=r
+"set guioptions-=R
+" 禁止显示菜单和工具条
+"set guioptions-=m
+"set guioptions-=T
+" 总是显示状态栏
+"set laststatus=2
+" 显示光标当前位置
+"set ruler
+" 开启行号显示
+"set number
+" 高亮显示当前行/列
+"set cursorline
+"set cursorcolumn
+" 高亮显示搜索结果
+"set hlsearch
+" 禁止折行
+"set nowrap
+" 设置状态栏主题风格
+"let g:Powerline_colorscheme='solarized256'
+" 设置 gvim 显示字体
+"set guifont=YaHei\ Consolas\ Hybrid\ 11.5
+
+
+" 开启语法高亮功能
+"syntax enable
+" 允许用指定语法高亮配色方案替换默认方案
+"syntax on
+
+
+"在 vim 中有两类缩进表示法，一类是用 1 个制表符（'\t'），一类是用多个空格（' "'）。两者并无本质区别，只是源码文件存储的字符不同而已，但，缩进可视化插件对两类缩进显示方式不同，前者只能显示为粗块，后者可显示为细条，就我的审美观而言，选后者。增加如下配置信息：
+
+" 自适应不同语言的智能缩进
+"filetype indent on
+" 将制表符扩展为空格
+"set expandtab
+" 设置编辑时制表符占用空格数
+"set tabstop=4
+" 设置格式化时制表符占用空格数
+"set shiftwidth=4
+" 让 vim 把连续数量的空格视为一个制表符
+"set softtabstop=4
+"其中，注意下 expandtab、tabstop 与 shiftwidth、softtabstop、retab：
+
+"expandtab，把制表符转换为多个空格，具体空格数量参考 tabstop 和 shiftwidth 变量；
+"tabstop 与 shiftwidth 是有区别的。tabstop 指定我们在插入模式下输入一个制表符占据的空格数量，linux 内核编码规范建议是 8，看个人需要；shiftwidth 指定在进行缩进格式化源码时制表符占据的空格数。所谓缩进格式化，指的是通过 vim 命令由 vim 自动对源码进行缩进处理，比如其他人的代码不满足你的缩进要求，你就可以对其进行缩进格式化。缩进格式化，需要先选中指定行，要么键入 = 让 vim 对该行进行智能缩进格式化，要么按需键入多次 < 或 > 手工缩进格式化；
+"softtabstop，如何处理连续多个空格。因为 expandtab 已经把制表符转换为空格，当你要删除制表符时你得连续删除多个空格，该设置就是告诉 vim 把连续数量的空格视为一个制表符，即，只删一个字符即可。通常应将这tabstop、shiftwidth、softtabstop 三个变量设置为相同值；
+"另外，你总会阅读其他人的代码吧，他们对制表符定义规则与你不同，这时你可以手工执行 vim 的 retab 命令，让 vim 按上述规则重新处理制表符与空格关系。
+
+"操作：za，打开或关闭当前折叠；zM，关闭所有折叠；zR，打开所有折叠。
+"" 基于缩进或语法进行代码折叠
+""set foldmethod=indent
+"set foldmethod=syntax
+"" 启动 vim 时关闭折叠代码
+"set nofoldenable
+
+
+
