@@ -104,7 +104,7 @@ if has('gui_running')
     "全屏
     set fu
     "如果底部有黑边
-    defaults write org.vim.MacVim MMNativeFullScreen 0
+"    defaults write org.vim.MacVim MMNativeFullScreen 0
 else
     set background=light
     "set nofu
@@ -443,15 +443,15 @@ let g:ag_working_path_mode="r"
 "let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 "used VimShellPop open windows
-	"let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
-	
-	if has('win32') || has('win64')
-	  " Display user name on Windows.
-	  let g:vimshell_prompt = $USERNAME."% "
-	else
-	  " Display user name on Linux.
-	  let g:vimshell_prompt = $USER."% "
-	endif
+    "let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+    
+    if has('win32') || has('win64')
+      " Display user name on Windows.
+      let g:vimshell_prompt = $USERNAME."% "
+    else
+      " Display user name on Linux.
+      let g:vimshell_prompt = $USER."% "
+    endif
 let g:vimshell_environment_term = 'zsh'
 "===================================================================================================
 "==============================================vim-indent-guides=============================================
@@ -562,7 +562,7 @@ let g:miniBufExplorerAutoStart = 1
 let g:miniBufExplBuffersNeeded = 1
 let g:miniBufExplUseSingleClick = 1
 "===================================================================================================
-"===================================================================================================
+"==============================================ctrlsf.vim=====================================================
 "ctrlsf.vim 后端调用 ack，所以你得提前自行安装。ctrlsf.vim 支持 ack 所有选项，要查找某个关键字（如，yangyang），你可以想让光标定位在该关键字上面，然后命令模式下键入
 
 ":CtrlSF
@@ -621,27 +621,27 @@ set backspace+=indent,eol,start
 set langmenu=none
 
 "========================================================================================================
-":buffers	列示缓冲区状态
-":buffer	编辑指定缓冲区
-":ball	编辑所有缓冲区
-":bnext	到下一缓冲区
-":bprevious	到前一缓冲区
-":blast	到最后一个缓冲区
-":bfirst	到第一个缓冲区
-":badd	增加缓冲区
-":bdelete	删除缓冲区
-":bunload	卸载缓冲区
-":buffers	列示缓冲区状态
-":buffer	编辑指定缓冲区
-":ball	编辑所有缓冲区
-":bnext	到下一缓冲区
-":bprevious	到前一缓冲区
-":blast	到最后一个缓冲区
-":bfirst	到第一个缓冲区
-":badd	增加缓冲区
-":bdelete	删除缓冲区
-":bunload	卸载缓冲区
-":bwipe		彻底删除缓冲区
+":buffers   列示缓冲区状态
+":buffer    编辑指定缓冲区
+":ball  编辑所有缓冲区
+":bnext 到下一缓冲区
+":bprevious 到前一缓冲区
+":blast 到最后一个缓冲区
+":bfirst    到第一个缓冲区
+":badd  增加缓冲区
+":bdelete   删除缓冲区
+":bunload   卸载缓冲区
+":buffers   列示缓冲区状态
+":buffer    编辑指定缓冲区
+":ball  编辑所有缓冲区
+":bnext 到下一缓冲区
+":bprevious 到前一缓冲区
+":blast 到最后一个缓冲区
+":bfirst    到第一个缓冲区
+":badd  增加缓冲区
+":bdelete   删除缓冲区
+":bunload   卸载缓冲区
+":bwipe     彻底删除缓冲区
 
 "========================================================================================================
 " 定义快捷键的前缀，即<Leader>
@@ -744,5 +744,152 @@ set langmenu=none
 "" 启动 vim 时关闭折叠代码
 "set nofoldenable
 
+"==============================================================================================================================================
+"参照文章【1】【2】的办法，将vim打造成一个Python开发环境。文章中使用的是 pathogen + git 来管理 Vim 插件的。对这种方式还不太明白的同学可以参考【3】中的介绍。pathogen 改变了原先 Vim "只能把插件全部扔到 .vim 目录下的操作方式，使得各个插件可以以一个独立的文件夹存在于 .vim/bundle 目录中，添加和删除插件都变的非常清爽。使用 git 强大的子模块管理功能，可以实现方便的插件安装和自动升级。
 
+"1. 准备工作
+"创建.vim目录，以及其下的autoload和bundle目录。（如果先前已有.vim目录，可以先备份一下）
+"$ mkdir ~/.vim/
+"$ mkdir ~/.vim/{autoload,bundle}
+"$ cd ~/.vim/
+"$ git init
+"如果Ubuntu中没有安装Git,需要首先安装Git【4】。
 
+"2. 安装pathogen
+"下载vim-pathogen【5】，将zip包中autoload下的pathogen.vim文件copy到 ~/.vim/autoload文件夹下。
+"然后添加下面的命令到~/.vimrc文件中（.vimrc文件不存在的话，先创建.vimrc文件）。
+"filetype off
+"call pathogen#runtime_append_all_bundles()
+"call pathogen#helptags()
+"当运行pathogen命令的时候文件格式检测必须关闭，所以把filetype off放到最前面（UPTATED(20141022)）。
+"这样，pathogen插件就安装好了。
+"UPDATED(20141017):
+"(1) 当按照本文设置完成后，使用vim时，会报错误：
+"Error detected while processing /home/maxime/.vim/bundle/tasklist/plugin/tasklist.vim:
+"line  369:
+"E227: mapping already exists for \t
+"错误原因是： tasklist will not map to <leader>t if a mapping to <Plug>TaskList is found.So you just need to create a mapping to <Plug>TaskList in your vimrc.
+"解决方法是：在~/.vimrc文件中添加mapping【7】：
+"nnoremap <leader>v <Plug>TaskList
+"(2) 添加完mapping后，使用vim时，仍然会弹出以下命令行：
+"Change pathogen#runtime_append_all_bundles() to pathogen#infect()
+"Press ENTER or type command to continue
+"原因：call pathogen#infect() which can be used in the latest version of pathogen now deals with this filetype problem (and is much easier to remember and type than runtime_append_all_bundles)【8】
+"这是提示你 pathogen#runtime_append_all_bundles() 太老了，现在用 pathogen#infect() 替代它，而且比pathogen#runtime_append_all_bundles() 更容易记，还能少打好多字呢。
+"所以你需要把上面设定中的 call pathogen#runtime_append_all_bundles()改为 pathogen#infect() 。
+"UPTATED(20141022)
+"当在vimrc中设置 设置语法高亮时，发现不起作用，如果将 filetype off 注掉，或者将其提至syntax on之前，语法高亮就会起作用。
+"所以需要将filetype off 提至vimrc文件的最顶端。
+"UPDATED（20141024）
+"（1）关于pathogen为何要关闭filetype detection的原因，请参见【12】，同时也提供了解决办法，在 filetype off后，为不影响其他功能，在设置完pathogen后，再将filetype detection打开。
+"（2）必须设置 filetype off，是因为Vim's file detection的一个bug,这个bug在 >Vim 7.3.430的版本中已修复了，因此如果vim的版本>Vim 7.3.430，则不必设置filetype off【13】。
+"（3）为避免不必要的麻烦，我们将pathogen插件设置提前到vimrc的最开始。
+
+"3. Git Submodule添加Plugin到Git Repository中
+"Git Submodule的作用，简单来说就是可以将別人的 git 挂入到你目前 git 的任何位置。添加所有的vim plugins作为我们当前Repository的submodule。
+"关于Git Submodule的详细教程，参考【6】。
+"在~/.vim目录下执行以下命令
+"git submodule add http://github.com/tpope/vim-fugitive.git bundle/vim-fugitive
+"git submodule add https://github.com/msanders/snipmate.vim.git bundle/snipmate
+"git submodule add https://github.com/tpope/vim-surround.git bundle/vim-surround
+"git submodule add https://github.com/tpope/vim-git.git bundle/vim-git
+"git submodule add https://github.com/ervandew/supertab.git bundle/supertab
+"git submodule add https://github.com/sontek/minibufexpl.vim.git bundle/minibufexpl
+"git submodule add https://github.com/wincent/Command-T.git bundle/command-t
+"git submodule add https://github.com/mitechie/pyflakes-pathogen.git bundle/pyflakes-pathogen
+"git submodule add https://github.com/mileszs/ack.vim.git bundle/ack
+"git submodule add https://github.com/sjl/gundo.vim.git bundle/gundo
+"git submodule add https://github.com/fs111/pydoc.vim.git bundle/pydoc
+"git submodule add https://github.com/fs111/pydoc.vim.git bundle/pydoc
+"git submodule add https://github.com/fs111/pydoc.vim.git bundle/pydoc
+"git submodule add https://github.com/vim-scripts/pep8.git bundle/pep8
+"git submodule add https://github.com/alfredodeza/pytest.vim.git bundle/pytest
+"git submodule add https://github.com/reinh/vim-makegreen bundle/vim-makegreen
+"git submodule add https://github.com/vim-scripts/TaskList.vim.git bundle/tasklist
+"git submodule add https://github.com/vim-scripts/The-NERD-tree.git bundle/the-nerd-tree
+"git submodule add https://github.com/sontek/rope-vim.git bundle/rope-vim
+"git submodule init  进入某插件目录更新一个插件
+"git submodule update
+"git submodule foreach git submodule init   再.vim路径下，更新所有插件
+"git submodule foreach git submodule update
+"NOTE：在安装的过程中，minibufexpl.vim.git和rope-vim.git没有安装成功，需要用户名和密码。
+"现在，我们已经将vim配置放到了git仓库中。执行完上面的操作后，在.vim目录下会生成一个隐藏文件：.gitmodules。
+"UPDATED(20141020):
+"添加了这些插件作为submodule后，这些插件中会产生一些untracked文件（比如bundle/snipmate/doc/tags 文件）。在.gitignore中过滤是不起作用的。
+"解决方法是（【9】是stackoverflow中所提问题，【10】是解决方案的出处）：
+"By adding the ignore = dirty option to each one of the entries in the .gitmodules file.
+"[submodule "zen-coding-gedit3"]
+"path = zen-coding-gedit3
+"url = git://github.com/leafac/zen-coding-gedit3.git
+"ignore = dirty
+
+"4. 将其提交到GitHub
+"由于.vimrc 文件不在.vim目录下，所以将其从~目录copy到.vim目录，然后add。（Please use method in UPDATED2）
+"git status
+"git commit -m "add .vim plugins"
+"cp ~/.vimrc .
+"git add .vimrc
+"git status
+"git commit -m "add .vimrc file"
+"git status
+"git remote add origin https://github.com/zhchnchn/VimConfig.git
+"git push -u origin master
+"如果错了，需要删除
+"git rm  --cached bundle/fugitive                          //file
+"git rm  —cached -r xxx                                    //dir
+"UPDATED（20141020）：
+"git push -u origin master：Push到远程仓库，同时设置跟踪分支，下次push的时候，直接输入git push即可，系统会自动用本地master分支跟踪远程master分支 。
+"UPDATED2（20141020）
+"为了将所有的文件都置于版本控制下，我们需要将~/.vimrc 移到~/.vim下（有gvimrc的话，将其一并移动），为了让他不再是一个隐藏文件，我们去掉了前面的点(.)【11】。
+"mv ~/.vimrc ~/.vim/vimrc
+"mv ~/.gvimrc ~/.vim/gvimrc
+"当启动vim时，仍然会试图寻找~下的.vimrc文件，所以我们创建一个symbolic link。将~/.vim/vimrc文件link 到 ~/.vimrc文件。
+"ln -s ~/.vim/vimrc ~/.vimrc
+"ln -s ~/.vim/gvimrc ~/.gvimrc
+"将以上修改commit到github。
+
+"5. 如何将vim插件同步到别的机器上
+"将.vim配置提交到Github之后，如何同步到别的机器上使用呢？
+"NOTE：下面所涉及的“本地”都是指别的机器的“本地”目录。
+"（1）将.vim配置clone到别的机器的～/.vim目录下（如果没有.vim则新建一个）
+"git clone git@github.com:zhchnchn/VimConfig.git ~/.vim
+"（2）创建symbolic link，将~/.vim/vimrc文件link 到 ~/.vimrc文件。
+"ln -s ~/.vim/vimrc ~/.vimrc
+"（3）如果修改了本地的vimrc文件，在 git add和git commit之后，可以直接git push提交到github上。
+"（4）查看clone到本地的bundle目录下的各个插件目录，发现它们都是空的，那是因为还没同步到本地来。将他们同步到本地【11】：
+"~/.vim$ git submodule init
+"~/.vim$ git submodule update
+"下次更新同步的话（不是重装）
+"~/.vim$ git pull
+"~/.vim$ git submodule init
+"~/.vim$ git submodule update
+"前一条命令作用是“registers the submodule”。
+"后一条的作用是“Checks out the version of each plugin's repository which was committed to the .vim repository before”.，它会将各个插件下载到本地。
+
+"6. 如何在pathogen下安装主题风格插件呢？
+"pathogen 无法安装配色主题风格，因为它会将所有插件都安装在bundle目录下，而vim只认~/.vim/colors/下的主题风格。因此只能将主题插件手工放置于 ~/.vim/colors/下【14】。
+"比如要安装下面的2个主题插件，需要将下载的插件中的 *.vim 文件（即solarized.vim、molokai.vim文件，而非包含*.vim 文件的目录）拷贝至 ~/.vim/colors/目录下（如果没有则手动创建）。
+"solarized（https://github.com/altercation/vim-colors-solarized ）
+"molokai（https://github.com/tomasr/molokai ）
+"然后在 .vimrc文件中设定主题：
+"" 配色方案
+"set background=dark
+"colorscheme solarized
+""colorscheme molokai
+
+"Refer
+"【1】Turning Vim into a modern Python IDE（http://www.sontek.net/blog/2011/05/07/turning_vim_into_a_modern_python_ide.html）
+"【2】Turning Vim into a modern Python IDE（中译文，其中有好多错误，请对照引文参考。http://python.42qu.com/11180003）
+"【3】教程：使用 pathogen + git 管理 Vim 插件（http://lostjs.com/2012/02/04/use-pathogen-and-git-to-manage-vimfiles/）
+"【4】Ubuntu12.04安装Git（http://www.cnblogs.com/zhcncn/p/4030078.html）
+"【5】vim-pathogen（https://github.com/tpope/vim-pathogen）
+"【6】Git Submodule使用完整教程（http://www.kafeitu.me/git/2012/03/27/git-submodule.html）
+"【7】Resolving a vim plugin mapping conflict - mapping already exists for \t (http://stackoverflow.com/questions/18346350/resolving-a-vim-plugin-mapping-conflict-mapping-already-exists-for-t)
+"【8】Pathogen does not load plugins(http://stackoverflow.com/questions/3383502/pathogen-does-not-load-plugins/6365667)
+"【9】How to get rid of git submodules untracked status?（http://stackoverflow.com/questions/5126765/how-to-get-rid-of-git-submodules-untracked-status）
+"【10】How to ignore changes in git submodules（http://www.nils-haldenwang.de/frameworks-and-tools/git/how-to-ignore-changes-in-git-submodules）
+"【11】Synchronizing plugins with git submodules and pathogen （http://vimcasts.org/transcripts/27/en/）
+"【12】A Brief Note On Pathogen For Vim（http://blog.darevay.com/2010/10/a-brief-note-on-pathogen-for-vim/）
+"【13】https://github.com/gmarik/Vundle.vim/issues/176
+"【14】所需即所获：像 IDE 一样使用 vim（https://github.com/yangyangwithgnu/use_vim_as_ide）
+"本文永久更新地址：http://www.linuxdiyf.com/linux/18110.html
