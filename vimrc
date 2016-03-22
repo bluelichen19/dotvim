@@ -159,24 +159,73 @@ let g:ctrlp_user_command = {
 "let g:ctrlp_match_window_reversed=0
 "let g:ctrlp_mruf_max=500
 "let g:ctrlp_follow_symlinks=1
+
+" map fuzzyfinder (CtrlP) plugin
+" nmap <silent> <leader>t :CtrlP<cr>
+"nmap <silent> <leader>r :CtrlPBuffer<cr>
+"let g:ctrlp_map='<leader>t'
+"let g:ctrlp_dotfiles=1
+"let g:ctrlp_working_path_mode = 'ra'
 "===================================TagbarToggle=========================================================
 nmap <F9> :TagbarToggle<CR>
 " 启动时自动focus
 let g:tagbar_autofocus = 1
 
 " for ruby, delete if you do not need
-let g:tagbar_type_ruby = {
-    \ 'kinds' : [
-        \ 'm:modules',
-        \ 'c:classes',
-        \ 'd:describes',
-        \ 'C:contexts',
-        \ 'f:methods',
-        \ 'F:singleton methods'
-    \ ]
-\ }
+"let g:tagbar_type_ruby = {
+"    \ 'kinds' : [
+"        \ 'm:modules',
+"        \ 'c:classes',
+"        \ 'd:describes',
+"        \ 'C:contexts',
+"        \ 'f:methods',
+"        \ 'F:singleton methods'
+"    \ ]
+"\ }
 "nmap <leader>tb :TagbarToggle<CR>  " \tb 打开tagbar窗口
 "let g:tagbar_autofocus = 1
+
+" 设置 tagbar 子窗口的位置出现在主编辑区的左边 
+"let tagbar_left=1 
+" 设置显示／隐藏标签列表子窗口的快捷键。速记：tag list 
+"nnoremap <Leader>tl :TagbarToggle<CR> 
+" 设置标签子窗口的宽度 
+let tagbar_width=32 
+" tagbar 子窗口中不显示冗余帮助信息 
+let g:tagbar_compact=1
+" 设置 ctags 对哪些代码元素生成标签
+let g:tagbar_type_cpp = {
+    \ 'kinds' : [
+        \ 'd:macros:1',
+        \ 'g:enums',
+        \ 't:typedefs:0:0',
+        \ 'e:enumerators:0:0',
+        \ 'n:namespaces',
+        \ 'c:classes',
+        \ 's:structs',
+        \ 'u:unions',
+        \ 'f:functions',
+        \ 'm:members:0:0',
+        \ 'v:global:0:0',
+        \ 'x:external:0:0',
+        \ 'l:local:0:0'
+     \ ],
+     \ 'sro'        : '::',
+     \ 'kind2scope' : {
+         \ 'g' : 'enum',
+         \ 'n' : 'namespace',
+         \ 'c' : 'class',
+         \ 's' : 'struct',
+         \ 'u' : 'union'
+     \ },
+     \ 'scope2kind' : {
+         \ 'enum'      : 'g',
+         \ 'namespace' : 'n',
+         \ 'class'     : 'c',
+         \ 'struct'    : 's',
+         \ 'union'     : 'u'
+     \ }
+\ }
 "=========================================NERDTree=======================================================
 autocmd vimenter * NERDTree
 let g:NERDTreeQuitOnOpen=0
@@ -187,12 +236,7 @@ nmap <F8> :NERDTreeToggle<CR>
 " expand to the path of the file in the current buffer
 nmap <silent> <leader>y :NERDTreeFind<cr>
 
-" map fuzzyfinder (CtrlP) plugin
-" nmap <silent> <leader>t :CtrlP<cr>
-nmap <silent> <leader>r :CtrlPBuffer<cr>
-let g:ctrlp_map='<leader>t'
-let g:ctrlp_dotfiles=1
-let g:ctrlp_working_path_mode = 'ra'
+
 
 " CtrlP ignore patterns
 let g:ctrlp_custom_ignore = {
@@ -202,6 +246,21 @@ let g:ctrlp_custom_ignore = {
 
 " search the nearest ancestor that contains .git, .hg, .svn
 let g:ctrlp_working_path_mode = 2
+
+" 使用 NERDTree 插件查看工程文件。设置快捷键，速记：file list
+"nmap <Leader>fl :NERDTreeToggle<CR>
+" 设置NERDTree子窗口宽度
+let NERDTreeWinSize=32
+" 设置NERDTree子窗口位置
+"let NERDTreeWinPos="right"
+" 显示隐藏文件
+let NERDTreeShowHidden=1
+" NERDTree 子窗口中不显示冗余帮助信息
+let NERDTreeMinimalUI=1
+" 删除文件时自动删除文件对应 buffer
+let NERDTreeAutoDeleteBuffer=1
+
+
 
 "nmap <leader>nt :NERDTree<CR>
 "let NERDTreeHighlightCursorline=1
@@ -258,6 +317,10 @@ nnoremap <F5> :GundoToggle<CR>
 "let g:gundo_width = 60
 "let g:gundo_preview_height = 40
 "let g:gundo_right = 1
+" 开启保存 undo 历史功能
+set undofile
+" undo 历史保存路径 需要自己创建
+set undodir=~/.undo_history/
 "==================================================================================================
 "==========================================YCM========================================================
 let g:ycm_confirm_extra_conf = 1
@@ -320,6 +383,7 @@ let g:ycm_key_invoke_completion = '<M-;>'
 "let g:ycm_cache_omnifunc=0
 " 语法关键字补全         
 "let g:ycm_seed_identifiers_with_syntax=1
+"其中，工程自身代码的标签可借助 indexer 插件自动生成自动引入，但由于 YCM 要求 tag 文件中必须含有 language:<X> 字段（ctags 的命令行参数 --fields 必须含有 l 选项），所有必须通过 indexer_ctagsCommandLineOptions 告知 indexer 调用 ctags 时注意生成该字段，具体设置参见“代码导航”章节；前面章节介绍过如何生成、引入 C++ 标准库的 tag 文件，设置成正确路径即可。另外，由于引入过多 tag 文件会导致 vim 变得非常缓慢，我的经验是，只引入工程自身（indexer 自动引入）和 C++ 标准库的标签（上面配置的最后一行）。
 "===================================================================================================
 "=======================================ultisnips===================================================
 " Track the engine.
@@ -329,17 +393,10 @@ let g:ycm_key_invoke_completion = '<M-;>'
 "Plugin 'honza/vim-snippets'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
-
-let g:UltiSnipsExpandTrigger = "<c-j>"
-let g:UltiSnipsJumpForwardTrigger = "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+" UltiSnips 的 tab 键与 YCM 冲突，重新设定
+let g:UltiSnipsExpandTrigger="<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
+let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
 " 定义存放代码片段的文件夹 .vim/additional_snippets下，使用自定义和默认的，将会的到全局，有冲突的会提示
 let g:UltiSnipsSnippetDirectories=["additional_snippets", 'UltiSnips']
 
@@ -439,7 +496,69 @@ endif
 nmap <Leader>ch :A<CR>
 " 子窗口中显示 *.cpp 或 *.h
 nmap <Leader>sch :AS<CR>
-这样，键入 ;ch 就能在实现文件和接口文件间切换，键入 ;sch 子窗口中将显示实现文件/接口文件。
+"这样，键入 ;ch 就能在实现文件和接口文件间切换，键入 ;sch 子窗口中将显示实现文件/接口文件。
+"===================================================================================================
+"============================================signature.vim=======================================================
+"sudo git submodule add https://github.com/kshenoy/vim-signature.git bundle/signature.vim
+"let g:SignatureMap = {
+        \ 'Leader'             :  "m",
+        \ 'PlaceNextMark'      :  "m,",
+        \ 'ToggleMarkAtLine'   :  "m.",
+        \ 'PurgeMarksAtLine'   :  "m-",
+        \ 'DeleteMark'         :  "dm",
+        \ 'PurgeMarks'         :  "mda",
+        \ 'PurgeMarkers'       :  "m<BS>",
+        \ 'GotoNextLineAlpha'  :  "']",
+        \ 'GotoPrevLineAlpha'  :  "'[",
+        \ 'GotoNextSpotAlpha'  :  "`]",
+        \ 'GotoPrevSpotAlpha'  :  "`[",
+        \ 'GotoNextLineByPos'  :  "]'",
+        \ 'GotoPrevLineByPos'  :  "['",
+        \ 'GotoNextSpotByPos'  :  "mn",
+        \ 'GotoPrevSpotByPos'  :  "mp",
+        \ 'GotoNextMarker'     :  "[+",
+        \ 'GotoPrevMarker'     :  "[-",
+        \ 'GotoNextMarkerAny'  :  "]=",
+        \ 'GotoPrevMarkerAny'  :  "[=",
+        \ 'ListLocalMarks'     :  "ms",
+        \ 'ListLocalMarkers'   :  "m?"
+        \ }
+"常用的操作也就如下几类：
+"书签设定。mx，设定/取消当前行名为 x 的标签；m,，自动设定下一个可用书签名，前面提说，独立书签名是不能重复的，在你已经有了多个独立书签，当想再设置书签时，需要记住已经设定的所有书签名，否则很可能会将已有的书签冲掉，这可不好，所以，vim-signature 为你提供了 m, 快捷键，自动帮你选定下一个可用独立书签名；mda，删除当前文件中所有独立书签。
+"书签罗列。ms，罗列出当前文件中所有书签，选中后回车可直接跳转；
+"书签跳转。mn，按行号前后顺序，跳转至下个独立书签；mp，按行号前后顺序，跳转至前个独立书签。书签跳转方式很多，除了这里说的行号前后顺序，还可以基于书签名字母顺序跳转、分类书签同类跳转、分类书签不同类间跳转等等。
+"===================================================================================================
+"=======================================vimprj.vim============================================================
+"git submodule add https://github.com/vim-scripts/vimprj.git bundle/vimprj.vim
+"===================================================================================================
+"=======================================DfrankUtil.git============================================================
+"sudo git submodule add https://github.com/vim-scripts/DfrankUtil.git bundle/DfrankUtil.vim
+"===================================================================================================
+"===================================================================================================
+"sudo git submodule add https://github.com/vim-scripts/indexer.tar.gz.git bundle/indexer.vim
+let g:indexer_ctagsCommandLineOptions="--c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
+"===================================================================================================
+"===========================================nerdcommenter========================================================
+"sudo git submodule add https://github.com/scrooloose/nerdcommenter.git bundle/nerdcommenter.vim
+"===================================================================================================
+"============================================fswitch.git=======================================================
+"sudo git submodule add https://github.com/derekwyatt/vim-fswitch.git bundle/vim-fswitch.vim
+"===================================================================================================
+"============================================vim-protodef.git=======================================================
+"sudo git submodule add https://github.com/derekwyatt/vim-protodef.git bundle/vim-protodef.vim
+" 设置 pullproto.pl 脚本路径
+let g:protodefprotogetter='~/.vim/bundle/vim-protodef.vim/pullproto.pl'
+ " 成员函数的实现顺序与声明顺序一致
+let g:disable_protodef_sorting=1
+"MyClass.cpp 中我键入 protodef 定义的快捷键 <leader>PP，自动生成了函数框架。
+"===================================================================================================
+"===================================================================================================
+"sudo git submodule add https://github.com/easymotion/vim-easymotion.git bundle/vim-easymotion
+"easymotion 只做一件事：把满足条件的位置用 [A~Za~z] 间的标签字符标出来，找到你想去的位置再键入对应标签字符即可快速到达。比如，上面的例子，假设光标在行首，我只需键入 <leader><leader>fa （为避免与其他快捷键冲突，easymotion 采用两次 <leader> 作为前缀键），所有的字符 a 都被重新标记成 a、b、c、d、e、f 等等标签（原始内容不会改变），f 标签为希望移动去的位置，随即键入 f 即可到达。
+"===================================================================================================
+"===================================================================================================
+"===================================================================================================
+"===================================================================================================
 "===================================================================================================
 "===================================================================================================
 "===================================================================================================

@@ -67,3 +67,27 @@
 [submodule "bundle/a.vim"]
 	path = bundle/a.vim
 	url = https://github.com/vim-scripts/a.vim.git
+[submodule "bundle/signature.vim"]
+	path = bundle/signature.vim
+	url = https://github.com/kshenoy/vim-signature.git
+[submodule "bundle/vimprj.vim"]
+	path = bundle/vimprj.vim
+	url = https://github.com/vim-scripts/vimprj.git
+[submodule "bundle/DfrankUtil.vim"]
+	path = bundle/DfrankUtil.vim
+	url = https://github.com/vim-scripts/DfrankUtil.git
+[submodule "bundle/indexer.vim"]
+	path = bundle/indexer.vim
+	url = https://github.com/vim-scripts/indexer.tar.gz.git
+[submodule "bundle/nerdcommenter.vim"]
+	path = bundle/nerdcommenter.vim
+	url = https://github.com/scrooloose/nerdcommenter.git
+[submodule "bundle/vim-fswitch.vim"]
+	path = bundle/vim-fswitch.vim
+	url = https://github.com/derekwyatt/vim-fswitch.git
+[submodule "bundle/vim-protodef.vim"]
+	path = bundle/vim-protodef.vim
+	url = https://github.com/derekwyatt/vim-protodef.git
+[submodule "bundle/vim-easymotion"]
+	path = bundle/vim-easymotion
+	url = https://github.com/easymotion/vim-easymotion.git
