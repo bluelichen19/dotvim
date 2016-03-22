@@ -101,18 +101,22 @@ syntax enable
 if has('gui_running')
     "set background=light
     set background=dark
+    colorscheme solarized
     "全屏
     set fu
     "如果底部有黑边
 "    defaults write org.vim.MacVim MMNativeFullScreen 0
 else
     set background=light
+    colorscheme molokai
     "set nofu
     "set background=dark
 endif
 "set background=dark
 let g:solarized_termcolors=256
-colorscheme solarized
+"colorscheme solarized
+"colorscheme molokai
+"colorscheme phd
 filetype plugin indent on
 "===================================插件配置=====================================================================
 "=====================================ctrlp======================================================================
@@ -534,7 +538,7 @@ nmap <Leader>sch :AS<CR>
 "=======================================DfrankUtil.git============================================================
 "sudo git submodule add https://github.com/vim-scripts/DfrankUtil.git bundle/DfrankUtil.vim
 "===================================================================================================
-"===================================================================================================
+"==========================================ndexer=========================================================
 "sudo git submodule add https://github.com/vim-scripts/indexer.tar.gz.git bundle/indexer.vim
 let g:indexer_ctagsCommandLineOptions="--c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
 "===================================================================================================
@@ -552,7 +556,7 @@ let g:protodefprotogetter='~/.vim/bundle/vim-protodef.vim/pullproto.pl'
 let g:disable_protodef_sorting=1
 "MyClass.cpp 中我键入 protodef 定义的快捷键 <leader>PP，自动生成了函数框架。
 "===================================================================================================
-"===================================================================================================
+"========================================easymotion===========================================================
 "sudo git submodule add https://github.com/easymotion/vim-easymotion.git bundle/vim-easymotion
 "easymotion 只做一件事：把满足条件的位置用 [A~Za~z] 间的标签字符标出来，找到你想去的位置再键入对应标签字符即可快速到达。比如，上面的例子，假设光标在行首，我只需键入 <leader><leader>fa （为避免与其他快捷键冲突，easymotion 采用两次 <leader> 作为前缀键），所有的字符 a 都被重新标记成 a、b、c、d、e、f 等等标签（原始内容不会改变），f 标签为希望移动去的位置，随即键入 f 即可到达。
 "===================================================================================================
