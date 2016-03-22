@@ -52,3 +52,9 @@
 [submodule "bundle/vim-snippets"]
 	path = bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets.git
+[submodule "bundle/vimproc.vim"]
+	path = bundle/vimproc.vim
+	url = https://github.com/Shougo/vimproc.vim.git
+[submodule "bundle/vimshell.vim"]
+	path = bundle/vimshell.vim
+	url = https://github.com/Shougo/vimshell.vim.git
