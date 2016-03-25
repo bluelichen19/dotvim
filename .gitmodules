@@ -97,3 +97,6 @@
 [submodule "bundle/ctrlsf.vim"]
 	path = bundle/ctrlsf.vim
 	url = https://github.com/dyng/ctrlsf.vim.git
+[submodule "bundle/vim-multiple-cursors.vim"]
+	path = bundle/vim-multiple-cursors.vim
+	url = https://github.com/terryma/vim-multiple-cursors.git

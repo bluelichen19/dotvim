@@ -1011,6 +1011,9 @@ set backspace+=indent,eol,start
 "【14】所需即所获：像 IDE 一样使用 vim（https://github.com/yangyangwithgnu/use_vim_as_ide）
 "本文永久更新地址：http://www.linuxdiyf.com/linux/18110.html
 
+
+"install_name_tool -change  old new MacVim
+"otool -L 查看
 "解决打开后python问题
 "Fatal Python error: PyThreadState_Get: no current thread的问题
 "cd /opt/local/Library/Frameworks;
