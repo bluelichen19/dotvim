@@ -586,6 +586,7 @@ let g:miniBufExplUseSingleClick = 1
 "==============================================ctrlsf.vim=====================================================
 "ctrlsf.vim 后端调用 ack，所以你得提前自行安装。ctrlsf.vim 支持 ack 所有选项，要查找某个关键字（如，yangyang），你可以想让光标定位在该关键字上面，然后命令模式下键入
 
+
 ":CtrlSF
 "将自动提取光标所在关键字进行查找，你也可以指定 ack 的选项
 
@@ -594,6 +595,19 @@ let g:miniBufExplUseSingleClick = 1
 
 " 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project
 nnoremap <Leader>sp :CtrlSF<CR>
+
+let g:ctrlsf_auto_close = 0
+
+"In CtrlSF window:
+"Enter - Open corresponding file of current line in the window which CtrlSF is launched from.
+"<C-O> - Like Enter but open file in a horizontal split window.
+"t - Like Enter but open file in a new tab.
+"p - Like Enter but open file in a preview window.
+"O - Like Enter but always leave CtrlSF window opening.
+"T - Like t but focus CtrlSF window instead of new opened tab.
+"q - Quit CtrlSF window.
+"<C-J> - Move cursor to next match.
+"<C-K> - Move cursor to previous match.
 "===================================================================================================
 "===================================================================================================
 "===================================================================================================
@@ -767,6 +781,76 @@ set backspace+=indent,eol,start
 "set foldmethod=syntax
 "" 启动 vim 时关闭折叠代码
 "set nofoldenable
+
+
+"==============================================================================================================================================
+"//在你的vimrc文件中增加像如下这样格式的key bindings  
+"//格式为：  
+"//模式 <快捷键> 要执行的命令  
+"//模式：看下表，nmap为普通模式,imap为编辑模式  
+"//C表示ctrl,A表示Alt,S表示Shift,<CR>表示回车  
+   
+"//比如下面这行表示在“正常||可视化||运算”模式下，按下Ctrl+W,则执行命令“:tabclose并回车”，就是关闭当前标签页  
+"map <C-w> :tabclose<CR>  
+  
+"//又比如这行表示在“正常模式”下，按下Ctrl+t,  
+"//则依次执行:browse(打开选择文件对话框） tabnew将选定的文件在新标签页中打开  
+"nmap <C-t> :browse tabnew<CR>  
+    
+"//下面这行和上面一样，只是先用Esc从编辑模式切换到正常模式  
+"imap <C-t> <Esc>:browse tabnew<CR>  
+  
+
+"比如使用以下命令，指定F10键来新建标签页：
+":map <F10> <Esc>:tabnew<CR>
+ 
+ 
+"其中：<Esc>代表Escape键；<CR>代表Enter键；而功能键则用<F10>表示。首先进入命令行模式，然后执行新建标签页的:tabnew命令，最后返回常规模式。
+"同理：对于组合键，可以用<C-Esc>代表Ctrl-Esc；使用<S-F1>表示Shift-F1。对于Mac用户，可以使用<D>代表Command键。
+"注意：Alt键可以使用<M-key>或<A-key>来表示。
+"关于键盘符号的详细说明，请使用:h key-notation命令查看帮助信息  
+  
+"//下面这行和上面一样，只是先用Esc从编辑模式切换到正常模式  
+"imap <C-t> <Esc>:browse tabnew<CR>  
+
+
+"使用:map命令，可以将键盘上的某个按键与Vim的命令绑定起来。例如使用以下命令，可以通过F5键将单词用花括号括起来：
+
+":map <F5> i{e<Esc>a}<Esc>
+"其中：i{将插入字符{，然后使用Esc退回到命令状态；接着用e移到单词结尾，a}增加字符}，最后退至命令状态。在执行以上命令之后，光标定位在一个单词上（例如amount），按下F5键，这时字符就会变成{amount}的形式。
+
+"Command命令	 Normal常规模式  Visual可视化模式	OperatorPending运算符模式		InsertOnly插入模式	CommandLine命令行模式
+":map			y				y					y		
+":nmap			y				
+":vmap							y			
+":omap												y		
+":map!																			y					y
+":imap																			y	
+":cmap																								y
+
+"如果想要取消一个映射，可以使用以下命令：
+
+":unmap <F10>
+"注意：必须为:unmap命令指定一个参数。如果未指定任何参数，那么系统将会报错，而不会取消所有的键盘映射。
+
+"针对不同模式下的键盘映射，需要使用与其相对应的unmap命令。例如：使用:iunmap命令，取消插入模式下的键盘映射；而取消常规模式下的键盘映射，则需要使用:nunmap命令。
+
+"如果想要取消所有映射，可以使用:mapclear命令。请注意，这个命令将会移除所有用户定义和系统默认的键盘映射。
+
+"使用:map命令，可以列出所有键盘映射。其中第一列标明了映射在哪种模式下工作：
+
+"标记	模式
+"<space>	常规模式，可视化模式，运算符模式
+"n	常规模式
+"v	可视化模式
+"o	运算符模式
+"!	插入模式，命令行模式
+"i	插入模式
+"c	命令模式
+"使用:map!命令，则只列出插入和命令行模式的映射。而:imap，:vmap，:omap，:nmap命令则只是列出相应模式下的映射。
+
+
+"==============================================================================================================================================
 
 "==============================================================================================================================================
 "//转换
