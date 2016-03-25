@@ -1,6 +1,5 @@
 # Path to your oh-my-zsh installation.
-#export ZSH=/Users/zhenghaishu/.oh-my-zsh
-export ZSH=~/.oh-my-zsh
+export ZSH=/Users/zhenghaishu/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -32,10 +31,10 @@ export HISTFILE=~/.zhistory
 # # append command to history file once executed
 setopt INC_APPEND_HISTORY
 #mvim start
-#alias vim=/Applications/MacVim.app/Contents/MacOS/MacVim
-#alias vim=mvim
-alias v="vim -v "
-alias vm="mvim -f "
+alias vm="mvim "
+alias v="mvim -v "
+#alias v="vim -v "
+#alias vm="mvim -f "
 #alias vim='VIM --servername VIM'
 #mvim end
 #全屏下每个独立shell，启用各自历史
@@ -82,7 +81,7 @@ alias vm="mvim -f "
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 export VIM="/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/Resources/vim:/usr/local/Cellar/macvim/HEAD:$VIM"
 #export VIM="/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/Resources/vim:$VIM"
-export PATH="~/work/develop/adt-bundle-mac-x86_64-20140321/eclipse/Eclipse.app/Contents/MacOS:~/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:usr/local/bin:usr/local/sbin:~/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:~/work/develop/android_ndk/android-ndk-r9d"
+export PATH="/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/eclipse/Eclipse.app/Contents/MacOS:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:usr/local/bin:usr/local/sbin:/Users/zhenghaishu/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/zhenghaishu/work/develop/android_ndk/android-ndk-r9d"
 # export MANPATH="/usr/local/man:$MANPATH"
 #/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/Resources/vim
 #function postCallVim
@@ -141,7 +140,7 @@ plugins=(git sudo)
 
 # User configuration
 
-export PATH="~/work/develop/adt-bundle-mac-x86_64-20140321/eclipse/Eclipse.app/Contents/MacOS:~/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:usr/local/bin:usr/local/sbin:~/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:~/work/develop/android_ndk/android-ndk-r9d"
+export PATH="/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/eclipse/Eclipse.app/Contents/MacOS:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:usr/local/bin:usr/local/sbin:/Users/zhenghaishu/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/zhenghaishu/work/develop/android_ndk/android-ndk-r9d"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh

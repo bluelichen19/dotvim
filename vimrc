@@ -2,6 +2,22 @@
 "
 " Maintainer:   Bjorn Winckler <bjorn.winckler@gmail.com>
 " Last Change:  Sat Aug 29 2009
+
+"防止特殊符号无法正常显示  
+set ambiwidth=double  
+"设置默认编码  
+set encoding=utf-8  
+set langmenu=zh_CN.UTF-8  
+"提示信息乱码解决"  
+language message zh_CN.UTF-8  
+"菜单乱码解决"  
+source $VIMRUNTIME/delmenu.vim  
+source $VIMRUNTIME/menu.vim  
+""set encoding=cp936  
+"设置文件编码  
+""set fileencodings=utf-8,cp936,chinese,latin-1,ucs-bom,gb18030,big5,euc-jp,euc-kr,latin1,gbk,gb2321  
+set fileencodings=ucs-bom,chinese,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1  
+
 "========================================================================================================
 "Vundle.vim插件管理配置
 set nocompatible              " be iMproved, required
@@ -38,7 +54,7 @@ call vundle#begin()
 "Plugin 'asins/vimcdoc'
 "let helptags=$VIM."/vimfiles/doc"
 "set helplang=cn
-set langmenu=zh_CN.UTF-8
+"set langmenu=zh_CN.UTF-8
 set helplang=cn
 "函数导航
 "Plugin 'majutsushi/tagbar'
@@ -102,10 +118,10 @@ if has('gui_running')
     "set background=light
     set background=dark
     colorscheme solarized
-    "全屏
+    "全屏 "如果底部有黑边
+    let shellcmd = 'defaults write org.vim.MacVim MMNativeFullScreen 0 '
+    let output = system(shellcmd)
     set fu
-    "如果底部有黑边
-"    defaults write org.vim.MacVim MMNativeFullScreen 0
 else
     set background=light
     colorscheme molokai
@@ -329,10 +345,11 @@ set undodir=~/.undo_history/
 "==========================================YCM========================================================
 let g:ycm_confirm_extra_conf = 1
 "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-let g:ycm_global_ycm_extra_conf = '/Users/BLUE/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+"let g:ycm_global_ycm_extra_conf = '/Users/BLUE/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
-set tags+=~/work/test/ctest/UPlayer_Refactoring_Tudou/tags
+"set tags+=~/work/test/ctest/UPlayer_Refactoring_Tudou/tags
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_server_keep_logfiles = 1
 let g:ycm_server_log_level = 'debug'
@@ -614,6 +631,9 @@ map <C-F12> :!ctags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS -
 set helplang=cn
 "set encoding=utf-8
 "endif
+"set encoding=utf-8
+"set termencoding=utf-8
+"set fileencodings=utf-8
 "========================================================================================================
 " The default for 'backspace' is very confusing to new users, so change it to a
 " more sensible value.  Add "set backspace&" to your ~/.vimrc to reset it.
@@ -622,7 +642,7 @@ set backspace+=indent,eol,start
 " Disable localized menus for now since only some items are translated (e.g.
 " the entire MacVim menu is set up in a nib file which currently only is
 " translated to English).
-set langmenu=none
+"set langmenu=none
 
 "========================================================================================================
 ":buffers   列示缓冲区状态
@@ -747,6 +767,15 @@ set langmenu=none
 "set foldmethod=syntax
 "" 启动 vim 时关闭折叠代码
 "set nofoldenable
+
+"==============================================================================================================================================
+"//转换
+"find . -name "*.h" -type f -exec sh -c "iconv --unicode-subst=FORMATSTRING -f GB18030 -t UTF8 {} > {}.hutf8" \;
+"//把没用的bak文件删掉
+"find . -name "*.h" -type f | xargs rm -rf
+"//最后把转码之后的文件改名回正确名字，sed返回正确名字列表，在mv之前应该都是不存在的，例如xxx.h，这个时候应该还是xxx.h.hutf8 {}表示的就是要改成的最终文件名字
+"find . -name "*.hutf8" -type f | sed 's/.hutf8$//' | xargs -I {} mv {}.hutf8 {}
+
 
 "==============================================================================================================================================
 "参照文章【1】【2】的办法，将vim打造成一个Python开发环境。文章中使用的是 pathogen + git 来管理 Vim 插件的。对这种方式还不太明白的同学可以参考【3】中的介绍。pathogen 改变了原先 Vim "只能把插件全部扔到 .vim 目录下的操作方式，使得各个插件可以以一个独立的文件夹存在于 .vim/bundle 目录中，添加和删除插件都变的非常清爽。使用 git 强大的子模块管理功能，可以实现方便的插件安装和自动升级。
@@ -897,3 +926,109 @@ set langmenu=none
 "【13】https://github.com/gmarik/Vundle.vim/issues/176
 "【14】所需即所获：像 IDE 一样使用 vim（https://github.com/yangyangwithgnu/use_vim_as_ide）
 "本文永久更新地址：http://www.linuxdiyf.com/linux/18110.html
+
+"解决打开后python问题
+"Fatal Python error: PyThreadState_Get: no current thread的问题
+"cd /opt/local/Library/Frameworks;
+"mv sudo mv Python.framework x
+"是因为macvim与YCM所使用python版本对不上号。
+"经常会遇到这个问题，是因为mac里可能会有多个python版本，比如brew来一个，系统默认一个，xcode再来一个，最暴力的办法，只认一个，剩下的都ln -s过来。
+"标准c语法支持
+"这步不是必须的，c开发的话最好有。因为mac下的libc似乎版本很奇怪。
+"先去llvm.org上下载对应平台的二进制包，解压到~/ycm_temp，里面有bin\lib\include等目录。
+"cd~
+"mkdir ycm_build
+"cd ycm_build
+"cmake -G "Unix Makefiles" -DPATH_TO_LLVM_ROOT=~/ycm_temp . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp
+"生成makefile文件后，执行
+"make ycm_support_libs
+"完工！
+"细节配置项
+"vim ~/.vimrc 添加两行
+"let g:ycm_confirm_extra_conf = 0
+"let g:syntastic_always_populate_loc_list = 1
+"第一行的意思是导入ycm配置不再需要手动确认。
+"vim ~/.ycm_extra_conf.py 在对应的位置，flags中，添加两行：
+"'-isystem',
+"'/Users/chenzhen/ycm_temp/lib',
+"'-isystem',
+"'/Users/chenzhen/ycm_temp/include',
+"改成自己电脑的目录。使用llvm的库。
+"这里-isystem一般是写第三方库的，有warning也不会显示，-I一般写自己的代码目录，有warning还是要显示的。
+"最好是在~/.ycm_extra_conf.py中定义好全局的，每个项目下放一个自己的。
+"快捷键
+"ctrl+I前进,ctrl+O后退。
+"给~/.vimrc添加内容：
+"let g:ycm_error_symbol = '>>'
+"let g:ycm_warning_symbol = '>*'
+"nnoremap gl :YcmCompleter GoToDeclaration<CR>
+"nnoremap gf :YcmCompleter GoToDefinition<CR>
+"nnoremap gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"nmap <F4> :YcmDiags<CR>
+"能得到： * >>表示行有错误 * >*表示行有警告 * gl gf gg就是找代码定义声明 * f4是打开编译窗口(fn+F4)
+"让配色cool一点
+"vim ~/.vimrc
+"添加内容：
+"Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
+"打开macvim，运行:PluginInstall。
+"再vim ~/.vimrc
+"添加内容：
+"syntax on
+"color Dracula
+"添加代码片断助手
+"vim ~/.vimrc
+"Plugin 'SirVer/ultisnips'
+"Plugin 'honza/vim-snippets'
+"let g:UltiSnipsExpandTrigger="<D-k>"
+"let g:UltiSnipsEditSplit="vertical"
+"重新mvim进行运行:PluginInstall。关于代码片断功能，见https://github.com/SirVer/ultisnips%E3%80%82
+"command+k自动完成代码片断。比如写一个APACHE选中，按command+k自动就完成一片。
+"bbox command+k: 写一个大注释框框。
+"datetime command+k: 当前的时间。
+"如果出现打开nginx.c不能使用上c.snips里的定义，请确保.vimrc里的一行叫filetype plugin indent on的显示在所有plugin最后。
+
+"编译完成后,运行vim结果出错.
+"$ vim
+"Vim: Caught deadly signal ABRT
+"Vim: Finished.
+"Abort trap: 6
+"查了一圈发现,加一个参数后能正常工作
+"$ DYLD_FORCE_FLAT_NAMESPACE=1 vim
+"但毕竟这不是一个办法,最后在github上的issue页面上看到问题的解决办法:
+"brew unlink python
+"运行后依然无效!!!!崩溃!!!
+"然后继续看下去
+"$ otool -L /usr/local/Cellar/macvim/7.4-73_1/MacVim.app/Contents/MacOS/Vim | grep -i python
+"    /System/Library/Frameworks/Python.framework/Versions/2.7/Python (compatibility version 2.7.0, current version 2.7.6)
+"而我的系统上默认的python是2.7.9,而且路径为/Library/Frameworks/Python.framework/Versions/2.7/python!
+"OK找到问题所在了,现在的任务就是需要把这两个Python的版本调整成为一致!!!!
+"HOW to do it? Google之找到办法,把所有的操作整理到一起给大家:
+"复制代码
+"sudo rm -R /System/Library/Frameworks/Python.framework/Versions/2.7
+"sudo mv /Library/Frameworks/Python.framework/Versions/2.7 /System/Library/Frameworks/Python.framework/Versions
+"sudo chown -R root:wheel /System/Library/Frameworks/Python.framework/Versions/2.7
+"sudo rm /System/Library/Frameworks/Python.framework/Versions/Current
+"sudo ln -s /System/Library/Frameworks/Python.framework/Versions/2.7 /System/Library/Frameworks/Python.framework/Versions/Current
+"sudo rm /usr/bin/pydoc
+"sudo rm /usr/bin/python
+"sudo rm /usr/bin/pythonw
+"sudo rm /usr/bin/python-config
+"sudo ln -s /System/Library/Frameworks/Python.framework/Versions/2.7/bin/pydoc /usr/bin/pydoc
+"sudo ln -s /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python /usr/bin/python
+"sudo ln -s /System/Library/Frameworks/Python.framework/Versions/2.7/bin/pythonw /usr/bin/pythonw
+"sudo ln -s /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python-config /usr/bin/python-config
+"复制代码
+"需要详细解释的童鞋,可以查看这篇文档.
+"https://wolfpaulus.com/journal/mac/installing_python_osx/
+"执行这段shell之后,需要编辑~/.bash_profile将系统默认的Python路径指向/System/Library这个文件夹
+"# Setting PATH for Python 2.7
+"# The orginal version is saved in .bash_profile.pysave
+"PATH="/System/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+"export PATH
+"改变Python版本后,执行vim就不再出现段错误了.
+
+
+
+
+
+
