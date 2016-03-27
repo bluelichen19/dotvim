@@ -100,3 +100,27 @@
 [submodule "bundle/vim-multiple-cursors.vim"]
 	path = bundle/vim-multiple-cursors.vim
 	url = https://github.com/terryma/vim-multiple-cursors.git
+[submodule "VimDoc/amix-vimrc"]
+	path = VimDoc/amix-vimrc
+	url = https://github.com/amix/vimrc.git
+[submodule "VimDoc/vgod-vimrc"]
+	path = VimDoc/vgod-vimrc
+	url = https://github.com/vgod/vimrc.git
+[submodule "VimDoc/janus-vimrc"]
+	path = VimDoc/janus-vimrc
+	url = https://github.com/carlhuda/janus.git
+[submodule "VimDoc/akitaonrails"]
+	path = VimDoc/akitaonrails
+	url = https://github.com/akitaonrails/vimfiles.git
+[submodule "VimDoc/s90198123"]
+	path = VimDoc/s90198123
+	url = https://github.com/s90198123/vimfiles.git
+[submodule "bundle/YankRing.vim"]
+	path = bundle/YankRing.vim
+	url = https://github.com/vim-scripts/YankRing.vim.git
+[submodule "bundle/bufexplorer"]
+	path = bundle/bufexplorer
+	url = https://github.com/vim-scripts/bufexplorer.zip.git
+[submodule "bundle/mru.vim"]
+	path = bundle/mru.vim
+	url = https://github.com/vim-scripts/mru.vim.git
