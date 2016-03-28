@@ -24,7 +24,8 @@
 " Sections:
 "    -> 键盘映射
 "    -> vim控制台命令
-"    -> vim常用设置解释 
+"    -> vim常用设置解释
+"    -> vim常用命令 
 "    -> pathogen 插件 
 "    -> CtrlP 插件 
 "    -> Ycm 插件 
@@ -37,6 +38,13 @@
 "    -> YankRing 插件
 "    -> bufexplorer 插件
 "    -> NERD_commenter 插件
+"    -> surround 插件
+"    -> Ag 插件
+"    ->
+"    ->
+"    ->
+"    ->
+"    ->
 "    -> submodule 地址 
 "    ->  
 "    ->  
@@ -295,9 +303,206 @@ set helplang=cn
 "set termencoding=utf-8
 "set fileencodings=utf-8
 
+
+" 更新ctags和cscope索引
+" href: http://www.vimer.cn/2009/10/把vim打造成一个真正的ide2.html
+" 稍作修改，提取出DeleteFile函数，修改ctags和cscope执行命令
+map <F12> :call Do_CsTag()<cr>
+function! Do_CsTag()
+    let dir = getcwd()
+
+    "先删除已有的tags和cscope文件，如果存在且无法删除，则报错。
+    if ( DeleteFile(dir, "tags") ) 
+        return 
+    endif
+    if ( DeleteFile(dir, "cscope.files") ) 
+        return 
+    endif
+    if ( DeleteFile(dir, "cscope.out") ) 
+        return 
+    endif
+
+    if(executable('ctags'))
+        silent! execute "!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q ."
+    endif
+    if(executable('cscope') && has("cscope") )
+        if(g:isWin)
+            silent! execute "!dir /s/b *.c,*.cpp,*.h,*.java,*.cs >> cscope.files"
+        else
+            silent! execute "!find . -iname '*.[ch]' -o -name '*.cpp' > cscope.files"
+        endif
+        silent! execute "!cscope -b"
+        execute "normal :"
+        if filereadable("cscope.out")
+            execute "cs add cscope.out"
+        endif
+    endif
+    " 刷新屏幕
+    execute "redr!"
+endfunction
+
+function! DeleteFile(dir, filename)
+    if filereadable(a:filename)
+        if (g:isWin)
+            let ret = delete(a:dir."\\".a:filename)
+        else
+            let ret = delete("./".a:filename)
+        endif
+        if (ret != 0)
+            echohl WarningMsg | echo "Failed to delete ".a:filename | echohl None
+            return 1
+        else
+            return 0
+        endif
+    endif
+    return 0
+endfunction
+
+" cscope 绑定
+if has("cscope")
+    set csto=1
+    set cst
+    set nocsverb
+    if filereadable("cscope.out")
+        cs add cscope.out
+    endif
+    set csverb
+    " s: C语言符号  g: 定义     d: 这个函数调用的函数 c: 调用这个函数的函数
+    " t: 文本       e: egrep模式    f: 文件     i: include本文件的文件
+    nmap <leader>ss :cs find s <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+    nmap <leader>sg :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap <leader>sc :cs find c <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+    nmap <leader>st :cs find t <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+    nmap <leader>se :cs find e <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+    nmap <leader>sf :cs find f <C-R>=expand("<cfile>")<CR><CR>:copen<CR>
+    nmap <leader>si :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:copen<CR>
+    nmap <leader>sd :cs find d <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+endif
+
+" Quick Fix 设置
+map <leader>cw :cw<cr>
+map <F3> :cp<cr>
+map <F4> :cn<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim常用命令 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+类 型	序 号	命 令	释 义
+基 本	1	:e 文件名	打开文件进行编辑
+		2	:w	保存文件
+		3	:q	退出vim
+		4	:q!	不保存文件退出vim
+搜 索	5	/word	从开始处到结尾处搜索字符串
+		6	?word	从结尾处到开始处搜索字符串
+		7	/jo[ha]n	搜索john或者joan
+		8	/\<the	搜索the、theatre或者then，匹配以the开始的字符串
+		9	/the\>	搜索the或者breathe，匹配以the结尾的字符串
+		10	/\<the\>	搜索the，只匹配the
+		11	/\<\w\{4}\>	匹配所有四个字母的单词
+		12	/\<fred\>/	匹配fred但是不匹配alfred或者frederick
+		13	/fred\|joe	匹配fred或者joe
+		14	/\<\d\d\d\d\>	匹配四个数字
+		15	/^\n\{3}	匹配连续的三个空行
+		16	:bufdo /正则表达式/	在所有打开的文件中搜索
+替 换	17	:%s/old/new/g	把文件中所有匹配old的地方替换成new
+		18	:%s/old/new/gc	把文件中所有匹配old的地方替换成new，替换前提示确认
+		19	:2,35s/old/new/g	把文件从第2行到第35行中所有匹配old的地方替换成new
+		20	:5,$s/old/new/g	把文件从第5行到文件结束符中所有匹配old的地方替换成new
+		21	:%s/^/hello/g	把每一行的开始位置替换为Hello
+		22	:%s/$/Harry/g	把每一行的结束位置替换为Harry
+		23	:%s/onward/forward/gi	替换onward为forward，大小写不敏感
+		24	:%s/ *$//g	替换所有行末的空格为空字符串
+		25	:g/string/d	删除所有匹配正则表达式string的行
+		26	:v/string/d	删除所有不匹配正则表达式string的行
+		27	:s/Bill/Steve/	把当前行中的Bill替换为Steve
+		28	:s/Bill/Steve/g	把所有行中的Bill替换为Steve
+		29	:%s/Bill/Steve/g	把所有文件中的Bill替换为Steve
+		30	:s/\r//g	替换dos换行符为空字符串
+		31	:s/\r/\n/g	替换dos换行符为回车
+		32	:%s#<[^>]\+>##g	删除所有的html标签，保留其中的内容
+		33	:%s/^\(.*\)\n\1$/\1/	替换所有连续出现两次的行为一行
+		34	Ctrl+a	把光标下的数字自增1
+		35	Ctrl+x	把光标下的数字自减1
+		36	ggVGg?	对全文使用ROT13加密，关于ROT13，参考 ROT13_WIKI
+大小写	37	Vu	选择一行，使其字母变为小写
+		38	VU	选择一行，使其字母变为大写
+		39	g~~	反转字母的大小写
+		40	veU	选择一个单词，将其变为大写
+		41	ve~	选择一个单词，将其变为小写
+		42	ggguG	把所有文本变为小写
+		43	:set ignorecase	搜索的时候忽略大小写
+		44	:set smartcase	如果模式串中没有大写字母，则搜索的时候忽略大小写
+		45	:%s/\<./\u&/g	将每个单词的第一个字母转为大写
+		46	:%s/\<./\l&/g	将每个单词的第一个字母转为小写
+		47	:%s/.*/\u&	将每行的第一个字母转为大写
+		48	:%s/.*/\l&	将每行的第一个字母转为小写
+读写文件	49	:1,10 w outfile	把1到10行保存到outfile中
+		50	:1,10 w >> outfile	把1到10行追加到outfile中
+		51	:r infile	插入infile的内容
+		52	:23r infile	插入infile中23行以后的内容
+文件浏览	53	e:.	打开内置的文件浏览器
+		54	:Sex	分割窗口，并打开内置的文件浏览器
+		55	:browse e	打开图形化的文件浏览器
+		56	:ls	列出缓冲区的内容
+		57	:cd..	到父目录
+		58	:args	列出参数列表，当前文件会用方括号标注
+		59	:args *.php	将当前目录下所有后缀是php的文件加入参数列表，并打开其中的第一个
+		60	:grep expression *.php	返回所有包含expression的php文件列表
+		61	gf	打开当前光标下的文件
+与Unix系统交互	
+		62	:!pwd	执行unix命令pwd，然后返回到vi中
+		63	:!!pwd	执行unix命令pwd，并将结果插入到文件中
+		64	:sh	暂时回到unix
+		65	$exit	返回vi
+对 齐	66	:%!fmt	对齐所有行
+		67	!}fmt	对齐当前位置的所有行
+		68	5!!fmt	对齐下面5行
+标 签	69	:tabnew	新建标签
+		70	gt	切换到下一个标签
+		71	:tabfirst	切换到第一个标签
+		72	:tablast	切换到最后一个标签
+		73	:tabm n(位置)	重新排列标签
+		74	tabdo %s/foo/bar/g	在每一个标签中执行命令
+		75	:tab ball	把所有打开的文件放入标签
+分割窗口	76	:e filename	在当前窗口中编辑文件
+		77	:split filename	分割窗口并打开文件
+		78	ctrl-w up arrow	将光标移到顶部的窗口
+		79	ctrl-w ctrl-w	将光标移动到下一个窗口
+		80	ctrl_	最大化当前窗口
+		81	ctrl-w=	将所有的窗口设置为同样的大小
+		82	10ctrl-w+	在当前窗口中增加10行
+		83	:vsplit file	垂直分割窗口
+		84	:sview file	功能与只读模式下的:split命令一样
+		85	:hide	关闭当前窗口
+		86	:nly	关闭除当前窗口以外的所有窗口
+		87	:b 2	在当前窗口中打开第二个缓冲区的内容，具体描述请见:help b:
+自动补全	88	ctrl-n ctrl-p(插入模式下)	补全单词
+		89	ctrl-x ctrl-l	补全整行
+		90	:set dictionary=dict	定义dict为dictionary
+		91	ctrl+x ctrl+k	使用字典进行补全
+标 记	92	mk	将当前位置标记为k
+		93	~k	将光标移动至标记k
+		94	dk	删除至标记k
+缩 写	95	:ab mail mail@provider.org	定义mail为mail@provider.org的缩写
+文本缩进	96	:set autoindent	打开自动缩进
+		97	:set smartindent	打开智能缩进
+		98	:set shiftwidth=4	定义缩进的宽度为四个空格
+		99	ctrl-t,ctrl-d	插入模式下缩进/反向缩进
+		100	>>	缩进
+		101	<<	反向缩进
+语法高亮	102	:syntax on	打开语法高亮
+		103	:syntax off	关闭语法高亮k
+		104	:set syntax=perl	强制打开语法高亮
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => pathogen插件 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+git pull origin master
+git submodule foreach pull git origin master
+git submodule init
+git submodule update
+以上用来更新项目
+
 "1\git submodule add https://github.com/vim-airline/vim-airline bundle/vim-airline  目标路径是bundle/自己起一个名字
 "2\git add --all git stautus
 "3\git commit -m "air-line"
@@ -704,8 +909,8 @@ set helplang=cn
 "例子: >
 "  let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 "  let g:ctrlp_custom_ignore = {
-"    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-"    \ 'file': '\v\.(exe|so|dll)$',
+[\/]\.(git|hg|svn)$',
+"    \ 'file': '\v\.(exe|so|dll)$'"    \ 'dir':  '\v,
 "    \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
 "    \ }
 "  let g:ctrlp_custom_ignore = {
@@ -1844,6 +2049,82 @@ let g:ctrlsf_auto_close = 0
 
 " 注：count参数可选，无则默认为选中行或当前行
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => surround 插件
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+替换：change surround
+cs命令是change surround的缩写，可以对指定的文本的外部包围字符进行替换，命令接受两个参数： 第一个是被替换的外部包围字符，第二个是要替换为的字符。替换时光标需要移动到被包围的文本内。 比如需要将字符串'test'外部的包围字符'替换为"，可以将光标移动到文本区域内，然后使用cs'"即可 下面是一些例子，部分来自帮助文件，其中的*号代表光标位置 
+注意 命令中使用形如()、{}、[]的字符的左半部分和右半部分是有区别的， 区别在于处理中的头部和尾部的空格的处理，考虑例子6、7、8、9的情况，处理字符串(   test   )， 字符串有3个头部空格，有2个尾部空格。 
+规则 规则可以总结如下： 
+1.第一个参数使用符号的左半部分，会自动删除所有的头部和尾部 的空格，使用右半部分则不对空格进行处理 
+2.第二个参数使用符号的左半部分，会自动在左半部分的后面和右半部分的前面插入一个空格 
+注意例子8中的空格个数，被自动插入了空格
+
+样例序号	原始文本	执行命令	执行结果
+1	"Hello*world!"			cs"'	'Helloworld!'
+2	"Hello*world!"			cs"<q>	<q>Helloworld!</q>
+3	(( Hello*world! ))		cs(*	(*Hello*world!*)
+4	(( Hello*world! ))		cs( *	(* Hello*world! *)
+5	<div>Yo!*</div>			cst<p>	<p>Yo!</p>
+6	(   test   )			cs([	[ test ]
+7	(   test   )			cs(]	[test]
+8	(   test   )			cs)[	[    test    ]
+9	(   test   )			cs)]	[   test   ]
+删除：delete surround
+ds命令是delete surround的缩写，该命令只接受一个参数，即为需要删除的外部包围字符 如果需要删除文本外部的标签，可以使用字符t来指代标签，不需要输入标签全称 下面是一些例子： 
+注意 命令中使用形如()、{}、[]的字符的左半部分和右半部分是有区别的， 规则同cs命令的规则1，即同样遵守第一个参数的规则，不再举例示范
+
+样例序号	原始文本	执行命令	执行结果
+1	"Hello*world!"	ds"	Hello world!
+2	((Hello*world!))	ds{	(Hello*world!)
+2	(123+4*56)/2	ds)	123+456/2
+3	<div>Yo!*</div>	dst	Yo!
+添加：you surround
+ys命令是you surround（按作者的说法），可以对指定的文本进行包围，命令接受两个参数： 第一个是指示文本范围或者移动位置的文本对象，第二个是包围操作使用的字符。插入时光标需要移动到被包围的文本内。 比如需要将字符串test添加外部包围字符'，可以将光标移动到文本区域内，然后使用ysaw"即可，其中aw会被当作vim文本对象， ys模式有一种变形，即yss和ySS，操作的对象是当前行，不过yss的包围符号添加在行首行尾，而ySS的符号会插入两个新行来包围。 下面是一些例子，部分来自帮助文件，其中的*号代表光标位置 
+指定范围的两种方法 
+1.文本对象，规则基本同vim的文本对象规则一样 
+2.移动位置，可以使用^、$、f等命令来指定位置，作用范围是当前光标到指定的位置 
+注意 命令中使用形如()、{}、[]的字符的左半部分和右半部分是有区别的， 规则同cs命令的规则2，即同样遵守第二个参数的规则，不再举例示范
+
+样例序号	原始文本	执行命令	执行结果
+1	test	ysiw'	'test'
+2	'test'	ysi')	'(test)'
+3	'test'	ysa')	('test')
+4	foo*testbar	ystb)	foo(test)bar
+5	test	ysaw<p class="example">	<p class="example">test</p>
+可视模式命令
+可视模式下可以选择需要的文本块，然后使用命令S，就可以输入用来进行包围的字符，不再赘述。
+
+插入模式命令
+插件的插入模式还处于试验状态，可以在插入模式下插入字符对，不过我并没有测试成功。通过map命令查看文档中的按键绑定，发现并未绑定函数。
+
+定制插件行为
+插件提供对符号的行为进行定制的功能，如果需要定制'-'符号在php文件中的功能，则按下面步骤操作
+
+" 1.使用vim函数获得ascii码
+:echo char2nr("-")
+" 2.在vim文件中添加绑定，并使用文件类型侦测
+" 注意b:surround_45使用了'-'的ascii码值45
+autocmd FileType php let b:surround_45 = "<?php \r ?>"
+如果文件类型是php，则在字符串 print "Hello *world!"上执行yss-即可得到<?php print "Hello world!" ?>。使用如下方式还可以请求用户输入，jekyll的语法高亮使用highlight语法来完成，每次输入较麻烦，可以在vimrc中加入下面的设置
+
+let g:surround_45 = "{% hightlight \1代码语言: \1 %}\r{% endhighlight %}"
+这样就自定义了字符"-"的包围语法模板，比如在testtest上使用ySS-，会显示“代码语言：”并等待用户输入，输入bash，则得到下面的代码 其中的"\1代码语言: \1"被替换为用户输入的字符串，"\r"被替换为用户选择的需要被包围的文本，其余的均原样输出， 如果需要，可以在语法模板中使用换行等转义字符。语法模板也支持正则表达式的处理，但是语法过于古怪和丑陋，个人认为没有使用的价值。
+
+{% highlight bash %}
+testtest
+{% endhighlight %}
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Ag 插件
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+sudo brew install the_silver_searcher
+忽略特定文件
+let g:ag_prg="ag --vimgrep --smart-case  --ignore tags --ignore *.o"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => submodule 地址
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1864,12 +2145,6 @@ sudo git submodule add https://github.com/easymotion/vim-easymotion.git bundle/v
 sudo git submodule add https://github.com/fholgado/minibufexpl.vim.git bundle/minibufexpl.vim
 sudo git submodule add https://github.com/vim-scripts/YankRing.vim.git bundle/YankRing.vim
 sudo git submodule add https://github.com/vim-scripts/mru.vim.git bundle/mru.vim
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

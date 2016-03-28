@@ -53,8 +53,8 @@ set autoread
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
-let mapleader = ","
-let g:mapleader = ","
+let mapleader = "'"
+let g:mapleader = "'"
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -228,6 +228,43 @@ endfunction
 
 "}
 
+" 获取当前路径，将$HOME转化为~
+function! CurDir()
+    let curdir = substitute(getcwd(), $HOME, "~", "g")
+    return curdir
+endfunction
+set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \|\ ascii=%b,hex=%b%{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\ \|\ %{$USER}\ @\ %{hostname()}\ 
+
+function! AutoLoadCTagsAndCScope()
+    let max = 10
+    let dir = './'
+    let i = 0
+    let break = 0
+    while isdirectory(dir) && i < max
+        if filereadable(dir . 'GTAGS')
+            execute 'cs add ' . dir . 'GTAGS ' . glob("`pwd`")
+            let break = 1
+        endif
+        if filereadable(dir . 'cscope.out')
+            execute 'cs add ' . dir . 'cscope.out'
+            let break = 1
+        endif
+        if filereadable(dir . 'tags')
+            execute 'set tags +=' . dir . 'tags'
+            let break = 1
+        endif
+        if break == 1
+            execute 'lcd ' . dir
+            break
+        endif
+        let dir = dir . '../'
+        let i = i + 1
+    endwhile
+endf
+nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
+" call AutoLoadCTagsAndCScope()
+" http://vifix.cn/blog/vim-auto-load-ctags-and-cscope.html
+
 "========================================================================================================
 "Vundle.vim插件管理配置
 set nocompatible              " be iMproved, required
@@ -298,39 +335,34 @@ filetype plugin indent on
 "=====================================ctrlp======================================================================
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-"let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_working_path_mode = 0
-map <Leader>p :CtrlP<cr>
-map <c-m> :CtrlPMixed<cr>
-map <c-b> :CtrlPBuffer<cr>
+"修改该选项为1，设置默认为按文件名搜索（否则为全路径
+let g:ctrlp_by_filename = 1
+" 不限制CtrlP搜索文件的个数，默认为8000个好像
+let g:ctrlp_max_files=0
+"在提示符面板内可以使用 <c-d> 来切换。
+let g:ctrlp_working_path_mode = 'ac'
+map <Leader>p :CtrlP ./<cr>
+"map <c-m> :CtrlPMixed<cr>
+"map <c-b> :CtrlPBuffer<cr>
 let g:ctrlp_open_new_file = 'r'
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/svn-base,*/so,*.swp,*/zip       " Linux/MacOSX
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
-    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:100,results:100'
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+ let g:ctrlp_custom_ignore = {
+    \ 'file': '\v(\.svn-base|\.o.d|\.so|\.o)@<!$'
     \ }
+let g:ctrlp_follow_symlinks=1
 let g:ctrlp_match_window_bottom=1
 let g:ctrlp_max_height=15
 let g:ctrlp_match_window_reversed=0
 let g:ctrlp_mruf_max=500
-let g:ctrlp_follow_symlinks=1
 let g:ctrlp_match_window_reversed=0
 let g:ctrlp_mruf_max=500
 let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
-"let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
-"let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-"let g:ctrlp_user_command = ['.hg', 'hg --cwd %s locate -I .']
-let g:ctrlp_user_command = {
-    \ 'types': {
-        \ 1: ['.git', 'cd %s && git ls-files'],
-        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-        \ },
-    \ 'fallback': 'find %s -type f'
-    \ }
+"let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee|^\.svn-base|^\.swp'
+
+"let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
 "===================================TagbarToggle=========================================================
 nmap <F9> :TagbarToggle<CR>
 " 启动时自动focus
@@ -500,12 +532,15 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 "set tags+=~/work/test/ctest/UPlayer_Refactoring_Tudou/tags
+set tags+=./../tags,./../../tags,./../../../tags
+set tags+=getcwd()/tags
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_server_keep_logfiles = 1
 let g:ycm_server_log_level = 'debug'
 nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nmap <F4> :YcmDiags<CR>
 "注释和字符串中的文字也会被收入补全
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 " 输入第2个字符开始补全
@@ -526,10 +561,16 @@ let g:ycm_filetype_blacklist = {
       \ 'nerdtree' : 1,
       \}
 "youcompleteme  默认tab  s-tab 和 ultisnips 冲突
-let g:ycm_key_list_select_completion = ['<Down>']
-let g:ycm_key_list_previous_completion = ['<Up>']
+"let g:ycm_key_list_select_completion = ['<Down>']
+"let g:ycm_key_list_previous_completion = ['<Up>']
 " 修改对C函数的补全快捷键，默认是CTRL + space，修改为ALT + ;
-let g:ycm_key_invoke_completion = '<M-;>'
+let g:ycm_key_invoke_completion = "<Leader><Space>"
+
+let g:UltiSnipsExpandTrigger="<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
+let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
+
+
 
 " YCM 补全菜单配色
 " 菜单
@@ -543,7 +584,6 @@ let g:ycm_key_invoke_completion = '<M-;>'
 " 开启 YCM 标签补全引擎
 "let g:ycm_collect_identifiers_from_tags_files=1
 " 引入 C++ 标准库tags
-"set tags+=/data/misc/software/misc./vim/stdcpp.tags
 " YCM 集成 OmniCppComplete 补全引擎，设置其快捷键
 "inoremap <leader>; <C-x><C-o>
 " 补全内容不以分割子窗口形式出现，只显示补全列表
@@ -582,8 +622,10 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 "===================================================================================================
 "=========================================AG========================================================
-let g:ag_prg="<custom-ag-path-goes-here> --vimgrep"
-let g:ag_working_path_mode="r"
+let g:ag_prg="ag --vimgrep --smart-case  --ignore tags --ignore *.o"
+let g:ag_highlight=1
+let g:ag_format="%f:%l:%m"
+map <leader>ag :Ag<cr>
 "===================================================================================================
 "=========================================BufferLine================================================
 "" 开启tabline
@@ -611,7 +653,7 @@ let g:ag_working_path_mode="r"
 "===================================================================================================
 "==============================================vimshell=====================================================
 "let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+"let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 "used VimShellPop open windows
     "let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
     
@@ -623,6 +665,12 @@ let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
       let g:vimshell_prompt = $USER."% "
     endif
 let g:vimshell_environment_term = 'zsh'
+let g:vimshell_scrollback_limit = 100000
+"let g:vimshell_prompt = '% '
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~") . " " .' .
+\                            'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+let g:vimshell_ignore_case = 1
+let g:vimshell_smart_case = 1
 "===================================================================================================
 "==============================================vim-indent-guides=============================================
 " 随 vim 自启动
@@ -718,6 +766,7 @@ let g:disable_protodef_sorting=1
 "========================================easymotion===========================================================
 "sudo git submodule add https://github.com/easymotion/vim-easymotion.git bundle/vim-easymotion
 "easymotion 只做一件事：把满足条件的位置用 [A~Za~z] 间的标签字符标出来，找到你想去的位置再键入对应标签字符即可快速到达。比如，上面的例子，假设光标在行首，我只需键入 <leader><leader>fa （为避免与其他快捷键冲突，easymotion 采用两次 <leader> 作为前缀键），所有的字符 a 都被重新标记成 a、b、c、d、e、f 等等标签（原始内容不会改变），f 标签为希望移动去的位置，随即键入 f 即可到达。
+let g:EasyMotion_leader_key = '<Leader><Leader>'
 "===================================================================================================
 "==================================================minibufexpl.vim=================================================
 "sudo git submodule add https://github.com/fholgado/minibufexpl.vim.git bundle/minibufexpl.vim
@@ -770,7 +819,7 @@ let MRU_Max_Menu_Entries = 20
 let MRU_Max_Submenu_Entries = 15
 let MRU_Filename_Format={'formatter':'v:val', 'parser':'.*'}
 "===================================================================================================
-"===================================================================================================
+"=======================================NERD_commenter============================================================
 " plugin - NERD_commenter.vim   注释代码用的，
 
 " [count],cc 光标以下count行逐行添加注释(7,cc)
