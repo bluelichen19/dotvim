@@ -26,6 +26,7 @@
 "    -> vim控制台命令
 "    -> vim常用设置解释
 "    -> vim常用命令 
+"    -> vim cscope ctags
 "    -> pathogen 插件 
 "    -> CtrlP 插件 
 "    -> Ycm 插件 
@@ -40,8 +41,9 @@
 "    -> NERD_commenter 插件
 "    -> surround 插件
 "    -> Ag 插件
-"    ->
-"    ->
+"    -> Syntastic 插件
+"    -> DoxygenToolkit 插件
+"    -> unite 插件
 "    ->
 "    ->
 "    ->
@@ -687,6 +689,823 @@ map <F4> :cn<cr>
 语法高亮	102	:syntax on	打开语法高亮
 		103	:syntax off	关闭语法高亮k
 		104	:set syntax=perl	强制打开语法高亮
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim cscope ctags 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Linux应用程序开发（二） ── vim+ctags+cscope
+六、通用的使用 VIM+Ctags+Cscope 访问程序文件的方法
+
+1. ctags+cscope配合使用的原因：
+    为什么要配合，因为，比如cscope能提供更多的查找功能等功能。但是ctags远比cscope支持更多的文件。比如要访问一个java工程文件，那么cscope是能力低下的，比如对类识别不行，但是我们仍然可以利用其一些功能，比如找到什么函数调用了这个函数。
+    另外，还有点注意，ctags不能利用QuickFix窗口，而cscope可以利用，这也是cscope的好处。一般，如果仅仅有C/C++文件，用cscope更多，如果是其他文件，则用ctags更多。
+    不管是用ctags还是cscope，都可以用WinManager和Taglist，来实现左边上面是文件列表，下面是Taglist，右边是文件浏览窗口的效果！但是Taglist依赖ctags，如果用cscope，ctags还是要用的。具体的让WinManager和Taglist配合的方法，见vim配置文件。
+
+2. 生成数据库并让vim使用：
+一般的做法是：在最上层目录，生成这些文件。然后vim在最上层打开，并利用下面提到的WinManager来导航到里面目录。
+(1) ctags生成tags文件：
+ctags -R . 可以搜索目录下所有的文件，并生成 tags 文件。
+为了生成最多的tags:
+C/C++这样：ctags --extra=+q --fields=+Saim --c++-kinds=+lpx --c-kinds=+lpx -R .
+Java这样：ctags --java-kinds=+l -R .
+
+(主要是--xx-kinds控制着要分析出哪些东西，如--java-kinds=+l表示要加上(+)local variable，默认的有哪些，没有哪些，用ctags --list-kinds 可以知道，off的都是默认不分析的，否则是分析的)
+cscope只能分析C/C++/lex/yacc文件！
+
+然后在vim里 :set tags=path/to/tags（用,分隔，可以多个）
+
+(2) cscope生成cscope.in.out cscope.out cscope.po.out文件：
+由于cscope默认不看非.c .yacc .lex外的文件，所以，假设你要找C和C++其他文件，要这样：
+find . -name "*.h" -o -name "*.c" -o -name "*.cc" > cscope.files
+cscope -bkq -i cscope.files
+（找java文件同理）
+而，对于纯C文件，你可以：
+cscope -Rbkq ./ 即可。
+
+然后在vim里 :cs add path/to/cscope.out
+如果要重新生成，用:!cscope -Rbkq，再用 :cs reset重新读入.
+
+3. ctags 管理跳转栈：
+ctags设计来找到各种希望找的东西，如类定义处，函数定义处。对各种语言都有支持，但原设计就是针对function定义的，所以，ctags对寻找functions定义特别有效，像函数原型是默认不做tag的。
+(1) vim的支持tags的命令：（这些命令在编译时要加进ctags支持才能用）
+vim靠内置的命令，来支持使用ctags得到的tags文件。
+:tags 列出目前你跳转的栈，可以得知当前位置 （可惜不能用QuickFix窗口）
+:tag 跳到:tags列表的顶部（栈底）
+:tag tagname 跳到tagname的定义处
+Ctrl+] 压栈（跳到标记定义处） Ctrl+W ] 在横着的新窗口打开(:stag tagname)
+n Ctrl+t 出栈（后跳n次，会使你的:tags列出的表缩短） ── 跨文件时，用 Ctrl + o才能跳回去。
+
+:tselect tagname 可以列出所有的相同的tagname，你按数字可以跳到对应条目。
+:tnext 跳到下一个相同tagname处
+:tprevious 同理
+:tfirst    同理
+:tlast     同理
+
+匹配用/ /来括起来，让vim知道里面的是正则式
+如 :tselect /^write_ 可以匹配以 write 开头的
+
+:set ignorecase 可以在任何时候忽略大小写，比如在:tag tagname时。如果设置了这个，又想case有效，则在表达式后加\C
+但如果想某次有效，则在表达式后面加\c
+上面的表达式都用//包起来。
+
+
+4. cscope看vim配置文件和以前的文档即可。
+
+5. 使用Path：
+有时，我们要定义额外的Path，以访问某些文件。且方便gf(goto file，在normal模式下，按gf，会打开光标下的文件，它会在Path下去搜），find（不支持正则式的搜索，用法 :find netrw.vim）等命令。
+
+path选项定义了一个目录列表，在使用gf，find，以及CTRL-W f等命令时，如果使用的是相对路径，那么就会在path选项定义的目录列表中查找相应的文件。path选项以逗号分隔各目录名。我们依旧以VIM 7.0的源代码为例（源代码放在~/src/vim70/目录中）。
+
+对于这个项目，我们的path选项设置如下：
+set path=.,/usr/include,,~/src/vim70/**
+
+稍微解释一下各项的含义，更详细的信息，请查看path选项的帮助页：
+.                在当前文件所在目录中搜索 
+/usr/include     在/usr/include目录中搜索 
+,,               在当前工作路径中搜索 
+~/src/vim70/**   在~/src/vim70的所有子目录树中进行搜索!!
+
+6. 多文件浏览采用 MiniBufExplorer:
+因为使用了WinManager和Taglist，所以tabe显得不好用了，用buffer会更方便。
+但是vim自带的buffer管理工具只有:ls, :bnext, :bdelete 等的命令，这里用MiniBufExplorer.好处是在顶上可视化列出了各个buffer。仍然用:bnext等命令。
+然后，在vim中设置了，用shift+Tab来切换buffer，挺方便。
+关闭一个buffer，而不退出窗口，在标签上按d，这是MiniBufExplorer的命令。个
+
+7. Taglist
+提醒用 s 来切换按名字排序（大写，再小写，每个里面按首字母）还是出现次序排序
+用 u 来更新list（默认可以再次调用ctags）
+另外，在vimrc中设置了单击来打开对应位置
+
+8. WinManager
+s来切换按xx排序，r做反排序
+另外，在各个窗口间切换，用 Ctrl+方向键 更快~~~
+
+9. vimgrep查找文本 或 Grep插件查找文本：
+ctags找到了--list-kinds中指示的东西，你可以用:tag tagname找出这些tags，cscope也找了它可以找的东西，可以用:cs find g/d/c/t/e tagname找到相应的东西，其中t表示找那个文本，尤其是e表示用egrep查找。单都是在cscope的数据库中查找。
+但是，很多时候，仍需要对文件本身搜索，或者想到某个特定子目录搜索，并支持正则式。
+(1) 可以用 :vimgrep命令：
+:vimgrep是vim内置的grep，如果你用:grep等，则是让vim调用外部的系统的grep。用:vimgrep的好处是，不依赖于系统的，使得各个系统上都可以用。但是会慢点，因为它会把每个文件，放入buffer，再分析。
+用法简单：
+:vimgrep /pattern/ path
+其中 pattern为正则式，如 \<main\>表示main单词
+path 为shell元字符式，如 ./SSF/**/*.java 表示搜索SSF目录下，所有子目录，及所有嵌套子目录的 java文件。
+(2) 也可以用Grep插件，下面命令都支持正则式:
+:Grep 在指定的文件查找
+:Rgrep 递归查找
+:Bgrep 在打开的缓冲区中查找
+他会问你更多信息，比如哪些文件中查找，在哪个目录中查找，很方便。
+如：
+Search for pattern: 时可以填 \<get_real_path\> （匹配单词，而不是字符串）
+Search in files: 时可以填 *.java
+
+10. 高亮文本：
+:colorscheme 可以选择某个主题。
+在.vim里，自己创建colors doc plugin syntax 四个目录，doc和plugin用户放plugin的文件和doc文件，syntax用于放置指导语法加亮的文件，而colors就用于放置高亮主题。目前我用的是desert主题。
+
+11. 目前用到的插件：
+a.vim              
+color_sample_pack.vim 
+minibufexpl.vim     
+taglist.vim          
+winmanager.vim (winfileexplorer.vim wintagexplorer.vim)
+code_complete.vim   #这个好好看看它的代码体吧，很简单，却很高效的用tab补全很多东西，如调用函数时，在(后按tab，就可补出各个参数的类型。比如很方便自动生成main，for，while，＃define等。
+grep.vim               
+NERD_commenter.vim 
+
+
+12. 颜色相关：
+首先，在vim中输入 :runtime syntax/colortest.vim 可打印出目前你可以使用的颜色。只有那么几种。包括粗体。所以，这就是终端里使用vim没有gvim颜色多，或者没有gvim颜色正常的原因。但是，你好好调整一下，还是能够满足自己要求的。
+另外，各种颜色主题，是不能让，如函数，单独高亮的，因为这需要语法帮助。这需要你单独找语法文件，就是什么东西是函数，并应该高亮为什么颜色。把语法文件放到 ~/.vim/syntax中。
+我是从官网下了cpp.vim放到~/.vim/syntax目录中，于是.cpp文件可以有更多的高亮了。
+但是，c.vim是我从别的地方找的，官网上找的c.vim不起作用，我又不好改。目前用的c.vim如下，主要加亮了函数名和C关键字。而cpp.vim是使用c.vim的，所以默认也就让cpp.vim支持同样的效果了。
+
+要读懂和改这个简单文件，需要知识如下：
+:hi 命令时一直都是以图形介面（gui）为例设置前景和背景色。由于命令终端对颜色显示的限制，Vim在命令行下可以使用的颜色相对gui 要少得多，所以使用:hi命令时图形介面和命令行介面的颜色是分开设置的。对于黑白终端来说就无所谓颜色了，而彩色终端用cterm来表示，前景色就是 “ctermfg”，而背景色是“ctermbg”。下面是一个表格：
+
+终端类型 前景色      背景色      注释
+term           -              -              黑白终端
+cterm     ctermfg    ctermgb       彩色终端
+gui          guifg        guibg          图形介面
+
+
+下面是这个文件 c.vim
+"========================================================
+" Highlight All Function
+"========================================================
+syn match   cFunction "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
+syn match   cFunction "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
+hi cFunction        gui=NONE guifg=#B5A1FF
+
+"========================================================
+" Highlight All Math Operator
+"========================================================
+" C math operators
+syn match       cMathOperator     display "[-+\*/%=]"
+" C pointer operators
+syn match       cPointerOperator display "->\|\."
+" C logical   operators - boolean results
+syn match       cLogicalOperator display "[!<>]=\="
+syn match       cLogicalOperator display "=="
+" C bit operators
+syn match       cBinaryOperator   display "\(&\||\|\^\|<<\|>>\)=\="
+syn match       cBinaryOperator   display "\~"
+syn match       cBinaryOperatorError display "\~="
+" More C logical operators - highlight in preference to binary
+syn match       cLogicalOperator display "&&\|||"
+syn match       cLogicalOperatorError display "\(&&\|||\)="
+
+" Math Operator
+hi cMathOperator            guifg=#3EFFE2 ctermfg=lightyellow   
+hi cPointerOperator         guifg=#3EFFE2 ctermfg=lightyellow 
+hi cLogicalOperator         guifg=#3EFFE2 ctermfg=lightyellow 
+hi cBinaryOperator          guifg=#3EFFE2 ctermfg=lightyellow 
+hi cBinaryOperatorError     guifg=#3EFFE2 ctermfg=lightyellow 
+hi cLogicalOperator         guifg=#3EFFE2 ctermfg=lightyellow 
+hi cLogicalOperatorError    guifg=#3EFFE2 ctermfg=lightyellow 
+
+
+
+" ------------------------ further work ------------------------
+" hi cType ctermfg=green
+hi cConditional ctermfg=lightred
+hi cRepeat ctermfg=lightred
+hi cStatement ctermfg=lightred
+hi cLabel ctermfg=lightred
+"hi cType ctermfg=green
+hi cDefine ctermfg=magenta
+hi cUndefine ctermfg=magenta
+hi cFunction ctermfg=blue
+
+" ----------------------- 以下的是备查而已 ------------------------
+" hi other words later
+" C language keywords.
+" For compilers with asm keyword - error if not c_c_vim_compatible.
+syn keyword       cKRStatement      asm
+syn keyword     cGNUStatement     __asm__
+syn keyword       cLabel            case default
+syn keyword       cConditional      if else switch
+syn keyword       cRepeat           while for do
+
+" C data types
+syn keyword       c89Type           int long short char void signed unsigned float double
+" These are actually macros that expand to the above.
+syn keyword     c99Type           bool complex imaginary
+syn keyword     cGnuType          __label__ __complex__ __volatile__
+
+" C language structures
+syn keyword       cStructureType    typedef
+syn keyword       cStructure        struct union enum
+
+" C storage modifiers
+syn keyword       c89StorageClass   static register auto volatile extern const
+syn keyword       cKRStorageClass   fortran
+syn keyword     c99StorageClass   restrict inline
+syn keyword     cGNUStorageClass __attribute__
+
+
+13. 支持tags更新：
+见下面绑定在F7上的功能，就是把ctags和cscope重新更新。
+这个的好处显然的，比如你想对新改的代码使用code_complete.vim插件中的功能。
+
+14. c++补全：
+omnicppcomplete 插件很好用。这个放在~/.vim里后，注意下面.vimrc文件中对它的几行设置，否则不太好似。
+
+15. C-x C-o：
+C++ 自动补全OK了，但是C的函数怎么补全呢？？ 在ctags存在的情况下，用C-x C-o吧，我棒定到F8上去了，见vimrc.   它比 C-p强的地方是，它会把函数的函数原型也列出来，方便输入，其他的找到的，也会标出类型。
+
+
+强烈建议程序员完整的阅读usr_29.txt和usr_30.txt
+
+---------------------- 下面是 2009 03 29 日vimrc文件内容：----------------------
+" An example for a vimrc file.
+"
+" Maintainer:    Bram Moolenaar <Bram@vim.org>
+" Last change:    2006 Nov 16
+"
+" To use it, copy it to
+"     for Unix and OS/2: ~/.vimrc
+"          for Amiga: s:.vimrc
+" for MS-DOS and Win32: $VIM\_vimrc
+"        for OpenVMS: sys$login:.vimrc
+
+" When started as "evim", evim.vim will already have done these settings.
+if v:progname =~? "evim"
+finish
+endif
+
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+if has("vms")
+set nobackup        " do not keep a backup file, use versions instead
+else
+set backup        " keep a backup file
+endif
+set history=50        " keep 50 lines of command line history
+set ruler        " show the cursor position all the time
+set showcmd        " display incomplete commands
+set incsearch        " do incremental searching
+
+" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
+" let &guioptions = substitute(&guioptions, "t", "", "g")
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+" In many terminal emulators the mouse works just fine, thus enable it.
+set mouse=a
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+syntax on
+set hlsearch
+endif
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+" Enable file type detection.
+" Use the default filetype settings, so that mail gets 'tw' set to 72,
+" 'cindent' is on in C files, etc.
+" Also load indent files, to automatically do language-dependent indenting.
+filetype plugin indent on
+
+" Put these in an autocmd group, so that we can delete them easily.
+augroup vimrcEx
+au!
+
+" For all text files set 'textwidth' to 78 characters.
+autocmd FileType text setlocal textwidth=78
+
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+
+augroup END
+
+else
+
+set autoindent        " always set autoindenting on
+
+endif " has("autocmd")
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+         \ | wincmd p | diffthis
+
+" ///////////////////////////////////////////////////////////////
+
+" common options
+
+if has("win32") 
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=chinese
+set fileencodings=ucs-bom,utf-8,chinese 
+set langmenu=zh_CN.utf-8
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+language messages zh_cn.utf-8 
+language messages zh_cn.utf-8
+
+set guifont=Courier_New:h12:cANSI    " 指定windows下的英文字体和大小
+set guifontwide=NSimSun:h11              " 指定windows下的中文字体和大小
+else
+set fileencodings=utf8,gbk,big5
+endif
+
+set tabstop=4
+set shiftwidth=4
+set mouse=a
+set backupdir=~/tmp/vim/
+set scroll=10
+set autoindent
+set smartindent
+set cindent
+syntax enable
+syntax on
+set fdm=indent
+set foldlevel=100
+set number
+
+:map <F2> :tabprevious<CR>
+:map <F3> :tabnext<CR>
+:imap <F2> <ESC>:tabprevious<CR>
+:imap <F3> <ESC>:tabnext<CR>
+
+
+" taglist and winmanager integration
+let Tlist_Use_SingleClick=1
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+let g:winManagerWindowLayout='FileExplorer|TagList'
+map wm :WMToggle<cr>
+
+" MiniBufferExplorer
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1 
+let g:miniBufExplUseSingleClick = 1
+"map <S-Tab> :bn<CR> 
+"map <C-Tab> :bp<CR>
+
+" cscope options
+set cscopequickfix=s-,c-,d-,i-,t-,e-,g-
+if has("cscope")
+    set csprg=/usr/bin/cscope
+    "use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+    set cscopetag
+    set csto=0
+    set cst
+    set nocsverb
+    " add any database in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out
+    " else add database pointed to by environment
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+    set csverb
+endif
+
+map <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+map <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+map <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+map <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+map <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+map <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR> :cw<CR>
+map <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR> :cw<CR>
+map <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+
+" ctags options
+set tags=./tags
+" au BufWritePost *.c,*.cpp,*.cc,*.h !cscope_ctags_cppfiles 
+" reproduce ctags and cscope.out and reset cscope to vim.(ctags is automatically reseted)
+map <F7> :!ctags --extra=+q --fields=+Saim --java-kinds=+l --c++-kinds=+lpx --c-kinds=+lpx -R . <CR><CR> :!find . -name "*.h" -o -name "*.c" -o -name "*.cc" -o -name "*.cpp"> cscope.files <CR><CR> :!cscope -bkq -i cscope.files<CR><CR> :cs reset<CR><CR>
+
+
+" c/cpp complete
+imap <F8> <C-X><C-O>
+set completeopt=longest,menuone
+let OmniCpp_DefaultNamespaces = ["std"]
+let OmniCpp_NamespaceSearch = 1
+let OmniCpp_MayCompleteDot = 1
+let OmniCpp_MayCompleteArrow = 1
+let OmniCpp_MayCompleteScope = 1
+let OmniCpp_ShowScopeInAbbr = 1
+let OmniCpp_ShowPrototypeInAbbr = 1
+
+" color scheme
+colorscheme desert
+
+" other options
+map <F4> :cp<CR>
+map <F5> :cn<CR>
+imap <F4> <ESC>:cp<CR>
+imap <F5> <ESC>:cn<CR>
+
+map <F9> :make<CR><CR><CR> :copen<CR>
+map <F10> :!./a.out<CR>
+
+map <C-a> :A<CR>
+imap <C-a> <ESC>:A<CR>
+
+map <Left> <CR> :bp<CR>
+map <Right> <CR> :bn<CR>
+
+map <C-w> :Rgrep<CR><CR><CR><CR>
+imap <C-w> <ESC>:Rgrep<CR><CR><CR><CR>
+---------------------------------------------------------------------------------------------
+（旧）六、VIM配套工具集：
+(一)用 cscope 查看源代码
+生成索引，记住Rbkq就行
+cscope -Rbkq
+-R: 在生成索引文件时,搜索子目录树中的
+代码
+-b: 只生成索引文件,不进入 cscope 的界面
+-k: 在生成索引文件时,不搜索 /usr/includ
+e 目录
+-q: 生成 cscope.in.out 和 cscope.po.out 文
+件,加快 cscope 的索引速度
+
+
+● cscope在Vim中的基本用法是 :cs + 子命令
+:cs find {querytype} {name}
+● find 的子命令
+s: Find this C symbol # 记法 s - symbol，查找的是symbol，不是一般的text
+g: Find this definition   # g就记住是definition
+d: Find functions called by this function   # d 是 called 后那个d
+c: Find functions calling this functio     # c 是 called 前那个c
+t: Find this text string                   # t 是 text 的意思，就是 一般的 text 查找
+e: Find this egrep pattern                 # e 正则式了 
+f: Find this file                          # f 是 file 的意思
+i: Find files #including this file         # i 是 include 的意思，即查找 包含此头文件的文件
+
+当然，你可能会find很多，cs find 如果找到一个，则默认定位到那个去，如果找到多个，则会列出来，可能在本窗口列出（如果不设置在QuickFix窗口列出，默认就是这个样子，可以看看），也可能在QuickFix窗口列出，那一般是设置在QuickFix这个单独的窗口列出，见下边.vimrc设置的这一行：:set cscopequickfix=s-,c-,d-,i-,t-,e-,g- ，但默认是不打开QuickFix窗口的，所以要你自己用:cw或:copen打开后就看到结果了（关闭QuickFix可以用:cclose）。见下面的快捷键设置，我默认是打开的，最后我加了一个:cw<CR>.
+不管在哪里列出，需要遍历列出的项，则用鼠标一个一个点击，或者用命令如下：
+:cw （或:copen）对make,cscope等，在最后一行提示你有多个选择时，你可以用:cw来打开QuickFix窗口，用:cn定位到下一个，用:cp定位到上一个，也可以在QuickFix窗口中用上下或鼠标点击操作。当然，我为了方便，用快捷键设置了，见下面。设置到F7和F8上面了。
+
+
+其他cs 的子命令：
+在最后一行敲:cs你可以得到：所有的用法，一目了然，便于查找。简单说明如下：
+上面的:cs 中的find子命令只是其中一个，其他的有如add常用于添加另一个cscope.out数据库文件，这样你可以用很多个，就是写上路径。
+show用于显示现有的cscope连接，即你用add加成功的cscope.out数目。
+reset很有用，当你改完代码后，需要重新生成cscope.out等文件 (重新生成cscope.out文件，可以用:!外部命令，这里应该是 :!cscope -Rbkq)， 这时为让vim中的cscope数据库刷新，需要:cs reset一下。
+:h if_cscop.txt查看完整文档
+
+最后，为方便使用，常为cscope的命令做map，和vim相关的.vimrc的部分如下，完整的.vimrc查看另一篇博客。
+
+.vimrc中要写的和cscope相关的：
+
+"这表示cs的这些子命令都使用quickfix窗口，-表示是更新quickfix窗口，而不是追加。如果写成 +，如s+就表示是对quickfix窗口追加。如果没出现在这里的命令，默认直接在当前窗口下直接列出找到的所有项。
+:set cscopequickfix=s-,c-,d-,i-,t-,e-,g- 
+
+"下面的来自 :h if_cscop.txt中的建议，不必太注意细节，只是看到里面已经把当前目录下的cscope.out加进去了。
+if has("cscope")
+    set csprg=/usr/local/bin/cscope
+    set cscopetag
+    set csto=0
+    set cst
+    set nocsverb
+    " add any database in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out
+    " else add database pointed to by environment
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+    set csverb
+endif
+
+"做键的映射，让cscope更方便。其中 <C-R>=expand("<cword>")<CR> 是为了让如 :cs find s 后添上当前光标处的word，你可以自己敲这个试试.
+nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR> :cw<CR>
+nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR> :cw<CR>
+nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR> :cw<CR>
+
+"做键的映射，能够用F7和F8来切换QuickFix窗口中的项
+map <F7> :cp<CR>
+map <F8> :cn<CR>
+imap <F7> <ESC>:cp<CR>
+imap <F8> <ESC>:cn<CR>
+" 这是为插入模式设置map， imap <F8> <ESC>:cn<CR>i 表明切换后仍为插入模式，但是我不太喜欢，有时会引起误操作，所以一般不要后面那个i。
+
+
+
+最后，这样设置了配置文件后，就会有一些简单的用法可以用了：
+ctrl-t 是本文件内的跳转到上次光标位置
+ctrl-o 是跨文件的跳转（比如你上次打开一个文件，又关闭了，再打开一个新的，如果一直按这个，就会打开上次那个文件）
+:ts tagname 查找所有的tagname符合的，列出，供你选择，再跳转
+ctrl-] 在tagname上， 等于 :cs find g xxx
+
+
+
+(二) 用ctags 查看源代码：
+       由于ctags只是生成tags文件，不包含怎么在vim中找到某种特定的tag的命令，比如函数原型怎么找，定义怎么找等，它就是一个tags生成程序而以。而VIM本身只提供纯粹针对tags的查找（如列出所有相关tags，调到第一个符合的tags...），即不识别类，函数之类的，所以VIM+ctags不能实现复杂查找。除非有其他插件支持。且对c++支持不好，比如从类成员的使用跳到c++类成员的定义处就不行，而只能用ts列出匹配项，让你自己选，而cscope可以。
+       所以最好用cscope，它本身就在最后一行模式支持多种语言中特定tag类型（如类，函数）的查找，且可以map成快捷键。
+
+下面为用法：
+1. ctags & tags：
+tags是ctags生成的文件，典型形式如下：
+!_TAG_FILE_FORMAT       2       /extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED       1       /0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR    Darren Hiebert /dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME      Exuberant Ctags //
+!_TAG_PROGRAM_URL       http://ctags.sourceforge.net    /official site/
+!_TAG_PROGRAM_VERSION   5.6     //
+A       main.cpp        /^class A{$/;" c       file:
+A::i    main.cpp        /^      int i;$/;"      m       class:A file:   access:private
+A::ok   main.cpp        /^      ok() {$/;"      f       class:A file:   access:private signature:()
+a       main.cpp        /^      unsigned char a = 0x01 | 0x08;$/;"      l
+i       main.cpp        /^      int i;$/;"      m       class:A file:   access:private
+main    main.cpp        /^int main() {$/;"      f       signature:()
+ok      main.cpp        /^      ok() {$/;"      f       class:A file:   access:private signature:()
+
+很容易看懂意思吧，每一行就是一个tag，后面跟出许多fields。从形式上就这米简单。
+而cscope的不是这种tags形式，不太明白，没看。
+
+2.重要信息：
+ctags --list-kinds 打印出对每种语言支持识别的tags，比如C++支持类名，函数定义，函数原型...
+ctags --list-languages 列出支持的语言
+
+3.主要用法：
+由于vim大约在7.0以后，支持了对你包含了的头文件中的tag的下拉菜单补全，比如你包含了一个系统头文件或你自己的文件，写出一部分再按Ctrl-P，就可以有下拉的菜单。当然，跳转等复杂特性是不支持的。即便如此，也不大需要对系统路径下的文件进行ctags扫描了，下面所述，均针对你的程序文件：
+(1)简单用法：
+ctags -R 在源代码顶层目录下执行，默认配置适合大多数情况.(-R = --recurse)
+(2)复杂用法：
+逻辑上这样的：ctags自动根据文件后缀判断是什么语言的文件，并采取相应的分析方法，所以，原则上将ctags -R对任何程序文件都适用。
+但是ctags到底处理语言中的哪些tags，然后tags文件中到底包含哪些fields，这个是需要详细指定的，因为一些你想要的，默认没有设置，比如函数原型在c/c++中都默认没有去查找，所以要用--c++-kinds=+p 添加上函数原型。下面 --c++-kinds=+lpx 和 --c-kinds=+lpx 只指定要加上lpx就行了，是因为你用 ctags --list-kinds，你会发现，它写有哪些tags是默认支持的，而我发现，就lpx没有被默认支持，所以我添加这三个。 而--fields=+Saim 是往tags文件中指定哪些field，这个见man里有默认显示的field，这里是加上一些默认不显示的重要的，记住是Saim就行了！至于 --extra=+q 是为C++等增强特性：对是class的成员的tag，一律加上class名前缀，即classname::tag。
+所以，这样写，如果你想支持最多的话：
+ctags --extra=+q --fields=+Saim --c++-kinds=+lpx --c-kinds=+lpx -R Main.cpp
+记法：3部分: q Saim 和 lpx
+我把这一堆（不包括-R）做了个alias为cpptags
+
+(三) 为什么cscope比ctags强大 ─── 因为ctags仅仅用于生成tags文件。
+Cscope 是一个交互式的屏幕下使用的工具，用来帮助你:
+* 无须在厚厚的程序清单中翻来翻去就可以认识一个 C 程序的工作原理。
+* 无须熟悉整个程序就可以知道清楚程序 bug 所要修改的代码位置。
+* 检查提议的改动 (如添加一个枚举值) 可能会产生的效果。
+* 验证所有的源文件都已经作了需要的修改；例如给某一个现存的函数添加一个参数。
+* 在所有相关的源文件中对一个全局变量改名。
+* 在所有相关的位置将一个常数改为一个预处理符号。
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+1、Cscope介绍
+ 
+       Cscope是类似于ctags一样的工具，但可以认为她是ctags的增强版，因为她比ctags能够做更多的事。在Vim中，通过cscope的查询，跳转到指定的地方就像跳转到任何标签；她能够保存标签栈，所以通过合适的键盘映射绑定，你能够在函数向后或向前跳转，就像通常使用的tags一样。
+       首次使用Cscope时，他会根据源文件生成符号数据库。然后在以后的使用中，cscope只是在源文件有改动或源文件列表不同时才会重建数据库。当在重建数据库时，未改动过的文件对应的数据库信息会从旧的数据库中拷贝过来，所以会使重建数据库快于一开始的新建数据库。
+       当你在命令行下调用cscope时，你会获得一个全屏选择窗口，能够使你查询特定的内容。然而，一旦你查询的有匹配，那么就会用你默认的编辑器来编辑该源文件，但是你不能够简单的使用Ctrl+]或者:tag命令来从一个标签跳转到另一个标签。
+       Vim中的cscope接口是通过以命令行形式调用完成的，然后解析查询返回的结果。最终的结果就是cscope查询结果就像通常的tags一样，这样你就可以自由跳转，就像在使用通常的tags（用ctrl+]或者:tag跳转）。
+ 
+2、Cscope相关命令
+      
+所有的cscope命令都是通过向主cscope命令”:cscope”传递参数选项。她最短的缩写是”:cs”。”:scscope”命令也做同样的事情并且同时会横向分隔窗口（简称：”scs”）。
+      
+可用的缩写有：
+add ：增加一个新的cscope数据库/链接库
+              使用方法：
+                     :cs add {file|dir} [pre-path] [flags]
+              其中：
+                     [pre-path] 就是以-p选项传递给cscope的文件路径，是以相对路径表示的文件
+前加上的path，这样你不要切换到你数据库文件所在的目录也可以使用它了。
+                     [flags] 你想传递给cscope的额外旗标
+              实例：
+                     :cscope add /root/code/vimtest/ftpd
+                     :cscope add /project/vim/cscope.out /usr/local/vim
+                     :cscope add cscope.out /usr/local/vim –C
+ 
+       find ：查询cscope。所有的cscope查询选项都可用除了数字5（“修改这个匹配模式”）。
+              使用方法：
+                     :cs find {querytype} {name}
+              其中：
+                     {querytype} 即相对应于实际的cscope行接口数字，同时也相对应于nvi命令：
+                            0或者s   —— 查找这个C符号
+                            1或者g  —— 查找这个定义
+                            2或者d  —— 查找被这个函数调用的函数（们）
+                            3或者c  —— 查找调用这个函数的函数（们）
+                            4或者t   —— 查找这个字符串
+                            6或者e  —— 查找这个egrep匹配模式
+                            7或者f   —— 查找这个文件
+                            8或者i   —— 查找#include这个文件的文件（们）
+              实例：（#号后为注释）
+                     :cscope find c ftpd_send_resp                     # 查找所有调用这个函数的函数（们）
+                     :cscope find 3 ftpd_send_resp                     # 和上面结果一样
+                    
+                     :cscope find 0 FTPD_CHECK_LOGIN       # 查找FTPD_CHECK_LOGIN这个符号
+              执行结果如下：
+                     Cscope tag: FTPD_CHECK_LOGIN                   
+   #   line  filename / context / line
+   1     19  ftpd.h <<GLOBAL>>
+             #define FTPD_CHECK_LOGIN() /
+   2    648  ftpd.c <<ftpd_do_pwd>>
+             FTPD_CHECK_LOGIN();
+   3    661  ftpd.c <<ftpd_do_cwd>>
+             FTPD_CHECK_LOGIN();
+   4    799  ftpd.c <<ftpd_do_list>>
+             FTPD_CHECK_LOGIN();
+   5    856  ftpd.c <<ftpd_do_nlst>>
+             FTPD_CHECK_LOGIN();
+   6    931  ftpd.c <<ftpd_do_syst>>
+             FTPD_CHECK_LOGIN();
+   7    943  ftpd.c <<ftpd_do_size>>
+             FTPD_CHECK_LOGIN();
+   8    960  ftpd.c <<ftpd_do_dele>>
+             FTPD_CHECK_LOGIN();
+   9    981  ftpd.c <<ftpd_do_pasv>>
+             FTPD_CHECK_LOGIN();
+Enter nr of choice (<CR> to abort):
+然后输入最前面的序列号即可。
+ 
+       help ：显示一个简短的摘要。
+              使用方法：
+              :cs help
+ 
+       kill  ：杀掉一个cscope链接（或者杀掉所有的cscope链接）
+              使用方法：
+              :cs kill {num|partial_name}
+              为了杀掉一个cscope链接，那么链接数字或者一个部分名称必须被指定。部分名
+称可以简单的是cscope数据库文件路径的一部分。要特别小心使用部分路径杀死一个cscope链接。
+ 
+              假如指定的链接数字为-1，那么所有的cscope链接都会被杀掉。
+ 
+       reset：重新初始化所有的cscope链接。
+              使用方法：
+              :cs reset
+ 
+       show：显示cscope的链接
+              使用方法：
+              :cs show
+ 
+       假如你在使用cscope的同时也使用ctags，|:cstag|可以允许你在跳转之前指定从一个或另一个中查找。例如，你可以选择首先从cscope数据库中查找，然后再查找你的tags文件（由ctags生成）。上述执行的顺序取决于|csto|的值。
+       |:cstag|当从cscope数据库中查找标识符时等同于“:cs find g”。
+       |:cstag|当从你的tags文件中查找标识符时等同于“|:tjump|”。
+ 
+3、Cscope选项
+ 
+       使用|:set|命令来设置cscope的所有选项。理想情况是，你可以在你的启动文件中做这件事情（例如：.vimrc）。有些cscope相关变量只有在|.vimrc|中才是合法的。在vim已经启动之后再来设置它们没有任何作用！
+       ‘cscopeprg’指定了执行cscpoe的命令。默认是”cscope”。例如：
+              :set csprg=/usr/local/bin/cscope
+ 
+       ‘cscopequickfix’指定了是否使用quickfix窗口来显示cscope的结果。这是一组用逗号分隔的值。每项都包含于|csope-find|命令（s, g, d, c, t, e, f, 或者i）和旗标（+, -或者0）。
+       ‘+’预示着显示结果必须追加到quickfix窗口。
+       ‘-’隐含着清空先前的的显示结果，’0’或者不设置表示不使用quickfix窗口。查找会从开始直到第一条命令出现。默认的值是””（不使用quickfix窗口）。下面的值似乎会很有用：”s-,c-,d-,i-,t-,e-”。
+ 
+       假如’cscopetag’被设置，然后诸如”:tag”和ctrl+]和”vim -t”等命令会始终使用|:cstag|而不是默认的:tag行为。通过设置’cst’，你将始终同时查找cscope数据库和tags文件。默认情况是关闭的，例如：
+              :set cst
+              :set nocst
+ 
+       ‘csto’
+       ‘csto’的值决定了|:cstag|执行查找的顺序。假如’csto’被设置为0，那么cscope数据将会被优先查找，假如cscope没有返回匹配项，然后才会查找tag文件。反之，则查找顺序相反。默认值是0，例如：
+              :set csto=0
+              :set csto=1
+ 
+       假如’cscopeverbose’没有被设置（默认情况是如此），那么当在增加一个cscope数据库时不会显示表示表示执行成功或失败的信息。理想情况是，在增加cscope数据库之前，你应该在你的|.vimrc|中重置此选项，在增加完之后，设置它。此后，当你在vim中增加更多的数据库时，你会得到（希望是有用的）信息展示数据库增加失败。例如：
+              :set csverb
+              :set nocsverb
+ 
+       ‘cspc’的值决定了一个文件的路径的多少部分被显示。默认值是0，所以整个路径都会被显示。值为1的话，那么就只会显示文件名，不带路径。其他值就会显示不同的部分。例如：
+              :set cspc=3
+       将会显示文件路径的最后3个部分，包含这个文件名本身。
+ 
+4、在Vim中怎么使用cscope
+ 
+       你需要做的第一步就是为你的源文件建立一个cscope数据库。大多数情况下，可以简单的使用”cscope –b”。
+       假设你已经有了一个cscope数据库，你需要将这个数据库“增加”进Vim。那将会建立一个cscope“链接”并且使它能够被Vim所使用。你可以在你的.vimrc文件中做这件事，或者在Vim启动之后手动地做。例如，为了增加数据库”cscope.out”，你可以这样做：
+              :cs add cscope.out
+       你可以通过执行”:cs show”来再次检查以上执行的结果。这将会产生如下的输出：
+       # pid      database name                       prepend path
+ 0 11453  cscope.out                             <none>
+ 
+提示：
+由于微软的RTL限制，Win32版本会显示0而不是真正的pid。
+ 
+一旦一个cscope链接建立之后，你可以查询cscope并且结果会反馈给你。通过命令”:cs find”来进行查找。例如：
+       :cs find g FTPD_CHECK_LOGIN
+执行以上命令可能会变得有点笨重的，因为它要做相当的输入次数。假如有不止一个匹配项，你将会被提供一个选择屏幕来选择你想匹配的项。在你跳转到新位置之后，可以简单的按下ctrl+t就会返回到以前的一个。
+ 
+5、建议的用法
+ 
+       将如下内容放置到你的.vimrc中：
+       if has("cscope")
+              set csprg=/usr/local/bin/cscope
+              set csto=0
+              set cst
+              set nocsverb
+              " add any database in current directory
+              if filereadable("cscope.out")
+                  cs add cscope.out
+              " else add database pointed to by environment
+              elseif $CSCOPE_DB != ""
+                  cs add $CSCOPE_DB
+              endif
+              set csverb
+       endif
+ 
+       通过设置’cscopetag’，我们已经有效的将所有:tag的情况都替换为:cstag。这包括:tag、ctrl+]，和”vim -t”。然后，正常的tag命令就会不光在tag文件中查找，也会在cscope数据库中查找。
+       有些用户可能想保留常规的tag行为并且有一个不同的快捷方式来使用:cstag。例如，可以使用如下命令来映射ctrl+_（下划线）到:cstag：
+              map <C-_> : cstag <C-R>=expand(“<cword>”)<CR><CR>
+ 
+       一些经常用cscope查找（使用”:cs find”）是查找调用某一特定函数的所有函数，和查找所有出现特定C符号的地方。为了做这些事，你可以使用如下的键盘映射作为例子：
+              map g<C-]> :cs find 3 <C-R>=expand(“<cword>”)<CR><CR>
+              map g<C-/> :cs find 0 <C-R>=expand(“<cword>”)<CR><CR>
+ 
+       这些给ctrl+]（右中括号）和ctrl+/（反斜杠）的映射可以允许你将光标放置到函数名称或者C符号上然后执行快速cscope查找匹配。
+ 
+       或者你可以使用如下方案（很好用，可以将其添加到.vimrc中）：
+    nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+    nmap <C-_>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
+    nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+ 
+       “ 使用’ctrl – 空格’，然后查找时就会使vim水平分隔窗口，结果显示在
+       “ 新的窗口中
+              nmap <C-Space>s :scs find s <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-Space>g :scs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-Space>c :scs find c <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-Space>t :scs find t <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-Space>e :scs find e <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-Space>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
+    nmap <C-Space>i :scs find i <C-R>=expand("<cfile>")<CR><CR>
+    nmap <C-Space>d :scs find d <C-R>=expand("<cword>")<CR><CR>
+      
+       “ 两次按下’ ctrl – 空格’，然后查找时就会竖直分隔窗口而不是水平分隔
+              nmap <C-Space><C-Space>s
+                     /:vert scs find s <C-R>=expand("<cword>")<CR><CR>
+       nmap <C-Space><C-Space>g
+              /:vert scs find g <C-R>=expand("<cword>")<CR><CR>
+       nmap <C-Space><C-Space>c
+              /:vert scs find c <C-R>=expand("<cword>")<CR><CR>
+       nmap <C-Space><C-Space>t
+              /:vert scs find t <C-R>=expand("<cword>")<CR><CR>
+       nmap <C-Space><C-Space>e
+              /:vert scs find e <C-R>=expand("<cword>")<CR><CR>
+       nmap <C-Space><C-Space>i
+              /:vert scs find i <C-R>=expand("<cfile>")<CR><CR>
+       nmap <C-Space><C-Space>d
+              /:vert scs find d <C-R>=expand("<cword>")<CR><CR>
+      
+6、结合实际来使用cscope
+ 
+       我这里有一个ftp服务器的工程，主要文件如下（Secure CRT vt100, traditional, 13）：  
+
+       下面就是要cscope命令来建立数据库文件（多了3个和cscope相关的文件）：
+ 
+
+       说明：
+a、  cscope的选项分析：
+-R     ：表示包含此目录的子目录，而非仅仅是当前目录；
+-b     ：此参数告诉cscope生成数据库后就自动退出；
+-q     ：生成cscope.in.out和cscope.po.out文件，加快cscope的索引速度
+可能会用到的其他选项：
+-k     ：在生成索引时，不搜索/usr/include目录；
+-i      ：如果保存文件列表的文件名不是cscope.files时，需要加此选项告诉cscope到哪里去找源文件列表；
+-I dir ：在-I选项指出的目录中查找头文件
+-u     ：扫描所有文件，重新生成交叉索引文件；
+-C     ：在搜索时忽略大小写；
+-P path：在以相对路径表示的文件前加上的path，这样你不用切换到你数据库文件的目录也可以使用它了。
+说明：要在VIM中使用cscope的功能，需要在编译Vim时选择”+cscope”。Vim的cscope接口会先调用cscope的命令行接口，然后分析其输出结果找到匹配处显示给用户。
+ 
+b、  若是不指定-b选项，则在建立完数据库后进入如下界面： 
+ 
+
+这里是想要查找C符号：FTPD_CHECK_LOGIN，你可以通过按Tab键来进行匹配内容和输入项的切换。按下ctrl+d退出。
+注意：在此时，不可以使用ctrl+]进行跳转！
+ 
+下面用Vim打开其中的一个文件进行编辑，然后看看使用cscope的具体例子：
+输入：vim ftpd.c
+                
+看到此时光标在ftpd_help这个函数声明上，现在若我们想要看看这个函数是怎么实现的，可以有如下方法：
+1）直接按下ctrl+]                     # 就是按下ctrl键的同时按下’]’键
+2）按下ctrl+_g                          # 按下 ctrl键和下划线（同时按下shift和’-’键）和g
+3）输入“:cs find g ftpd_help”后回车
+4）输入“:tag ftpd_help”         # 假如有安装ctag的话
+然后就会进行跳转：
+           
+       小结：在非windows系统上很多人都会选择强大的Vim作为编辑器，同时，我们要是能够用好那些同样强大的插件的话，那提高的战斗力可不止一点哦。常常会听到类似的抱怨，linux下没有好用的IDE，殊不知，用Vim结合一些插件，同样可以拥有IDE的强大功能，看代码也不错，可以有类似source insight的功能。这里展示下我的Vim，可能有些简陋，但至少有了些IDE的影子了：
+       
+ 
+       对了，还有一点：默认情况下cscope值会在当前目录下针对c、iex和yacc（扩展名分别为.c、.h、.I、.y）程序文件进行解析（如果指定了-R参数则包含其自身的子目录）。这样出现的问题就是，我们对于C++或Java文件怎么办，解决方案是：我们可以生成一个名为cscope.finds的文件列表，并交由cscope去解析。在Linux系统中，生成这个文件列表的方法是：
+              find . –name “*.java” > cscope.files
+       然后运行cscope –b 命令重新生成数据库就OK了。
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => pathogen插件 
@@ -2408,6 +3227,205 @@ syntastic_mode_map:
  	配置每个filetype和全局默认默认
 syntastic_quiet_messages:
  	设置要忽略的错误
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => DoxygenToolkit 插件
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+ 目前为止已经定义了5个用途：
+1. 快速生成许可注释，并且标签可以被修改；
+2. 快速生成作者声明框架，标签可修改；
+3. 快速为C/C++、Python函数或者类生成注释框架，此框架包含的元素有：@brief, @param(为每一个参数生成一个@param)和@return。标签文本和注释块的头和尾都可以修改（因此，你可以有自己的简介，如果你原义，加上一点成就）；
+忽 略在#ifdef...#endif(C/C++)块中代码碎片。给块命名的时候一定要考虑到其功能。在所有文件中，所有有联系的块将会放在一个新的块 DOX_SKIP_BLOCK（或者用户定义的名称）。你需要使用当前的新块名更新你的doxygen配置文件中的PREDEFINED变量。而且你还需 要将ENABLE_PREPROCESSING设置为YES。
+4. 快速生成一个注释集（开始或者结尾），标签可修改；
+使用：
+4.1 注释类型（C/C++/// 或者, Python：##和#）：
+在vim中，默认C++注释为，但是如果你更喜欢使用///，只需要在你的配置文件.vimrc中添加如下语句：
+let g:DoxygenToolkit_commentType="C++"。
+
+4.2 许可：
+在vim中，将光标放在将要写doxygen许可注释的那一行，然后，执行命令：DoxLic。这将会生成许可注释并将光标放置在刚才那一行之后。
+
+4.3 作者： 
+
+在vim中，将光标放在想要添加doxygen作者注释的地方。然后执行命令：DoxAuthor。这将会生成一个框架，如果没有为其设置变量则将光标放置在@author标签之后，或者放在在框架之后。
+
+4.4 函数/类注释：
+在vim中，将光标放置在函数头部那一行（或者函数的返回变量）或者类。然后执行命令：Dox。这将生成框架并且将光标放置在@brief标签后。
+
+4.5 忽略代码片段（只有C/C++）：
+在vim中，如果你想要忽略所有在块中的代码片段，类似：           #ifdef DEBUG ... #endif你只需要执行以下命令：DoxUndoc(DEBUG)!
+
+4.6 组：
+在vim中，执行命令：DoxBlock在后面的行中插入一个doxygen块。
+
+限制：
+1. 假设函数名（后面的左括号）至少在当前光标位置后的第三行；
+2. 在注释块在写入之前不能再次更新；
+3. 块分隔符（头部和尾部）只包含函数注释；
+4. 假设已经使用了缩进；
+5. 函数参数中得到注释还不支持；(像void foo(int bar ))
+6. 定制输出脚本，在脚本文件中，在.vimrc中设置g: DoxygenToolkit_*变量：
+举例说明，在我的.vimrc中包含：
+let g:DoxygenToolkit_briefTag_pre="@Synopsis  " 
+let g:DoxygenToolkit_paramTag_pre="@Param " 
+let g:DoxygenToolkit_returnTag="@Returns   " 
+let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------" 
+let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------" 
+let g:DoxygenToolkit_authorName="Mathias Lorente" 
+let g:DoxygenToolkit_licenseTag="My own license"   <-- !!! Does not end with "\<enter>"
+
+安装细节：
+将DoxygenToolkit.vim拷贝至 '~/.vim/plugin' 目录。
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => unite 插件
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"unite.vim config
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#set_profile('files', 'smartcase', 1)
+
+let g:unite_data_directory='~/.vim/.cache/unite'
+let g:unite_enable_start_insert=1
+let g:unite_source_history_yank_enable=1
+let g:unite_source_rec_max_cache_files=5000
+
+if executable('ag')
+  let g:unite_source_grep_command='ag'
+  let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
+  let g:unite_source_grep_recursive_opt=''
+elseif executable('ack')
+  let g:unite_source_grep_command='ack'
+  let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
+  let g:unite_source_grep_recursive_opt=''
+endif
+
+function! s:unite_settings()
+  nmap <buffer> Q <plug>(unite_exit)
+  nmap <buffer> <esc> <plug>(unite_exit)
+  imap <buffer> <esc> <plug>(unite_exit)
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+endfunction
+autocmd FileType unite call s:unite_settings()
+
+nmap <space> [unite]
+nnoremap [unite] <nop>
+
+nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_mru file_rec/async buffer bookmark<cr><c-u>
+nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec/async<cr><c-u>
+nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
+nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
+nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<cr>
+nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
+nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Unite 插件
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+打開vim以後，進入command mode，有三種主要用法和說明：
+:Unite file
+「顯示出你呼叫這個檔案目錄下的所有檔案和資料夾」
+:Unite file_rec
+「顯示出你呼叫這個檔案目錄下的所有檔案和資料夾，還有所有底下的資料」
+:Unite buffer
+「顯示出目前暫存的所有檔案」
+buffer可以和其他兩個和用，ex.
+:Unite buffer file
+或是
+:Unite buffer file_rec
+注意每個檔案或是資料夾前面都有個「-」，如果你按空白鍵的話他會變成「*」，代表他被選取了
+那我們選取這幾個檔案要幹嘛呢？這時候在按「a」的話，就會顯示出一堆「actions」，代表可以對這些檔案做這些「actions」
+
+Unite是什么？
+
+Unite可以在一个项目中快速浏览文件。但是它不仅限于文件，其他任何可以列出的东西都可以很好的被显示和搜索。这个开放式的特性很可能是人们找到它的原因(原文：This open-ended nature is probably what people find confusing about it.)
+
+Unite不局限于搜索文件或者缓冲区--它可以很容易的处理文件和缓冲区，甚至更多。其他Vim插件的作者可以通过Unite提供的API扩展它，以用来支持其他数据源。
+
+用法
+
+Unite命令采用的格式为:Unite source，其中"source"是buffer，file和file_rec其中之一。
+
+buffer: 浏览当前打开的buffer列表
+file: 浏览当前目录的文件列表
+file_rec: 递归的列出当前目录的文件
+当一个命令被使用，一个新的水平分割窗口会被打开。比如，命令:Unite file将会显示当前目录的文件列表。在这个窗口中，标准的Vim命令模式下的命令可以使用--你可以使用“j”和“k”浏览该列表，可以使用“/”来查询。如果你在一个文件上按下enter键，Unite将会打开它。如果光标是在一个目录上，Unite将会进入该目录，并且更新该文件列表。
+
+模式
+
+如果你在Unite窗口进入插入模式，光标将会移到该窗口的最上方，并显示“>”提示符。输入字符会搜索该列表--这里和FuzzyFinder相似。和常规vim一样，按<ESC>键可以退出插入模式回到命令模式。
+
+命令模式和插入模式都有相应的快捷键映射。比如在命令模式下，当光标在一个文件上，按下a，Unite会显示一个可以操作该文件命令的列表。这个命令列表被称为actions，这个列表可以像Unite其他部分一样被搜索和调用。
+
+actions可以组合通配符。如果输入:Unite file, 然后按下*将会标记所有文件，再输入a将会列出所有actions，最后选择above，Unite将会打开所有被标记的文件。
+
+其他特性
+
+Unite也支持其他操作和浏览文件的方式，比如, :UniteBookmarkAdd会添加一个文件到书签列表中。书签通过:Unite bookmark来搜索和操作。
+
+Unite没有附带任何映射键，但是你可以很容易的添加。下面的设置会调用:Unite file 当按下“<Leader>f”：
+
+nnoremap f :Unite file    ==>  应该是 nnoremap <leader>f :Unite file
+如果你仅仅只是想让Unite的功能和ctrlp.vim或者FuzzyFinder相似，这样你可以通过下面的映射键来实现：
+
+nnoremap f :Unite -start-insert file    ==>  应该是  nnoremap <leader>f :Unite -start-insert file
+Unite可以使用选项参数，比如，“-start-insert”会引起Unite打开提示窗口，在该窗口输入将会引起Unite搜索文件。
+
+在VIM里，如果你不确定<Leader>是那个键，可以通过":help <Leader>"来查看。它一般是命名空间的快捷键，所以你应该输入“\f”来调用上面的例子。
+
+结论
+
+希望该篇文章说明白了Unite的主要特性，我觉得Unite是个非常有趣和常用的vim插件--它没有试着去模仿GUI IDEs，但是工作方式和vim保持一致。我不确定我是否喜欢命令模式和插入模式类似的使用方式，但是肯定会感觉到很自然在使用Unite一段时间后
+
+"ctrl f ctrl b 本来是翻页
+"空格选中 再a，进action
+"nnoremap <C-f> :Unite -start-insert file<CR>
+"nnoremap <C-b> :Unite buffer<CR>
+"nnoremap <Leader>ff :Unite file<CR>
+nnoremap <leader>f :Unite -start-insert file<CR>
+"unite.vim config
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#set_profile('files', 'smartcase', 1)
+
+"let g:unite_data_directory='~/.vim/.cache/unite'
+let g:unite_enable_start_insert=1
+let g:unite_source_history_yank_enable=1
+let g:unite_source_rec_max_cache_files=5000
+
+if executable('ag')
+  let g:unite_source_grep_command='ag'
+  let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
+  let g:unite_source_grep_recursive_opt=''
+elseif executable('ack')
+  let g:unite_source_grep_command='ack'
+  let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
+  let g:unite_source_grep_recursive_opt=''
+endif
+nnoremap <leader>f :Unite -start-insert file
+function! s:unite_settings()
+  nmap <buffer> Q <plug>(unite_exit)
+  nmap <buffer> <esc> <plug>(unite_exit)
+  imap <buffer> <esc> <plug>(unite_exit)
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+endfunction
+autocmd FileType unite call s:unite_settings()
+
+nmap <space> [unite]
+nnoremap [unite] <nop>
+
+nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_mru file_rec/async buffer bookmark<cr><c-u>
+nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec/async<cr><c-u>
+nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
+nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
+nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<cr>
+nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
+nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => submodule 地址
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -2428,6 +3446,8 @@ sudo git submodule add https://github.com/easymotion/vim-easymotion.git bundle/v
 sudo git submodule add https://github.com/fholgado/minibufexpl.vim.git bundle/minibufexpl.vim
 sudo git submodule add https://github.com/vim-scripts/YankRing.vim.git bundle/YankRing.vim
 sudo git submodule add https://github.com/vim-scripts/mru.vim.git bundle/mru.vim
+sudo git submodule add https://github.com/vim-scripts/DoxygenToolkit.vim.git bundle/DoxygenToolkit.vim
+sudo git submodule add https://github.com/Shougo/unite.vim.git bundle/unite.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

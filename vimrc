@@ -238,8 +238,8 @@ set tabstop=4
 set laststatus=2
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
-
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+set statusline=%h%w%r\ %f\ %m%=\ %B\ \|\ %{&ff}\ \|\ %{&fenc!=''?&fenc:&enc}\ \|\ %{&ft!=''?&ft:'none'}\ \|\ %{&tabstop}\ %8(%l,%v%)\ %10(%p%%,%P%)
 " status line {
 "set laststatus=2
 "set statusline=\ %{HasPaste()}%<%-15.25(%f%)%m%r%h\ %w\ \ 
@@ -267,7 +267,7 @@ function! CurDir()
     let curdir = substitute(getcwd(), $HOME, "~", "g")
     return curdir
 endfunction
-set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \|\ ascii=%b,hex=%b%{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\ \|\ %{$USER}\ @\ %{hostname()}\ 
+"set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \|\ ascii=%b,hex=%b%{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\ \|\ %{$USER}\ @\ %{hostname()}\ 
 
 function! AutoLoadCTagsAndCScope()
     let max = 10
@@ -387,12 +387,12 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
     \ }
 let g:ctrlp_follow_symlinks=1
 let g:ctrlp_match_window_bottom=1
-let g:ctrlp_max_height=15
+let g:ctrlp_max_height=10
 let g:ctrlp_match_window_reversed=0
 let g:ctrlp_mruf_max=500
 let g:ctrlp_match_window_reversed=0
 let g:ctrlp_mruf_max=500
-let g:ctrlp_max_height = 20
+let g:ctrlp_max_height = 10
 
 "let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee|^\.svn-base|^\.swp'
 
@@ -878,11 +878,33 @@ let NERDSpaceDelims=1       " 让注释符与语句之间留一个空格
 let NERDCompactSexyComs=1   " 多行注释时样子更好看
 
 "===================================================================================================
-"===================================================================================================
+"=====================================multi_cursor_next==============================================================
 let g:multi_cursor_next_key="\<C-s>"
 
 "===================================================================================================
 "===================================================================================================
+"ctrl f ctrl b 本来是翻页
+"空格选中 再a，进action
+"nnoremap <C-f> :Unite -start-insert file<CR>
+"nnoremap <C-b> :Unite buffer<CR>
+"nnoremap <Leader>ff :Unite file<CR>
+"let g:unite_data_directory='~/.vim/.cache/unite'
+"nnoremap <leader>f :Unite -start-insert file<CR>
+let g:unite_enable_start_insert=1
+let g:unite_source_history_yank_enable=1
+let g:unite_source_rec_max_cache_files=5000
+if executable('ag')
+  let g:unite_source_grep_command='ag'
+  let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
+  let g:unite_source_grep_recursive_opt=''
+elseif executable('ack')
+  let g:unite_source_grep_command='ack'
+  let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
+  let g:unite_source_grep_recursive_opt=''
+endif
+nnoremap <leader>f :Unite -start-insert file<CR>
+nmap <buffer> Q <plug>(unite_exit)
+
 
 
 "==============================================================================================================================================
