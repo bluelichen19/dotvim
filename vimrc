@@ -495,7 +495,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
+let g:syntastic_ignore_files=[".*\.py$"]
 let g:syntastic_check_on_open = 1
 let g:syntastic_cpp_include_dirs = ['/usr/include/']
 let g:syntastic_cpp_remove_include_errors = 1
@@ -507,7 +507,7 @@ let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
 "whether to show balloons
 let g:syntastic_enable_balloons = 1
-"==================================================================================================
+"==================================================================================================mouse
 "=========================================gundo====================================================
 let g:gundo_prefer_python3 = 1
 nnoremap <F5> :GundoToggle<CR>
@@ -622,7 +622,7 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 "===================================================================================================
 "=========================================AG========================================================
-let g:ag_prg="ag --vimgrep --smart-case  --ignore tags --ignore *.o"
+let g:ag_prg="ag --vimgrep --smart-case  --ignore tags"
 let g:ag_highlight=1
 let g:ag_format="%f:%l:%m"
 map <leader>ag :Ag<cr>
