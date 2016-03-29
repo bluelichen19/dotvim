@@ -43,7 +43,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sets how many lines of history VIM has to remember
 set history=700
-
+set nocompatible              " be iMproved, required
 " Enable filetype plugins
 filetype plugin on
 filetype indent on
@@ -79,8 +79,8 @@ set ruler
 set hid
 
 " Configure backspace so it acts as it should act
-"set backspace=eol,start,indent
-"set whichwrap+=<,>,h,l
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
 
 " Ignore case when searching
 set ignorecase
@@ -92,7 +92,7 @@ set smartcase
 set hlsearch
 
 " Makes search act like search in modern browsers
-set incsearch
+"set incsearch
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
@@ -124,7 +124,40 @@ source $VIMRUNTIME/menu.vim
 "设置文件编码  
 ""set fileencodings=utf-8,cp936,chinese,latin-1,ucs-bom,gb18030,big5,euc-jp,euc-kr,latin1,gbk,gb2321  
 set fileencodings=ucs-bom,chinese,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1  
+set nocompatible
+set number
+" 总是显示状态栏
+set laststatus=2
+" 显示光标当前位置
+set ruler
+" 开启行号显示
+set number
+" 高亮显示当前行/列
+set cursorline
+set cursorcolumn
+" 高亮显示搜索结果
+set hlsearch
+" When searching try to be smart about cases 大小写不敏感
+set smartcase
+" Makes search act like search in modern browsers 输入时就开始找
+set incsearch 
+"incsearch(is) 
+"使用鼠标
+set mouse=a
+"去掉输入错误的提示声音
+set noeb
+"ctags -R --c++-kinds=+p --fields=+iaS --extra=+q src
+map <c-F12> :!CTags -R --c++-kinds=+p --fields=+iaSl --extra=+q .<CR><CR>
+map <C-F12> :!ctags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++
 
+"中文帮助和中文菜单
+"if version >= 603
+set helplang=cn
+"set encoding=utf-8
+"endif
+"set encoding=utf-8
+"set termencoding=utf-8
+"set fileencodings=utf-8
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -183,6 +216,7 @@ set ffs=unix,dos,mac
 set nobackup
 "set nowb
 set noswapfile
+set nowritebackup
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -267,7 +301,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 
 "========================================================================================================
 "Vundle.vim插件管理配置
-set nocompatible              " be iMproved, required
+"set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
@@ -507,7 +541,8 @@ let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
 "whether to show balloons
 let g:syntastic_enable_balloons = 1
-"==================================================================================================mouse
+let g:syntastic_shell = "/bin/zsh"
+"==================================================================================================
 "=========================================gundo====================================================
 let g:gundo_prefer_python3 = 1
 nnoremap <F5> :GundoToggle<CR>
@@ -553,6 +588,8 @@ let g:ycm_seed_identifiers_with_syntax=1
 let g:ycm_complete_in_comments = 1
 "在字符串输入中也能补全
 let g:ycm_complete_in_strings = 1
+"静态检查
+let g:ycm_show_diagnostics_ui = 0
 
 let g:ycm_use_ultisnips_completer = 1
 " 设置在下面几种格式的文件上屏蔽ycm
@@ -625,7 +662,7 @@ nmap ga <Plug>(EasyAlign)
 let g:ag_prg="ag --vimgrep --smart-case  --ignore tags"
 let g:ag_highlight=1
 let g:ag_format="%f:%l:%m"
-map <leader>ag :Ag<cr>
+map <leader>ag :Ag!<cr>
 "===================================================================================================
 "=========================================BufferLine================================================
 "" 开启tabline
@@ -653,24 +690,26 @@ map <leader>ag :Ag<cr>
 "===================================================================================================
 "==============================================vimshell=====================================================
 "let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-"let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 "used VimShellPop open windows
-    "let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+"    "let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
     
-    if has('win32') || has('win64')
-      " Display user name on Windows.
-      let g:vimshell_prompt = $USERNAME."% "
-    else
-      " Display user name on Linux.
-      let g:vimshell_prompt = $USER."% "
-    endif
+"    if has('win32') || has('win64')
+"      " Display user name on Windows.
+"      let g:vimshell_prompt = $USERNAME."% "
+"    else
+"      " Display user name on Linux.
+"      let g:vimshell_prompt = $USER."% "
+"    endif
 let g:vimshell_environment_term = 'zsh'
 let g:vimshell_scrollback_limit = 100000
-"let g:vimshell_prompt = '% '
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~") . " " .' .
-\                            'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+let g:vimshell_prompt = '% '
+"let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~") . " " .' .
+"\                            'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
 let g:vimshell_ignore_case = 1
 let g:vimshell_smart_case = 1
+map <Leader>vs :VimShellPop<CR>
+"map <Leader>vs :VimShell -split<CR>
+"map <Leader>vsc :VimShellClose<CR>
 "===================================================================================================
 "==============================================vim-indent-guides=============================================
 " 随 vim 自启动
@@ -745,7 +784,7 @@ nmap <Leader>sch :AS<CR>
 "=======================================DfrankUtil.git============================================================
 "sudo git submodule add https://github.com/vim-scripts/DfrankUtil.git bundle/DfrankUtil.vim
 "===================================================================================================
-"==========================================ndexer=========================================================
+"==========================================indexer=========================================================
 "sudo git submodule add https://github.com/vim-scripts/indexer.tar.gz.git bundle/indexer.vim
 let g:indexer_ctagsCommandLineOptions="--c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
 "===================================================================================================
