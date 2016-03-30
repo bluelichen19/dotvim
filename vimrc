@@ -158,6 +158,13 @@ set helplang=cn
 "set encoding=utf-8
 "set termencoding=utf-8
 "set fileencodings=utf-8
+
+"操作：za，打开或关闭当前折叠；zM，关闭所有折叠；zR，打开所有折叠。
+"基于缩进或语法进行代码折叠
+""set foldmethod=indent
+set foldmethod=syntax
+"启动 vim 时关闭折叠代码
+set nofoldenable
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -170,6 +177,7 @@ if has('gui_running')
 
     ""set background=light
     set background=dark
+    "let g:solarized_termcolors = 256  " +New line!!
     colorscheme solarized
     "全屏 "如果底部有黑边
     "{
