@@ -31,8 +31,9 @@ export HISTFILE=~/.zhistory
 # # append command to history file once executed
 setopt INC_APPEND_HISTORY
 #mvim start
-alias vm="mvim "
-alias v="mvim -v "
+alias vm="mvim -f"
+alias v="mvim -v"
+alias tmux='tmux -2'
 #alias v="vim -v "
 #alias vm="mvim -f "
 #alias vim='VIM --servername VIM'
@@ -79,9 +80,9 @@ alias v="mvim -v "
 #        | sed 's/ /\n/g' | sed '/^$/d' | sort | uniq -c | sort -nr | head -n 50
 #}
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-export VIM="/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/Resources/vim:/usr/local/Cellar/macvim/HEAD:$VIM"
+#export VIM="/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/Resources/vim:/usr/local/Cellar/macvim/HEAD:$VIM"
 #export VIM="/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/Resources/vim:$VIM"
-export PATH="/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/eclipse/Eclipse.app/Contents/MacOS:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:usr/local/bin:usr/local/sbin:/Users/zhenghaishu/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/zhenghaishu/work/develop/android_ndk/android-ndk-r9d"
+#export PATH="/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/eclipse/Eclipse.app/Contents/MacOS:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:usr/local/bin:usr/local/sbin:/Users/zhenghaishu/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/zhenghaishu/work/develop/android_ndk/android-ndk-r9d"
 # export MANPATH="/usr/local/man:$MANPATH"
 #/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/Resources/vim
 #function postCallVim
@@ -139,8 +140,8 @@ plugins=(git sudo)
 #plugins=(vim-interaction)
 
 # User configuration
-
-export PATH="/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/eclipse/Eclipse.app/Contents/MacOS:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:usr/local/bin:usr/local/sbin:/Users/zhenghaishu/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/zhenghaishu/work/develop/android_ndk/android-ndk-r9d"
+#export PATH="/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools"
+#export PATH="/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/eclipse/Eclipse.app/Contents/MacOS:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:usr/local/bin:usr/local/sbin:/Users/zhenghaishu/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/zhenghaishu/work/develop/android_ndk/android-ndk-r9d"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh

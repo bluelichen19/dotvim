@@ -44,7 +44,7 @@
 "    -> Syntastic 插件
 "    -> DoxygenToolkit 插件
 "    -> unite 插件
-"    ->
+"    -> Airline 插件
 "    ->
 "    ->
 "    -> submodule 地址 
@@ -3427,9 +3427,17 @@ nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mappin
 nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Airline 插件
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+":set guifont=*  调出字体设置
+":set guifont    显示当前字体
+"设置时，注意下划线代替空格，或者用\（转义字符）代替空格  =（等号）后面不能有空格
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => submodule 地址
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-sudo git  submodule add https://github.com/vim-scripts/bufexplorer.zip.git bundle/bufexplorer
+sudo git submodule add https://github.com/vim-airline/vim-airline-themes.git bundle/vim-airline-themes
+sudo git submodule add https://github.com/vim-scripts/bufexplorer.zip.git bundle/bufexplorer
 sudo git submodule add https://github.com/vim-scripts/mru.vim.git bundle/mru.vim
 sudo git submodule add -f  https://github.com/Shougo/vimshell.vim.git bundle/vimshell.vim
 sudo git submodule add -f  https://github.com/Shougo/vimproc.vim.git bundle/vimproc.vim
@@ -3448,6 +3456,9 @@ sudo git submodule add https://github.com/vim-scripts/YankRing.vim.git bundle/Ya
 sudo git submodule add https://github.com/vim-scripts/mru.vim.git bundle/mru.vim
 sudo git submodule add https://github.com/vim-scripts/DoxygenToolkit.vim.git bundle/DoxygenToolkit.vim
 sudo git submodule add https://github.com/Shougo/unite.vim.git bundle/unite.vim
+sudo git submodule add https://github.com/mbbill/undotree.git bundle/undotree.vim
+sudo git submodule add https://github.com/mhinz/vim-signify.git bundle/vim-signify.vim
+sudo git submodule add https://github.com/vim-ctrlspace/vim-ctrlspace.git bundle/vim-ctrlspace.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => tmux命令

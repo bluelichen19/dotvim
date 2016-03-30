@@ -523,11 +523,54 @@ let NERDTreeAutoDeleteBuffer=1
 set encoding=utf-8
 "set fillchars+=stl:\ ,stlnc:\
 "set laststatus=2
-"set -g default-terminal "screen-256color"
 set guifont=Meslo_LG_M_DZ_Regular_for_Powerline:h11
 let g:airline_powerline_fonts = 1
 "let g:Powerline_symbols="fancy"
+set encoding=utf-8
+"set ttimeoutlen=50
+set laststatus=2
+"set t_Co=256
+"打开tabline
+"let g:airline#extensions#tabline#enabled = 1
+set guifont=Meslo_LG_M_DZ_Regular_for_Powerline:h11
+let g:airline_powerline_fonts = 1
+"let g:airline_theme='solarized dark'
+"以下会导致黑屏一下
+"if has('gui_running')
+"  let g:airline_theme='solarized dark'
+"else
+"  let g:airline_theme='molokai'
+"endif
+
+let g:CtrlSpaceStatuslineFunction = "airline#extensions#ctrlspace#statusline()"
+
 "==================================================================================================
+
+"=========================================BufferLine================================================
+"" 开启tabline
+let g:airline#extensions#bufferline#enabled = 1
+
+
+"let g:airline#extensions#tabline#enabled = 1
+"" tabline中当前buffer两端的分隔符
+"let g:airline#extensions#tabline#left_sep = ' '
+"" tabline为激活的buffer的两端字符
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+"" tabline中buffer显示编号
+"let g:airline#extensions#tabline#buffer_nr_show = 1
+"let g:airline#extensions#buffline#enabled = 1
+"let g:airline#extensions#bufferline#overwrite_variables = 1
+
+" enable tabline
+"let g:airline#extensions#tabline#enabled = 1
+" set left separator
+"let g:airline#extensions#tabline#left_sep = ' '
+" set left separator which are not editting
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+" show buffer number
+"let g:airline#extensions#tabline#buffer_nr_show = 1
+"===================================================================================================
+
 "=========================================Syntastic================================================
 ""
 set statusline+=%#warningmsg#
@@ -550,8 +593,10 @@ let g:syntastic_warning_symbol = '⚠'
 "whether to show balloons
 let g:syntastic_enable_balloons = 1
 let g:syntastic_shell = "/bin/zsh"
+
 "==================================================================================================
 "=========================================gundo====================================================
+let g:gundo_disable = 1
 let g:gundo_prefer_python3 = 1
 nnoremap <F5> :GundoToggle<CR>
 "let g:gundo_width = 60
@@ -566,7 +611,14 @@ nnoremap <F5> :GundoToggle<CR>
     catch
     endtry
 "}
+
 "==================================================================================================
+"=========================================gundo====================================================
+if has("persistent_undo")
+    set undodir=~/.undodir/
+    set undofile
+endif
+nnoremap <F5> :UndotreeToggle<cr>
 "==========================================YCM========================================================
 let g:ycm_confirm_extra_conf = 1
 "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
@@ -672,27 +724,7 @@ let g:ag_highlight=1
 let g:ag_format="%f:%l:%m"
 map <leader>ag :Ag!<cr>
 "===================================================================================================
-"=========================================BufferLine================================================
-"" 开启tabline
-"let g:airline#extensions#tabline#enabled = 1
-"" tabline中当前buffer两端的分隔符
-"let g:airline#extensions#tabline#left_sep = ' '
-"" tabline为激活的buffer的两端字符
-"let g:airline#extensions#tabline#left_alt_sep = '|'
-"" tabline中buffer显示编号
-"let g:airline#extensions#tabline#buffer_nr_show = 1
-"let g:airline#extensions#buffline#enabled = 1
-"let g:airline#extensions#bufferline#overwrite_variables = 1
 
-" enable tabline
-"let g:airline#extensions#tabline#enabled = 1
-" set left separator
-"let g:airline#extensions#tabline#left_sep = ' '
-" set left separator which are not editting
-"let g:airline#extensions#tabline#left_alt_sep = '|'
-" show buffer number
-"let g:airline#extensions#tabline#buffer_nr_show = 1
-"===================================================================================================
 "============================================vimproc=======================================================
 
 "===================================================================================================
@@ -890,7 +922,7 @@ let NERDCompactSexyComs=1   " 多行注释时样子更好看
 let g:multi_cursor_next_key="\<C-s>"
 
 "===================================================================================================
-"===================================================================================================
+"==================================Unite=================================================================
 "ctrl f ctrl b 本来是翻页
 "空格选中 再a，进action
 "nnoremap <C-f> :Unite -start-insert file<CR>
@@ -913,11 +945,48 @@ endif
 nnoremap <leader>f :Unite -start-insert file<CR>
 nmap <buffer> Q <plug>(unite_exit)
 
+"===================================================================================================
+"==================================signify=================================================================
+let g:signify_vcs_list              = [ 'git', 'hg' ,'svn']
+let g:signify_cursorhold_insert     = 1
+let g:signify_cursorhold_normal     = 1
+let g:signify_update_on_bufenter    = 0
+let g:signify_update_on_focusgained = 1
+nnoremap <leader>gt SignifyToggle
+nnoremap <leader>gh SignifyToggleHighlight
+nnoremap <leader>gr SignifyRefresh
+nnoremap <leader>gd SignifyDebug
 
 
 "==============================================================================================================================================
+"==================================CtrlSpace=================================================================
+if has("gui_running")
+    " Settings for MacVim and Inconsolata font
+    let g:CtrlSpaceSymbols = { "File": "◯", "CTab": "▣", "Tabs": "▢" }
+endif
+if executable("ag")
+    let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+endif
+let g:CtrlSpaceSearchTiming = 500
+let g:airline_exclude_preview = 1
+let g:CtrlSpaceUseMouseAndArrowsInTerm = 0
+let g:CtrlSpaceUseTabline = 0
+let g:CtrlSpaceDefaultMappingKey = "<C-F1>"
+"let g:CtrlSpaceDefaultMappingKey = "<C-Space>"
 
+"==============================================================================================================================================
+"==================================CtrlSpace=================================================================
+"let g:DoxygenToolkit_briefTag_pre="@Synopsis  " 
+"let g:DoxygenToolkit_paramTag_pre="@Param " 
+"let g:DoxygenToolkit_returnTag="@Returns   " 
+"let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------" 
+"let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------" 
+"let g:DoxygenToolkit_authorName="BLUE" 
+"let g:DoxygenToolkit_licenseTag="1.0.1"   "<-- !!! Does not end with "\<enter>"
 
+map <Leader>dl :DoxLic<CR>
+map <Leader>da :DoxAuthor<CR>
+map <Leader>dx :Dox<CR>
 
 
 
