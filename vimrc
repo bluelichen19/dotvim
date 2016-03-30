@@ -613,12 +613,12 @@ nnoremap <F6> :GundoToggle<CR>
 "}
 
 "==================================================================================================
-"=========================================gundo====================================================
+"=========================================Undotree====================================================
 if has("persistent_undo")
     set undodir=~/.undodir/
     set undofile
 endif
-nnoremap <F5> :UndotreeToggle<cr>
+nnoremap <F6> :UndotreeToggle<cr>
 "==========================================YCM========================================================
 let g:ycm_confirm_extra_conf = 1
 "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
@@ -951,7 +951,7 @@ let g:CtrlSpaceDefaultMappingKey = "<C-F1>"
 "let g:CtrlSpaceDefaultMappingKey = "<C-Space>"
 
 "==============================================================================================================================================
-"==================================CtrlSpace=================================================================
+"==================================DoxygenToolkit=================================================================
 "let g:DoxygenToolkit_briefTag_pre="@Synopsis  " 
 "let g:DoxygenToolkit_paramTag_pre="@Param " 
 "let g:DoxygenToolkit_returnTag="@Returns   " 

@@ -3476,11 +3476,37 @@ sudo git submodule add https://github.com/vim-scripts/BOOKMARKS--Mark-and-Highli
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => tmux命令
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+如果tmux启动直接显示exit
+解决办法：
+I had this same problem. It was caused by having set-option -g default-command "reattach-to-user-namespace -l zsh" in my .tmux.conf without having reattach-to-user-namespace installed.
+
+The fix was to install "reattach-to-user-namespace" via Homebrew (brew install reattach-to-user-namespace)
+是说config里配置了reattach....但是没有安装reattach，安装就可以了
+如果显示mousexx option 有问题
+http://www.davidverhasselt.com/enable-mouse-support-in-tmux-on-os-x/ 这个网站有介绍
+基本是先改配置文件
+set -g mouse-utf8 on
+set -g mouse on
+bind -n WheelUpPane   select-pane -t= \; copy-mode -e \; send-keys -M
+bind -n WheelDownPane select-pane -t= \;                 send-keys -M
+#setw -g mode-mouse on
+#set -g mouse-select-pane on
+#set -g mouse-resize-pane on
+#set -g mouse-select-window on
+改成上面，然后
+brew cask install easysimbl 装这个
+接着下载这个并且安装
+ Download .dmg file here: https://bitheap.org/mouseterm/
+
 
 tmux
 查看已有session
 
 tmux ls
+
+关闭session
+mux kill-session -t
+
 进入tmux后
 
 默认快捷键前缀为Ctrl+b，可以通过配置文件来修改
