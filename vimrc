@@ -598,7 +598,7 @@ let g:syntastic_shell = "/bin/zsh"
 "=========================================gundo====================================================
 let g:gundo_disable = 1
 let g:gundo_prefer_python3 = 1
-nnoremap <F5> :GundoToggle<CR>
+nnoremap <F6> :GundoToggle<CR>
 "let g:gundo_width = 60
 "let g:gundo_preview_height = 40
 "let g:gundo_right = 1
@@ -793,30 +793,6 @@ nmap <Leader>ch :A<CR>
 nmap <Leader>sch :AS<CR>
 "这样，键入 ;ch 就能在实现文件和接口文件间切换，键入 ;sch 子窗口中将显示实现文件/接口文件。
 "===================================================================================================
-"============================================signature.vim=======================================================
-"let g:SignatureMap = {
-        \ 'Leader'             :  "m",
-        \ 'PlaceNextMark'      :  "m,",
-        \ 'ToggleMarkAtLine'   :  "m.",
-        \ 'PurgeMarksAtLine'   :  "m-",
-        \ 'DeleteMark'         :  "dm",
-        \ 'PurgeMarks'         :  "mda",
-        \ 'PurgeMarkers'       :  "m<BS>",
-        \ 'GotoNextLineAlpha'  :  "']",
-        \ 'GotoPrevLineAlpha'  :  "'[",
-        \ 'GotoNextSpotAlpha'  :  "`]",
-        \ 'GotoPrevSpotAlpha'  :  "`[",
-        \ 'GotoNextLineByPos'  :  "]'",
-        \ 'GotoPrevLineByPos'  :  "['",
-        \ 'GotoNextSpotByPos'  :  "mn",
-        \ 'GotoPrevSpotByPos'  :  "mp",
-        \ 'GotoNextMarker'     :  "[+",
-        \ 'GotoPrevMarker'     :  "[-",
-        \ 'GotoNextMarkerAny'  :  "]=",
-        \ 'GotoPrevMarkerAny'  :  "[=",
-        \ 'ListLocalMarks'     :  "ms",
-        \ 'ListLocalMarkers'   :  "m?"
-        \ }
 "===================================================================================================
 "=======================================vimprj.vim============================================================
 "git submodule add https://github.com/vim-scripts/vimprj.git bundle/vimprj.vim

@@ -67,9 +67,6 @@
 [submodule "bundle/a.vim"]
 	path = bundle/a.vim
 	url = https://github.com/vim-scripts/a.vim.git
-[submodule "bundle/signature.vim"]
-	path = bundle/signature.vim
-	url = https://github.com/kshenoy/vim-signature.git
 [submodule "bundle/vimprj.vim"]
 	path = bundle/vimprj.vim
 	url = https://github.com/vim-scripts/vimprj.git
@@ -151,3 +148,6 @@
 [submodule "bundle/vim-airline-themes"]
 	path = bundle/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes.git
+[submodule "bundle/Mark-and-Highlight.vim"]
+	path = bundle/Mark-and-Highlight.vim
+	url = https://github.com/vim-scripts/BOOKMARKS--Mark-and-Highlight-Full-Lines.git

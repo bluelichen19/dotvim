@@ -3434,6 +3434,18 @@ nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
 "设置时，注意下划线代替空格，或者用\（转义字符）代替空格  =（等号）后面不能有空格
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Mark 插件
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+USAGE:
+<F1>            Turn on/update highlighting for all lines with markers
+<F2>            Turn off highlighting for lines with markers
+<SHIFT-F2> Erase all markers [a-z]
+<F5>             Add a mark on the current line (and highlight)
+<SHIFT-F5> Remove the mark on the current line
+
+Then, just jump from one mark to the next using the classic [' and ]' jumps
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => submodule 地址
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 sudo git submodule add https://github.com/vim-airline/vim-airline-themes.git bundle/vim-airline-themes
@@ -3459,6 +3471,7 @@ sudo git submodule add https://github.com/Shougo/unite.vim.git bundle/unite.vim
 sudo git submodule add https://github.com/mbbill/undotree.git bundle/undotree.vim
 sudo git submodule add https://github.com/mhinz/vim-signify.git bundle/vim-signify.vim
 sudo git submodule add https://github.com/vim-ctrlspace/vim-ctrlspace.git bundle/vim-ctrlspace.vim
+sudo git submodule add https://github.com/vim-scripts/BOOKMARKS--Mark-and-Highlight-Full-Lines.git bundle/Mark-and-Highlight.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => tmux命令
