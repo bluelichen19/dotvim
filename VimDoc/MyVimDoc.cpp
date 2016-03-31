@@ -45,8 +45,8 @@
 "    -> DoxygenToolkit 插件
 "    -> unite 插件
 "    -> Airline 插件
-"    ->
-"    ->
+"    -> mark 插件 
+"    -> vim-indent-guides 插件
 "    -> submodule 地址 
 "    -> tmux 命令 
 "    ->  
@@ -135,6 +135,148 @@
 ":imap :inoremap :iunmap :imapclear
 ":cmap :cnoremap :cunmap :cmapclear
 
+自己边学习边记录的，可能对大家有帮助 
+
+有五种映射存在 
+- 用于普通模式: 输入命令时。 
+- 用于可视模式: 可视区域高亮并输入命令时。 
+- 用于操作符等待模式: 操作符等待中 ("d"，"y"，"c" 等等之后)。 
+见下: |omap-info|。 
+- 用于插入模式: 也用于替换模式。 
+• 用于命令行模式: 输入 ":" 或 "/" 命令时。 
+
+下表是map绑定中，对应的模式代号。现在先了解一下，等看完之后再回过头看这个模式代号就会明白了。 
+字 符 模 式 ~ 
+<Space> 普通、可视、选择和操作符等待 
+n 普通 
+v 可视和选择 
+s 选择 
+x 可视 
+o 操作符等待 
+! 插入和命令行 
+i 插入 
+l 插入、命令行和 Lang-Arg 模式的 ":lmap" 映射 
+c 命令行 
+
+
+我主要讲解一下“n(普通模式)”下的两个绑定命令，等看完之后就对应的明白别的模式下的命令了。 
+适用于普通模式的映射命令主要有： 
+1. :map 
+[语法] :map {lhs} {rhs} |mapmode-nvo| *:map* 
+1.1 作用模式： n、v、o （普通、可视和选择、操作符等待） 
+1.2 命令格式： 
+:map {lhs} {rhs} 
+含义： 在:map作用的模式中把键系列 {lhs} 映射为 {rhs}，{rhs}可进行映射扫描，也就是可递归映射。 
+1.3 举例： 
+:map td :tabnew .<cr> 
+含义：在其作用模式（普通、可视、操作符）下，输入td等价于输入 :tabnew . <cr>。而普通模式下输入:tabnew . <cr>就是打开当前目录 
+如果再定义绑定 :map ts td，就是指在其作用模式下输入ts等价于td，也就是打开当前目录。不过如果没有特殊需要，一般不建议递归映射。 
+
+2. :noremap 
+:moremap和:map命令相对，作用模式和命令格式都相同，只不过不允许再对{rhs}进行映射扫描，也就是{lhs}定义后的映射就是{rhs}的键序列，不会再对{rhs}键序列重新解释扫描。它一般用于重定义一个命令，当然如果:map不需要递归映射的话，建议试用:noremap 
+比如： 
+:noremap ts td 
+它的意思是在其作用模式下，输入ts就是输入td，但是和:map不同的是，此时td再不会做进一步扫描解释。虽然之前已经定义了td，但是不会对td再做扫描 
+
+3. :unmap 
+:unmap是对应取消:map绑定的｛lhs｝，作用模式相同，命令格式 :unmap {lhs}。 
+例如： 
+:unmap td 
+就是取消在其作用模式中td的绑定，比如之前td被绑定为:tabnew .<cr>，此时此绑定消失。
+4. :mapclear 
+:mapclear时对应取消所有:map绑定的，慎用！ 
+
+5. :nmap 
+:nmap是:map的普通模式板，也就是说其绑定的键只作用于普通模式。 
+例如： 
+:nmap td :tabnew .<cr> 和 :map td :tabnew .<cr> 在普通模式下等效 
+6. :nnoremap 
+:nnorempa和:nmap的关系和:noremap和:map的关系一样，只是:nmap的非递归版 
+7. :nunmap 
+:nunmap和:nmap的关系和:unmap和:map的关系一样，取消:nmap的绑定。 
+8. :nmapclear 
+:nmapclear是对应取消所有:map绑定的，慎用！ 
+
+看完以上，应该可以发现一个规律，前4个是一组，后4个时一组，后一组比前一组多一个n就是指只作用于普通模式。其中每组内*nore*是其对应的非递归版、*un*是取消绑定某个<lhs>绑定、clear后缀是取消所有绑定。发现了这个规律，再翻到前面的模式代号表，你大体可以猜到vmap、xmap、smap、omap是什么意思了吧，以及相对应的nore版本、un版本、clear版本。 
+
+另外： 
+{rhs} 之前可能显示一个特殊字符: 
+* 表示它不可重映射 
+& 表示仅脚本的局部映射可以被重映射 
+@ 表示缓冲区的局部映射 
+
+到这一步你可以轻松的长吸一口气，因为相关的命令已经都了解了，记不住没关系，可以随时:help map一下。不过别急，后面还有map更多的选项等着去攻克。 
+
+键表 |key-notation| 
+<k0> - <k9> 小键盘 0 到 9 *keypad-0* *keypad-9* 
+<S-...> Shift＋键 *shift* *<S-* 
+<C-...> Control＋键 *control* *ctrl* *<C-* 
+<M-...> Alt＋键 或 meta＋键 *meta* *alt* *<M-* 
+<A-...> 同 <m-...> *<A-* 
+<t_xx> termcap 里的 "xx" 入口键 
+
+特殊参数： 
+1. <buffer> 
+2. <silent> 
+3. <special> 
+4. <script> 
+5. <expr> 
+6. <unique> 
+它们必须映射命令的后边，在其他任何参数的前面。 
+
+<buffer>如果这些映射命令的第一个参数是<buffer>，映射将只局限于当前缓冲区（也就是你此时正编辑的文件）内。比如： 
+:map <buffer> ,w /a<CR> 
+它的意思时在当前缓冲区里定义键绑定，“,w”将在当前缓冲区里查找字符a。同样你可以在其他缓冲区里定义： 
+:map <buffer> ,w /b<CR> 
+比如我经常打开多个标签(:tabedit)，想要在各自标签里定义",w"键绑定，那么你只要在每个标签页里分别定义就可，其作用域也只在各自的标签里。同样要清除这些缓冲区的键绑定也要加上<buffer>参数，比如： 
+:unmap <buffer> ,w 
+:mapclear <buffer> 
+
+<silent>是指执行键绑定时不在命令行上回显，比如： 
+:map <silent> ,w /abcd<CR> 
+你在输入,w查找abcd时，命令行上不会显示/abcd，如果没有<silent>参数就会显示出来 
+
+<special>一般用于定义特殊键怕有副作用的场合。比如： 
+:map <special> <F12> /Header<CR> 
+
+<unique>一般用于定义新的键映射或者缩写命令的同时检查是否该键已经被映射，如果该映射或者缩写已经存在，则该命令会失败 
+
+<expr>. 如果定义新映射的第一个参数是<expr>，那么参数会作为表达式来进行计算，结果使用实际使用的<rhs>，例如： 
+:inoremap <expr> . InsertDot() 
+这可以用来检查光标之前的文本并在一定条件下启动全能 (omni) 补全。 
+一个例子： 
+let counter = 0 
+inoremap <expr> <C-L> ListItem() 
+inoremap <expr> <C-R> ListReset() 
+
+func ListItem() 
+let g:counter += 1 
+return g:counter . '. ' 
+endfunc 
+
+func ListReset() 
+let g:counter = 0 
+return '' 
+endfunc 
+在插入模式下，CTRL-L插入顺序的列表编号，并返回；CTRL-R复位列表编号到0，并返回空。 
+
+
+<Leader>	mapleader 
+mapleader变量对所有map映射命令起效，它的作用是将参数<leader>替换成mapleader变量的值，比如： 
+:map <Leader>A oanother line<Esc> 
+如果mapleader变量没有设置，则用默认的反斜杠代替，因此这个映射等效于： 
+:map \A oanother line<Esc> 
+意思时输入\A键时，在下一行输入another line并返回到普通模式。 
+如果设置了mapleader变量，比如： 
+let mapleader = "," 
+那么就等效于： 
+:map ,A oanother line<Esc> 
+
+<LocalLeader>	maplocalleader 
+<LocalLeader>和<Leader>类似，只不过它只作用于缓冲区。 
+因此在设置mapleader和maplocalleader时最好区分开，不要出现冲突。 
+
+大体上映射的主要部分已经都提到了，还有很多具体的映射相关的内容可以参见:help map
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim控制台命令
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -2944,7 +3086,105 @@ v<
 "nnoremap gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "nmap <F4> :YcmDiags<CR>
 "能得到： * >>表示行有错误 * >*表示行有警告 * gl gf gg就是找代码定义声明 * f4是打开编译窗口(fn+F4)
-"让配色cool一点
+"让配色cool一点YCM
+
+
+底下另一种配置
+set completeopt=longest,menu	"让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif	"离开插入模式后自动关闭预览窗口
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"	"回车即选中当前项
+"上下左右键的行为 会显示其他信息
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+" 跳转到定义处
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <F6> :YcmForceCompileAndDiagnostics<CR>	"force recomile with syntastic
+" nnoremap <leader>lo :lopen<CR>	"open locationlist
+" nnoremap <leader>lc :lclose<CR>	"close locationlist
+inoremap <leader><leader> <C-x><C-o>
+
+let g:ycm_global_ycm_extra_conf = '~/.vim/data/ycm/.ycm_extra_conf.py'
+" 不显示开启vim时检查ycm_extra_conf文件的信息  
+let g:ycm_confirm_extra_conf=0
+" 开启基于tag的补全，可以在这之后添加需要的标签路径  
+let g:ycm_collect_identifiers_from_tags_files=1
+"注释和字符串中的文字也会被收入补全
+let g:ycm_collect_identifiers_from_comments_and_strings = 0
+" 输入第2个字符开始补全
+let g:ycm_min_num_of_chars_for_completion=2
+" 禁止缓存匹配项,每次都重新生成匹配项
+let g:ycm_cache_omnifunc=0
+" 开启语义补全
+let g:ycm_seed_identifiers_with_syntax=1	
+"在注释输入中也能补全
+let g:ycm_complete_in_comments = 1
+"在字符串输入中也能补全
+let g:ycm_complete_in_strings = 1
+" 设置在下面几种格式的文件上屏蔽ycm
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'nerdtree' : 1,
+      \}
+"youcompleteme  默认tab  s-tab 和 ultisnips 冲突
+let g:ycm_key_list_select_completion = ['<Down>']
+let g:ycm_key_list_previous_completion = ['<Up>']
+" 修改对C函数的补全快捷键，默认是CTRL + space，修改为ALT + ;
+let g:ycm_key_invoke_completion = '<M-;>'
+
+" SirVer/ultisnips 代码片断
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsListSnippets="<c-e>"
+"定义存放代码片段的文件夹，使用自定义和默认的，将会的到全局，有冲突的会提示
+let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
+
+" 参考https://github.com/Valloric/YouCompleteMe/issues/36#issuecomment-62941322
+" 解决ultisnips和ycm tab冲突，如果不使用下面的办法解决可以参考
+" https://github.com/Valloric/YouCompleteMe/issues/36#issuecomment-63205056的配置
+" begin
+" let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
+" let g:UltiSnipsExpandTrigger="<Tab>"
+" let g:UltiSnipsJumpForwardTrigger="<Tab>"                                           
+" let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+" end
+" UltiSnips completion function that tries to expand a snippet. If there's no
+" snippet for expanding, it checks for completion window and if it's
+" shown, selects first element. If there's no completion window it tries to
+" jump to next placeholder. If there's no placeholder it just returns TAB key 
+function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+
+" Expand snippet or return
+let g:ulti_expand_res = 1
+function! Ulti_ExpandOrEnter()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res
+        return ''
+    else
+        return "\<return>"
+endfunction
+
+" Set <space> as primary trigger
+inoremap <return> <C-R>=Ulti_ExpandOrEnter()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree 插件
@@ -3133,7 +3373,7 @@ testtest
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 sudo brew install the_silver_searcher
 忽略特定文件
-let g:ag_prg="ag --vimgrep --smart-case  --ignore tags --ignore *.o"
+let g:ag_prg="ag --vimgrep --smart-case  --ignore tags"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Syntastic 插件
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -3445,6 +3685,40 @@ USAGE:
 
 Then, just jump from one mark to the next using the classic [' and ]' jumps
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-indent-guides 插件
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set cc=80 竖线分隔，第80列现实竖线
+" 自适应不同语言的智能缩进
+filetype indent on
+" 将制表符扩展为空格
+set expandtab
+" 设置编辑时制表符占用空格数
+set tabstop=4
+" 设置格式化时制表符占用空格数
+set shiftwidth=4
+" 让 vim 把连续数量的空格视为一个制表符
+set softtabstop=4
+其中，注意下 expandtab、tabstop 与 shiftwidth、softtabstop、retab：
+
+expandtab，把制表符转换为多个空格，具体空格数量参考 tabstop 和 shiftwidth 变量；
+
+tabstop 与 shiftwidth 是有区别的。tabstop 指定我们在插入模式下输入一个制表符占据的空格数量，linux 内核编码规范建议是 8，看个人需要；shiftwidth 指定在进行缩进格式化源码时制表符占据的空格数。所谓缩进格式化，指的是通过 vim 命令由 vim 自动对源码进行缩进处理，比如其他人的代码不满足你的缩进要求，你就可以对其进行缩进格式化。缩进格式化，需要先选中指定行，要么键入 = 让 vim 对该行进行智能缩进格式化，要么按需键入多次 < 或 > 手工缩进格式化；
+
+softtabstop，如何处理连续多个空格。因为 expandtab 已经把制表符转换为空格，当你要删除制表符时你得连续删除多个空格，该就是告诉 vim 把连续数量的空格视为一个制表符，即，只删一个字符即可。通常应将这tabstop、shiftwidth、softtabstop 三个变量设置为相同值；
+
+另外，你总会阅读其他人的代码吧，他们对制表符定义规则与你不同，这时你可以手工执行 vim 的 retab 命令，让 vim 按上述规则重新处理制表符与空格关系。
+以下这样也可以不用插件：
+" 显示tab和空格
+set list
+" 设置tab和空格样式
+set lcs=tab:\|\ ,nbsp:%,trail:-
+" 设定行首tab为灰色
+highlight LeaderTab guifg=#666666
+" 匹配行首tab
+match LeaderTab /^\t/
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => submodule 地址
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -3572,6 +3846,9 @@ o	在当前窗口中选择下一面板
 }	向后置换当前面板
 Alt+o	逆时针旋转当前窗口的面板
 Ctrl+o	顺时针旋转当前窗口的面板
+
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => tmux命令
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

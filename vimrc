@@ -191,6 +191,12 @@ if has('gui_running')
 else
     set background=light
     colorscheme molokai
+    "light
+    hi IndentGuidesOdd  ctermbg=white
+	hi IndentGuidesEven ctermbg=lightgrey
+	"dark
+	"hi IndentGuidesOdd  ctermbg=black
+	"hi IndentGuidesEven ctermbg=darkgrey
     "set nofu
     "set background=dark
 endif
@@ -238,6 +244,18 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
+set softtabstop=4
+set cc=100
+
+" 显示tab和空格
+"set list
+" 设置tab和空格样式
+"set lcs=tab:\|\ ,nbsp:%,trail:-
+"ser lcs=tab:
+" 设定行首tab为灰色
+"highlight LeaderTab guifg=#666666
+" 匹配行首tab
+"match LeaderTab /^\t/
 
 """"""""""""""""""""""""""""""
 " => Status line
@@ -409,7 +427,7 @@ let g:ctrlp_max_height = 10
 nmap <F9> :TagbarToggle<CR>
 " 启动时自动focus
 let g:tagbar_autofocus = 1
-
+autocmd VimEnter * nested :call tagbar#autoopen(1)  "automate to open tagbar
 " for ruby, delete if you do not need
 "let g:tagbar_type_ruby = {
 "    \ 'kinds' : [
@@ -473,7 +491,7 @@ let NERDTreeShowHidden=1
 " Toggle NERDTree
 nmap <F8> :NERDTreeToggle<CR>
 " expand to the path of the file in the current buffer
-nmap <silent> <leader>y :NERDTreeFind<cr>
+"nmap <silent> <leader>y :NERDTreeFind<cr>
 
 
 
@@ -632,6 +650,10 @@ set tags+=getcwd()/tags
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_server_keep_logfiles = 1
 let g:ycm_server_log_level = 'debug'
+
+set completeopt=longest,menu	"让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif	"离开插入模式后自动关闭预览窗口
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"	"回车即选中当前项
 nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
@@ -652,6 +674,12 @@ let g:ycm_complete_in_strings = 1
 let g:ycm_show_diagnostics_ui = 0
 
 let g:ycm_use_ultisnips_completer = 1
+
+" YCM 集成 OmniCppComplete 补全引擎，设置其快捷键
+inoremap <leader>; <C-x><C-o>
+" 补全内容不以分割子窗口形式出现，只显示补全列表
+set completeopt-=preview
+
 " 设置在下面几种格式的文件上屏蔽ycm
 let g:ycm_filetype_blacklist = {
       \ 'tagbar' : 1,
@@ -755,11 +783,12 @@ map <Leader>vs :VimShellPop<CR>
 " 随 vim 自启动
 let g:indent_guides_enable_on_vim_startup=1
 " 从第二层开始可视化显示缩进
-let g:indent_guides_start_level=2
+let g:indent_guides_start_level = 2
 " 色块宽度
-let g:indent_guides_guide_size=1
+let g:indent_guides_guide_size = 1
 " 快捷键 i 开/关缩进可视化
-:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+let g:indent_guides_soft_pattern = ' '
+:nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
 
 if has('gui_running')
 "
