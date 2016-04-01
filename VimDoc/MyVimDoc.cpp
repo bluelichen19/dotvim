@@ -3690,6 +3690,9 @@ Then, just jump from one mark to the next using the classic [' and ]' jumps
 " => vim-indent-guides 插件
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set cc=80 竖线分隔，第80列现实竖线
+调整数块宽度除了更改size，还要运行命令
+retab
+这样才能把别人的tab制表符，跟本地设置的制表符统一起来
 " 自适应不同语言的智能缩进
 filetype indent on
 " 将制表符扩展为空格

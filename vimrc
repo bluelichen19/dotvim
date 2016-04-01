@@ -950,9 +950,34 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "let g:DoxygenToolkit_authorName="BLUE" 
     "let g:DoxygenToolkit_licenseTag="1.0.1"   "<-- !!! Does not end with "\<enter>"
 
-    map <Leader>dl :DoxLic<CR>
-    map <Leader>da :DoxAuthor<CR>
-    map <Leader>dx :Dox<CR>
+	"map <Leader>dl :DoxLic<CR>
+	"map <Leader>da :DoxAuthor<CR>
+	"map <Leader>dx :Dox<CR>
+	"-----------------------------------------------------------------
+
+	" plugin - DoxygenToolkit.vim  由注释生成文档，并且能够快速生成函数标准注释
+
+	"-----------------------------------------------------------------
+
+	let g:DoxygenToolkit_authorName="LC"
+	let g:DoxygenToolkit_briefTag_funcName="yes"
+
+	let g:DoxygenToolkit_briefTag_pre="@Synopsis  " 
+	let g:DoxygenToolkit_paramTag_pre="@Param " 
+	let g:DoxygenToolkit_returnTag="@Returns   " 
+	"Dox 命令后，上线添加两条线
+	let g:DoxygenToolkit_blockHeader="----------------------------------------------------------------------------" 
+	let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------" 
+	"添加文件描述
+	map <leader>xa :DoxAuthor<CR>
+	"添加函数描述
+	map <leader>xf :Dox<CR>
+
+	map <leader>xb :DoxBlock<CR>
+
+	map <leader>xc a /*  */<LEFT><LEFT><LEFT>
+	"添加liscens信息
+	map <Leader>xl :DoxLic<CR>
 "}
 "function(gundo){
     let g:gundo_disable = 1
