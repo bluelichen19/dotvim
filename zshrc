@@ -174,3 +174,43 @@ export LANG=en_US.UTF-8
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+# Path to your oh-my-zsh configuration.
+ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+#ZSH_THEME="ducknorris"
+
+POWERLINE_DETECT_SSH="true"
+POWERLINE_GIT_CLEAN="✔"
+POWERLINE_GIT_DIRTY="✘"
+POWERLINE_GIT_ADDED="%F{green}✚%F{black}"
+POWERLINE_GIT_MODIFIED="%F{blue}✹%F{black}"
+POWERLINE_GIT_DELETED="%F{red}✖%F{black}"
+POWERLINE_GIT_UNTRACKED="%F{yellow}✭%F{black}"
+POWERLINE_GIT_RENAMED="➜"
+POWERLINE_GIT_UNMERGED="═"
+
+alias zshconfig="s ~/.zshrc"
+alias ohmyzsh="s ~/.oh-my-zsh"
+
+#alias my="/usr/local/mysql/bin/mysql"
+#alias c="/usr/local/bin/cloc"
+#alias s="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
+#alias p="/usr/local/Cellar/python/2.7.5/bin/python"
+
+alias gpall="git pushall"
+
+COMPLETION_WAITING_DOTS="true"
+
+plugins=(git brew rails3 git-flow capistrano zeus)
+
+#source $ZSH/oh-my-zsh.sh
+
+export PATH=/Users/ducky/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+
+if [[ -s "/Users/ducky/.rvm/scripts/rvm" ]] ; then source "/Users/ducky/.rvm/scripts/rvm" ; fi
