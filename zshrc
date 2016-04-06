@@ -145,7 +145,7 @@ plugins=(git sudo autojump)
 #export PATH="/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/eclipse/Eclipse.app/Contents/MacOS:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:usr/local/bin:usr/local/sbin:/Users/zhenghaishu/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/zhenghaishu/work/develop/android_ndk/android-ndk-r9d"
 # export MANPATH="/usr/local/man:$MANPATH"
 
-#修改成对应的
+#修改成对应的路径
 #export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/zhenghaishu/work/develop/android-ndk-r10e/android-ndk-r10e:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:/Users/zhenghaishu/work/develop/android-ndk-r10e/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin
 
 source $ZSH/oh-my-zsh.sh
