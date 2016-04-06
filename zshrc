@@ -136,7 +136,8 @@ POWERLINE_RIGHT_B=""
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sudo)
+plugins=(git sudo autojump)
+[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && . ~/.autojump/etc/profile.d/autojump.sh
 #plugins=(vim-interaction)
 
 # User configuration
