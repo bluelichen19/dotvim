@@ -3867,6 +3867,7 @@ http://iterm2colorschemes.com/
 " => zsh
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 https://coderwall.com/p/sun7za/mac-os-x-oh-my-zsh-theme-on-iterm2
+https://github.com/jeremyFreeAgent/oh-my-zsh-powerline-theme
 # ducknorris custom theme
 # FreeAgent puts the powerline style in zsh !
 

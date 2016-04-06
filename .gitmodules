@@ -148,3 +148,6 @@
 [submodule "bundle/Mark-and-Highlight.vim"]
 	path = bundle/Mark-and-Highlight.vim
 	url = https://github.com/vim-scripts/BOOKMARKS--Mark-and-Highlight-Full-Lines.git
+[submodule "bundle/syntax"]
+	path = bundle/syntax
+	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
