@@ -3056,10 +3056,16 @@ v<
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "//转换
 "find . -name "*.h" -type f -exec sh -c "iconv --unicode-subst=FORMATSTRING -f GB18030 -t UTF8 {} > {}.hutf8" \;
+"find . -name "*.cpp" -type f -exec sh -c "iconv  -f GB18030 -t UTF8 {} > {}.cpputf8" \;
+"find . -name "*.c" -type f -exec sh -c "iconv  -f GB18030 -t UTF8 {} > {}.cutf8" \;
 "//把没用的bak文件删掉
 "find . -name "*.h" -type f | xargs rm -rf
+"find . -name "*.c" -type f | xargs rm -rf
+"find . -name "*.cpp" -type f | xargs rm -rf
 "//最后把转码之后的文件改名回正确名字，sed返回正确名字列表，在mv之前应该都是不存在的，例如xxx.h，这个时候应该还是xxx.h.hutf8 {}表示的就是要改成的最终文件名字
 "find . -name "*.hutf8" -type f | sed 's/.hutf8$//' | xargs -I {} mv {}.hutf8 {}
+"find . -name "*.cpputf8" -type f | sed 's/.cpputf8$//' | xargs -I {} mv {}.cpputf8 {}
+"find . -name "*.cutf8" -type f | sed 's/.cutf8$//' | xargs -I {} mv {}.cutf8 {}
 
 "install_name_tool -change  old new MacVim
 "otool -L 查看
