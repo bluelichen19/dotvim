@@ -3055,9 +3055,9 @@ v<
 " => Ycm 插件 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "//转换
-"find . -name "*.h" -type f -exec sh -c "iconv --unicode-subst=FORMATSTRING -f GB18030 -t UTF8 {} > {}.hutf8" \;
-"find . -name "*.cpp" -type f -exec sh -c "iconv  -f GB18030 -t UTF8 {} > {}.cpputf8" \;
-"find . -name "*.c" -type f -exec sh -c "iconv  -f GB18030 -t UTF8 {} > {}.cutf8" \;
+"find . -name "*.h" -type f -exec sh -c "iconv -c  -f GBK -t UTF8 {} > {}.hutf8" \;
+"find . -name "*.cpp" -type f -exec sh -c "iconv -c -f GBK -t UTF8 {} > {}.cpputf8" \;
+"find . -name "*.c" -type f -exec sh -c "iconv -c -f GBK -t UTF8 {} > {}.cutf8" \;
 "//把没用的bak文件删掉
 "find . -name "*.h" -type f | xargs rm -rf
 "find . -name "*.c" -type f | xargs rm -rf
