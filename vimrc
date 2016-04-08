@@ -426,6 +426,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 "}
 "function(Tagbar){
     nmap <F9> :TagbarToggle<CR>
+    let g:tagbar_ctags_bin='ctags'
     " 启动时自动focus
     let g:tagbar_autofocus = 1
     autocmd VimEnter * nested :call tagbar#autoopen(1)  "automate to open tagbar
