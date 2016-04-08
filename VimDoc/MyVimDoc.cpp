@@ -49,6 +49,10 @@
 "    -> vim-indent-guides 插件
 "    -> submodule 地址 
 "    -> tmux 命令 
+"    -> iTerm2 配色方案 
+"    -> zsh 
+"    -> python相关 
+"    ->  
 "    ->  
 "    ->  
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -3869,6 +3873,14 @@ brew cask install easysimbl 装这个
 接着下载这个并且安装
  Download .dmg file here: https://bitheap.org/mouseterm/
 
+运行tmux报
+zsh compinit: insecure directories, run compaudit for list.
+Ignore insecure directories and continue [y] or abort compinit [n]?
+错误时，进入到/usr/local/Cellar/zsh/5.2/share/zsh目录下，执行以下命令，第一二行的cd，按各自目录情况决定
+$ cd /usr/local/share/
+$ cd /usr/local/Cellar/zsh/5.2/share/zsh
+$ sudo chmod -R 755 zsh
+$ sudo chown -R root:staff zsh
 
 tmux
 查看已有session
@@ -3947,7 +3959,7 @@ Ctrl+o	顺时针旋转当前窗口的面板
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => tmux命令
+" => iTerm2 配色方案
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 iTerm2 配色方案
 http://iterm2colorschemes.com/
@@ -4127,9 +4139,73 @@ export PATH=/Users/ducky/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 
 if [[ -s "/Users/ducky/.rvm/scripts/rvm" ]] ; then source "/Users/ducky/.rvm/scripts/rvm" ; fi
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => tmux命令
+" => python相关
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Pip and setuptools have been installed. To update them
+  pip install --upgrade pip setuptools
 
+You can install Python packages with
+  pip install <package>
+
+They will install into the site-package directory
+  /usr/local/lib/python2.7/site-packages
+
+See: https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/Homebrew-and-Python.md
+
+.app bundles were installed.
+Run `brew linkapps python` to symlink these to /Applications.
+==> Summary
+🍺  /usr/local/Cellar/python/2.7.11: 4,886 files, 66.0M
+ BLUE@B1_CYJK_3952_4  phone_h265  pip install --upgrade pip setuptools                                                                                                                22:45:13  08-04
+Collecting pip
+  Using cached pip-8.1.1-py2.py3-none-any.whl
+Collecting setuptools
+  Downloading setuptools-20.6.7-py2.py3-none-any.whl (508kB)
+    100% |████████████████████████████████| 512kB 17kB/s
+Installing collected packages: pip, setuptools
+  Found existing installation: pip 8.0.2
+    Uninstalling pip-8.0.2:
+Exception:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/site-packages/pip/basecommand.py", line 209, in main
+    status = self.run(options, args)
+  File "/usr/local/lib/python2.7/site-packages/pip/commands/install.py", line 317, in run
+    prefix=options.prefix_path,
+  File "/usr/local/lib/python2.7/site-packages/pip/req/req_set.py", line 725, in install
+    requirement.uninstall(auto_confirm=True)
+  File "/usr/local/lib/python2.7/site-packages/pip/req/req_install.py", line 752, in uninstall
+    paths_to_remove.remove(auto_confirm)
+  File "/usr/local/lib/python2.7/site-packages/pip/req/req_uninstall.py", line 115, in remove
+    renames(path, new_path)
+  File "/usr/local/lib/python2.7/site-packages/pip/utils/__init__.py", line 266, in renames
+    shutil.move(old, new)
+  File "/usr/local/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/lib/python2.7/shutil.py", line 300, in move
+    rmtree(src)
+  File "/usr/local/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/lib/python2.7/shutil.py", line 252, in rmtree
+    onerror(os.remove, fullname, sys.exc_info())
+  File "/usr/local/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/lib/python2.7/shutil.py", line 250, in rmtree
+    os.remove(fullname)
+OSError: [Errno 13] Permission denied: '/usr/local/lib/python2.7/site-packages/pip/__init__.py'
+You are using pip version 8.0.2, however version 8.1.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+ BLUE@B1_CYJK_3952_4  phone_h265  sudo pip install --upgrade pip setuptools                                                                                                           22:46:36  08-04
+The directory '/Users/BLUE/Library/Caches/pip/http' or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+The directory '/Users/BLUE/Library/Caches/pip' or its parent directory is not owned by the current user and caching wheels has been disabled. check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+Collecting pip
+  Downloading pip-8.1.1-py2.py3-none-any.whl (1.2MB)
+    100% |████████████████████████████████| 1.2MB 44kB/s
+Collecting setuptools
+  Downloading setuptools-20.6.7-py2.py3-none-any.whl (508kB)
+    100% |████████████████████████████████| 512kB 40kB/s
+Installing collected packages: pip, setuptools
+  Found existing installation: pip 8.0.2
+    Uninstalling pip-8.0.2:
+      Successfully uninstalled pip-8.0.2
+  Found existing installation: setuptools 19.4
+    Uninstalling setuptools-19.4:
+      Successfully uninstalled setuptools-19.4
+Successfully installed pip-8.1.1 setuptools-20.6.7
+ BLUE@B1_CYJK_3952_4  phone_h265 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => tmux命令
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

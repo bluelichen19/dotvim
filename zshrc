@@ -57,8 +57,8 @@ plugins=(git sudo autojump)
 
 # User configuration
 
-#export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/BLUE/protect/develop/Android/android-ndk-r10e"
-export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/zhenghaishu/work/develop/android-ndk-r10e/android-ndk-r10e:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:/Users/zhenghaishu/work/develop/android-ndk-r10e/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin
+#export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/BLUE/protect/develop/Android/android-ndk-r10e"
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/zhenghaishu/work/develop/android-ndk-r10e/android-ndk-r10e:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:/Users/zhenghaishu/work/develop/android-ndk-r10e/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin
 # export MANPATH="/usr/local/man:$MANPATH"
 
 #source $ZSH/oh-my-zsh.sh
@@ -146,13 +146,13 @@ export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/zhenghaishu/work
     POWERLINE_NO_BLANK_LINE="true"
     #If you want full path:
 
-    POWERLINE_PATH="full"
+	#POWERLINE_PATH="full"
     #If you want to display ~ instead of your full path:
 
     #POWERLINE_PATH="short"
     #If you want to customize the current path display (overrides full path above):
 
-    POWERLINE_CUSTOM_CURRENT_PATH="%3~"
+	#POWERLINE_CUSTOM_CURRENT_PATH="%3~"
     #If you want git info on right instead of left:
 
     POWERLINE_SHOW_GIT_ON_RIGHT="true"
