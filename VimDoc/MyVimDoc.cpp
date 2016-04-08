@@ -3069,7 +3069,64 @@ v<
 
 "install_name_tool -change  old new MacVim
 "otool -L 查看
-
+更改之前，zshrc中，要把PATH里面/usr/local/bin 放在/usr/bin 前面，否则找不到对的ctags
+更改vim用的系统python为自行安装的python
+ 1.首先查看用的哪个python
+ otool -L /usr/local/Cellar/macvim/7.4-99/MacVim.app/Contents/MacOS/Vim       13:44:08  08-04
+ /usr/local/Cellar/macvim/7.4-99/MacVim.app/Contents/MacOS/Vim:
+ /System/Library/Frameworks/Python.framework/Versions/2.7/Python (compatibility version 2.7.0, current version 2.7.10)
+ /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 1256.14.0)
+ /System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa (compatibility version 1.0.0, current version 22.0.0)
+ /System/Library/Frameworks/Carbon.framework/Versions/A/Carbon (compatibility version 2.0.0, current version 157.0.0)
+ /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1226.10.1)
+ /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
+ /usr/lib/libiconv.2.dylib (compatibility version 7.0.0, current version 7.0.0)
+ /usr/local/opt/luajit/lib/libluajit-5.1.2.dylib (compatibility version 2.0.0, current version 2.0.4)
+ /System/Library/Perl/5.18/darwin-thread-multi-2level/CORE/libperl.dylib (compatibility version 5.18.0, current version 5.18.2)
+ /System/Library/Frameworks/Tcl.framework/Versions/8.5/Tcl (compatibility version 8.5.0, current version 8.5.9)
+ /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/libruby.2.0.0.dylib (compatibility version 2.0.0, current version 2.0.0)
+ /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit (compatibility version 45.0.0, current version 1404.34.0)
+ /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 728.6.0)
+ /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 1256.1.0)
+ /usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
+ 2.更改之
+ sudo install_name_tool -change  /System/Library/Frameworks/Python.framework/Versions/2.7/Python /usr/local/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/Python /usr/local/Cellar/macvim/7.4-99/MacVim.app/Contents/MacOS/Vim
+ 改完之后
+ otool -L /usr/local/Cellar/macvim/7.4-99/MacVim.app/Contents/MacOS/Vim       13:49:47  08-04
+ /usr/local/Cellar/macvim/7.4-99/MacVim.app/Contents/MacOS/Vim:
+ /usr/local/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/Python (compatibility version 2.7.0, current version 2.7.10)
+ /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 1256.14.0)
+ /System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa (compatibility version 1.0.0, current version 22.0.0)
+ /System/Library/Frameworks/Carbon.framework/Versions/A/Carbon (compatibility version 2.0.0, current version 157.0.0)
+ /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1226.10.1)
+ /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
+ /usr/lib/libiconv.2.dylib (compatibility version 7.0.0, current version 7.0.0)
+ /usr/local/opt/luajit/lib/libluajit-5.1.2.dylib (compatibility version 2.0.0, current version 2.0.4)
+ /System/Library/Perl/5.18/darwin-thread-multi-2level/CORE/libperl.dylib (compatibility version 5.18.0, current version 5.18.2)
+ /System/Library/Frameworks/Tcl.framework/Versions/8.5/Tcl (compatibility version 8.5.0, current version 8.5.9)
+ /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/libruby.2.0.0.dylib (compatibility version 2.0.0, current version 2.0.0)
+ /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit (compatibility version 45.0.0, current version 1404.34.0)
+ /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 728.6.0)
+ /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 1256.1.0)
+ /usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
+ 3.再查看ycm核心so
+ otool -L ~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so            13:49:52  08-04
+ /Users/zhenghaishu/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so:
+ @rpath/ycm_core.so (compatibility version 0.0.0, current version 0.0.0)
+ /System/Library/Frameworks/Python.framework/Versions/2.7/Python (compatibility version 2.7.0, current version 2.7.10)
+ @loader_path/libclang.dylib (compatibility version 1.0.0, current version 0.0.0)
+ /usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 120.1.0)
+ /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1226.10.1)
+ 4.更改之
+ sudo install_name_tool -change  /System/Library/Frameworks/Python.framework/Versions/2.7/Python /usr/local/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/Python ~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so
+ 改完之后
+ otool -L ~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so            13:51:13  08-04
+ /Users/zhenghaishu/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so:
+ @rpath/ycm_core.so (compatibility version 0.0.0, current version 0.0.0)
+ /usr/local/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/Python (compatibility version 2.7.0, current version 2.7.10)
+ @loader_path/libclang.dylib (compatibility version 1.0.0, current version 0.0.0)
+ /usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 120.1.0)
+ /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1226.10.1)
 "细节配置项
 "vim ~/.vimrc 添加两行
 "let g:ycm_confirm_extra_conf = 0
@@ -3191,6 +3248,36 @@ endfunction
 
 " Set <space> as primary trigger
 inoremap <return> <C-R>=Ulti_ExpandOrEnter()<CR>
+
+作者主页的一个列表设定
+The g:ycm_extra_conf_globlist option
+
+This option is a list that may contain several globbing patterns. If a pattern starts with a ! all .ycm_extra_conf.py files matching that pattern will be blacklisted, that is they won't be loaded and no confirmation dialog will be shown. If a pattern does not start with a ! all files matching that pattern will be whitelisted. Note that this option is not used when confirmation is disabled using g:ycm_confirm_extra_conf and that items earlier in the list will take precedence over the later ones.
+
+Rules:
+
+* matches everything
+? matches any single character
+[seq] matches any character in seq
+[!seq] matches any char not in seq
+Example:
+
+let g:ycm_extra_conf_globlist = ['~/dev/*','!~/*']
+The first rule will match everything contained in the ~/dev directory so .ycm_extra_conf.py files from there will be loaded.
+The second rule will match everything in the home directory so a .ycm_extra_conf.py file from there won't be loaded.
+As the first rule takes precedence everything in the home directory excluding the ~/dev directory will be blacklisted.
+NOTE: The glob pattern is first expanded with Python's os.path.expanduser() and then resolved with os.path.abspath() before being matched against the filename.
+
+Default: []
+
+let g:ycm_extra_conf_globlist = []
+
+语意补全要正确工作，需要配置好.ycm_extra_conf.py文件。 可以使用YcmDebugInfo 查看具体加载了哪个配置文件。加载顺序：
+
+1. 本目录下
+2. 本工程下（git管理）
+3. 根目录（home）
+4. global
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree 插件

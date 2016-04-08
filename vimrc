@@ -146,9 +146,11 @@ set incsearch
 set mouse=a
 "去掉输入错误的提示声音
 set noeb
+let Tlist_Ctags_Cmd="/usr/local/bin/ctags"
 "ctags -R --c++-kinds=+p --fields=+iaS --extra=+q src
-map <c-F12> :!CTags -R --c++-kinds=+p --fields=+iaSl --extra=+q .<CR><CR>
-map <C-F12> :!ctags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++
+"map <c-F12> :!CTags -R --c++-kinds=+p --fields=+iaSl --extra=+q .<CR><CR>
+map <C-F12> :!CTags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++
+map <F12> :!CTags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++
 
 "中文帮助和中文菜单
 "if version >= 603
@@ -615,6 +617,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     nnoremap <F6> :UndotreeToggle<cr>
 "}
 "function(Ycm){
+	"echo 1
     let g:ycm_confirm_extra_conf = 1
     "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
     "let g:ycm_global_ycm_extra_conf = '/Users/BLUE/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
@@ -623,7 +626,16 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     let g:ycm_seed_identifiers_with_syntax = 1
     "set tags+=~/work/test/ctest/UPlayer_Refactoring_Tudou/tags
     set tags+=./../tags,./../../tags,./../../../tags
-    set tags+=getcwd()/tags
+
+	let cwd = getcwd()
+    let tagfilename = cwd . "/tags"
+    "echo tagfilename
+    set tags+=tagfilename
+    "let cmd = 'ctags -a -f ' . tagfilename . ' --c++-kinds=+p --fields=+iaS --extra=+q ' . '"' . f . '"'
+    "call DelTagOfFile(f)
+    "let resp = system(cmd)
+
+	"set tags+=getcwd()/tags
     let g:ycm_confirm_extra_conf = 0
     let g:ycm_server_keep_logfiles = 1
     let g:ycm_server_log_level = 'debug'
