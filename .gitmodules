@@ -118,9 +118,6 @@
 [submodule "bundle/mru.vim"]
 	path = bundle/mru.vim
 	url = https://github.com/vim-scripts/mru.vim.git
-[submodule "bundle/vim-surround.vim"]
-	path = bundle/vim-surround.vim
-	url = https://github.com/tpope/vim-surround.git
 [submodule "VimDoc/spf13-vim"]
 	path = VimDoc/spf13-vim
 	url = https://github.com/spf13/spf13-vim.git
@@ -151,3 +148,6 @@
 [submodule "bundle/syntax"]
 	path = bundle/syntax
 	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
+[submodule "bundle/delimitMate.vim"]
+	path = bundle/delimitMate.vim
+	url = https://github.com/Raimondi/delimitMate.git

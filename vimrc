@@ -1008,6 +1008,10 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     
 "}
 
+"function(delimitMate){
+	
+"}
+
 
 
 

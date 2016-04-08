@@ -3755,6 +3755,7 @@ sudo git submodule add https://github.com/mbbill/undotree.git bundle/undotree.vi
 sudo git submodule add https://github.com/mhinz/vim-signify.git bundle/vim-signify.vim
 sudo git submodule add https://github.com/vim-ctrlspace/vim-ctrlspace.git bundle/vim-ctrlspace.vim
 sudo git submodule add https://github.com/vim-scripts/BOOKMARKS--Mark-and-Highlight-Full-Lines.git bundle/Mark-and-Highlight.vim
+sudo git submodule add https://github.com/Raimondi/delimitMate.git bundle/delimitMate.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => tmux命令
