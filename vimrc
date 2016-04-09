@@ -120,10 +120,13 @@ language message zh_CN.UTF-8
 "菜单乱码解决"  
 source $VIMRUNTIME/delmenu.vim  
 source $VIMRUNTIME/menu.vim  
-""set encoding=cp936  
 "设置文件编码  
-""set fileencodings=utf-8,cp936,chinese,latin-1,ucs-bom,gb18030,big5,euc-jp,euc-kr,latin1,gbk,gb2321  
-set fileencodings=ucs-bom,chinese,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1  
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+
+"set termencoding=utf-8
+"set guifont=Courier\ New\:h12
+"set guifontwide=NSimsun\:h12
+
 set nocompatible
 set number
 " 总是显示状态栏
@@ -159,7 +162,6 @@ set helplang=cn
 "endif
 "set encoding=utf-8
 "set termencoding=utf-8
-"set fileencodings=utf-8
 
 "操作：za，打开或关闭当前折叠；zM，关闭所有折叠；zR，打开所有折叠。
 "基于缩进或语法进行代码折叠

@@ -3071,6 +3071,20 @@ v<
 "find . -name "*.cpputf8" -type f | sed 's/.cpputf8$//' | xargs -I {} mv {}.cpputf8 {}
 "find . -name "*.cutf8" -type f | sed 's/.cutf8$//' | xargs -I {} mv {}.cutf8 {}
 
+find . -name "*.cpp" -type f -exec sh -c "iconv -c -f CP936 -t UTF8 {} > {}.cpputf8" \;
+find . -name "*.c" -type f -exec sh -c "iconv -c -f CP936 -t UTF8 {} > {}.cutf8" \;
+find . -name "*.h" -type f -exec sh -c "iconv -c  -f CP936 -t UTF8 {} > {}.hutf8" \;
+find . -name "*.cpp" -type f | xargs rm -rf                             
+find . -name "*.c" -type f | xargs rm -rf                       
+find . -name "*.h" -type f | xargs rm -rf                               
+find . -name "*.cutf8" -type f | sed 's/.cutf8$//' | xargs -I {} mv {}.cutf8 {}
+find . -name "*.cpputf8" -type f | sed 's/.cpputf8$//' | xargs -I {} mv {}.cpputf8 {}
+find . -name "*.hutf8" -type f | sed 's/.hutf8$//' | xargs -I {} mv {}.hutf8 {}
+
+合并两条语句
+find . -name "*.cpp" -type f | xargs rm -rf;find . -name "*.c" -type f | xargs rm -rf;find . -name "*.h" -type f | xargs rm -rf
+find . -name "*.cutf8" -type f | sed 's/.cutf8$//' | xargs -I {} mv {}.cutf8 {};find . -name "*.cpputf8" -type f | sed 's/.cpputf8$//' | xargs -I {} mv {}.cpputf8 {};find . -name "*.hutf8" -type f | sed 's/.hutf8$//' | xargs -I {} mv {}.hutf8 {}
+
 "install_name_tool -change  old new MacVim
 "otool -L 查看
 更改之前，zshrc中，要把PATH里面/usr/local/bin 放在/usr/bin 前面，否则找不到对的ctags
@@ -4162,6 +4176,103 @@ export PS1="[\u@\h \W]\$ "
 [rainbird@rainbird-desk ~]$ chflags hidden php
 [rainbird@rainbird-desk ~]$ chflags nohidden php
  这样就可以在finder中隐藏显示home目录下的php文件夹了.很好使,当然了,在终端下ls还是马上现原形的.不过可以忽悠一下小朋友.
+
+下面是修改命令提示符
+定制你的 zsh 命令提示符
+
+最早从 LinuxToy 那里看到有关 zsh 的介绍 ，因为牠强力的功能而喜欢上了这个玩意儿。 自然，用的命令提示符也是那篇文章的作者 Kardinal 提供的那个颇炫的命令提示符。 可惜，那个命令提示符不能在控制台下使用，与此同时，linux 摸久了，也开始觉得这个东西太过于花俏。 自然，就想自己定制一个。可惜官方只有英文文档，所以只好硬着头皮用我烂得可以的英文边猜边翻译了…… 这篇文章的由来就是如此。 先发出我折腾了 N 久的成果吧： 图片在这里：http://min.us/mg06HbxXF6t21 不知道为什么外链出来的图片大小出了问题…… 代码在这里：
+
+PROMPT='%B%{[32m%}%n%(?. . %{[31m%}%? )%{[m%}> %{[1;34m%}%~ %{[m%}%# %b'
+再把翻译的文章贴出来，文中有一部分可能没有翻译，那个也请见谅…… 单单翻译了这么些内容，我已经花去了 3 个小时了……
+有关提示符的色彩
+
+zsh里着色需要在转义字符/普通字符前填入：
+
+%{^[[<色彩编号>m%}
+其中 '^['需要 Vim 在插入模式下按下 Ctrl+v Esc 才能输入，如果没有输入色彩的编号，那么就是默认色彩
+色彩编号如下：
+
+Black 0;30  Dark Gray 1;30
+Blue 0;34   Light Blue 1;34
+Green 0;32  Light Green 1;32
+Cyan 0;36   Light Cyan 1;36
+Red 0;31    Light Red 1;31
+Purple 0;35 Light Purple 1;35
+Brown 0;33  Yellow 1;33
+Light Gray 1;37 White 1;37
+提示符介绍
+
+Special characters
+
+%%  一个'%'
+#%) 一个')'
+Login information
+
+%y  当前的tty名
+%l  当前的tty名，如 pts/1
+%M  完整主机名
+%m  主机名（在第一个句号之前截断）
+%n  当前用户名
+Shell state
+
+%. %c %C    前两个显示相对路径的当前文件夹名，最后一个是绝对路径（也就是说，前两个在家目录下显示'~'，最后那个显示你的用户名），'%'后的数字表示显示几层路径
+%N  zsh 正在执行的脚本/函数名。如果'%'后跟了数字，似乎还有其他作用
+%L  当前shell的层数，可以参考《盗梦空间》的层数
+%j  当前正在进行的工作数量
+%i  与%!类似：The line number currently being executed in the script, sourced file, or shell function given by %N. This is most useful for debugging as part of $PS4.
+%!  显示当前历史事件号码（也就是打开shell后第几条命令）
+%/ %d   显示当前工作路径（$pwd）。如果'％'后面是一个整数，它指定显示路径的元件的数量;没有数字就显示整个路径。一个负整数就是指定主目录，即％-1d代表第一部分
+%~  目前的工作目录相对于～的相对路径
+%_  The status of the parser, i.e. the shell constructs (like if' andfor') that have been started on the command line. If given an integer number that many strings will be printed; zero or negative or no integer means print as many as there are. This is most useful in prompts PS2 for continuation lines and PS4 for debugging with the XTRACE option; in the latter case it will also work non-interactively.
+%?  返回最后命令的执行结果的代码
+%#  用户组，#（普通用户）/%（超级用户）
+Date and time
+
+%D{}    格式化日期，内容在下：
+%f %e ：当月日期 (如果是个位数的话，第二个比第一个多一个占位符（一个空格）
+%K %k ：24小时制，第二个比第一个多占位符
+%L %l ：12小时制，第二个比第一个多占位符
+%W  系统日期 (月-日-年)
+%w  系统日期 (周几 日期)
+%D  系统日期（年-月-日）
+%T  系统时间（时：分），24小时制
+%t %@   系统时间，12小时制
+%*  系统时间（时：分：秒）
+Visual effects
+
+%B(%b)  开始到结束使用粗体打印
+%U(%u)  开始到结束使用下划线打印
+%S(%s)  开始到结束使用突出模式打印
+%{..%}  可以输入一些转义字符，花括号里的内容不会改变光标位置，花括号可以嵌套
+%E  清空一行
+Conditional substrings
+
+%v ：获取 psvar 数组的第一个值，’%‘后是什么数字就返回第几个值，负数就返回倒数过去的值 %(x.true-text.false-text) ： 这是一个判断式，判断 x 的真假，真则输出 true-text ，否则输出 false-text 左侧括号前后可以插入一个正数n，如果是负数的话就会被乘以 -1，n在下文会用到 x 有以下内容：
+!   是否是 root 权限
+#   当前进程的UID是否等于n
+g   当前进程的有效GID是否等于n
+?   最后命令的返回值是否等于n
+_   True if at least n Shell constructs were started
+C / 当前的绝对路径是否至少有n个元素
+c . ~   True if the current path, with prefix replacement, has at least n elements.
+D   当前月份是否等于n，1月等于0
+d   当前日期是否等于n
+j   当前作业数是否等于n
+L   当前shell层数是否等于n
+l   当前是否已经至少有n个字符已经打印
+S   True if the SECONDS parameter is at least n.
+T   当前小时是否等于n
+t   当前的分钟是否等于n
+v   当前 psvar 数组是否已经至少有n个元素
+w   是否等于周n，周日是0
+%string> %[xstring] Specifies truncation behaviour for the remainder of the prompt string. The >'. The numeric argument, which in the third form may appear immediately after the[', specifies the maximum permitted length of the various strings that can be displayed in the prompt. The string will be displayed in place of the truncated portion of any string; note this does not undergo prompt expansion.
+
+The forms with <' truncate at the left of the string, and the forms with>' truncate at the right of the string. For example, if the current directory is /home/pike', the prompt%8<..<%/' will expand to ..e/pike'. In this string, the terminating character (<', >' or]'), or in fact any character, may be quoted by a preceding \'; note when using print -P, however, that this must be doubled as the string is also subject to standard print processing, in addition to any backslashes removed by a double quoted string: the worst case is thereforeprint -P "%<\\<<..."'.
+
+If the string is longer than the specified truncation length, it will appear in full, completely replacing the truncated string. The part of the prompt string to be truncated runs to the end of the string, or to the end of the next enclosing group of the %(' construct, or to the next truncation encountered at the same grouping level (i.e. truncations inside a%(' are separate), which ever comes first. In particular, a truncation with argument zero (e.g. %<<') marks the end of the range of the string to be truncated while turning off truncation from there on. For example, the prompt '%10<...<%~%<<%# ' will print a truncated representation of the current directory, followed by a%' or #', followed by a space. Without the%<<', those two characters would be included in the string to be truncated.
+
+官方文档地址：http://zsh.sourceforge.net/Doc/Release/zsh_12.html
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => python相关
