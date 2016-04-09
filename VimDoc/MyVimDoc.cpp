@@ -4138,6 +4138,31 @@ source $ZSH/oh-my-zsh.sh
 export PATH=/Users/ducky/.rvm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 
 if [[ -s "/Users/ducky/.rvm/scripts/rvm" ]] ; then source "/Users/ducky/.rvm/scripts/rvm" ; fi
+
+下面是修改hostname和主机名字
+虽然mac不如ubuntu感觉open,但是系统感觉还是挺好用的.用了小半年了,积累了几个不可缺少的经验,记录一下(因为头两周用的时候又忘记了.).
+ 
+1.修改机器名
+ mac安装完成以后会默认将你的机器设成"rainbird's Macbook Pro"之类的名字.这个本身看着就不爽,如果这台机器是别人先用你再用的话,就想把它改掉了.如果你想改计算机名的话,直接去"系统设置"->"共享"里改计算机名(Computer Name)就好了.这样大家在网络邻居里看到的你的名字就可以了.
+对于大多数用户来说到这里就完事了.但是对于系统管理员来说,每次打开终端的时候发现还有一个"rainbird's Macbook Pro"的东东在那里还是感觉很不爽.估计这个想改的人少,笔者费了九牛二虎之力才在mac的一个论坛的不起眼的小角落翻出来修改它的命令:
+sudo scutil --set HostName rainbird-desk
+再新开一个终端,是不是感觉很顺眼了?
+顺便说一下,命令行改那个共享名的方法:
+sudo scutil --set ComputerName newName
+
+观察一下这两个指令你就会发现,苹果真讲究,一个名字还分计算机名和主机名.
+
+2.修改提示符
+
+对于系统管理员来说,天天用终端,可是由于centos先入为主的观念,对于后来的ubuntu和mac的命令提示符感觉很不爽,咋办呢?好办,两者的修改方法一样:
+vi ~/.profile (有就修改,没有就新建)
+export PS1="[\u@\h \W]\$ "
+保存以后source ~/.profile.是不是看着又很顺眼了?
+ 3.隐藏显示文件或文件夹
+[rainbird@rainbird-desk ~]$ chflags hidden php
+[rainbird@rainbird-desk ~]$ chflags nohidden php
+ 这样就可以在finder中隐藏显示home目录下的php文件夹了.很好使,当然了,在终端下ls还是马上现原形的.不过可以忽悠一下小朋友.
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => python相关
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
