@@ -631,6 +631,8 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     let tagfilename = cwd . "/tags"
     "echo tagfilename
     set tags+=tagfilename
+    set tags+=$PWD/tags
+    "set tags+=~/work/UPlayer/branches/UPlayer_Android/UPlayer_Meizu_4.6.1/tags
     "let cmd = 'ctags -a -f ' . tagfilename . ' --c++-kinds=+p --fields=+iaS --extra=+q ' . '"' . f . '"'
     "call DelTagOfFile(f)
     "let resp = system(cmd)
@@ -767,7 +769,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 
 "function(indent_guides){
     " 随 vim 自启动
-    let g:indent_guides_enable_on_vim_startup=1
+	let g:indent_guides_enable_on_vim_startup=0
     " 从第二层开始可视化显示缩进
     let g:indent_guides_start_level = 2
     " 色块宽度
@@ -1023,6 +1025,21 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 "function(delimitMate){
 	
 "}
+"function(syntax高亮C++语法)
+"{
+	let g:cpp_class_scope_highlight = 1
+	let g:cpp_experimental_template_highlight = 1
+"}
+"function(Mark-and-Highlight){
+	"<F1>            Turn on/update highlighting for all lines with markers
+	"<F2>            Turn off highlighting for lines with markers
+	"<SHIFT-F2> Erase all markers [a-z]
+	"<F5>             Add a mark on the current line (and highlight)
+	"<SHIFT-F5> Remove the mark on the current line
+
+	"Then, just jump from one mark to the next using the classic [' and ]' jumps
+"}
+
 
 
 
