@@ -3085,6 +3085,11 @@ find . -name "*.hutf8" -type f | sed 's/.hutf8$//' | xargs -I {} mv {}.hutf8 {}
 find . -name "*.cpp" -type f | xargs rm -rf;find . -name "*.c" -type f | xargs rm -rf;find . -name "*.h" -type f | xargs rm -rf
 find . -name "*.cutf8" -type f | sed 's/.cutf8$//' | xargs -I {} mv {}.cutf8 {};find . -name "*.cpputf8" -type f | sed 's/.cpputf8$//' | xargs -I {} mv {}.cpputf8 {};find . -name "*.hutf8" -type f | sed 's/.hutf8$//' | xargs -I {} mv {}.hutf8 {}
 
+另一种工具，可以批量直接转换
+find . -name "*.cpp" -type f |xargs enca -L zh_CN -x UTF-8              
+find . -name "*.h" -type f |xargs enca -L zh_CN -x UTF-8              
+find . -name "*.c" -type f |xargs enca -L zh_CN -x UTF-8
+
 "install_name_tool -change  old new MacVim
 "otool -L 查看
 更改之前，zshrc中，要把PATH里面/usr/local/bin 放在/usr/bin 前面，否则找不到对的ctags
