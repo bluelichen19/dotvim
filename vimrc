@@ -179,10 +179,13 @@ if has('gui_running')
     set fuoptions=maxvert,maxhorz
     au GUIEnter * set fullscreen
 
-    ""set background=light
+    "不要"set background=light
+    "set background=dark
+    "不要"let g:solarized_termcolors = 256  " +New line!!
+    "colorscheme solarized
+    "以下另一种配色
     set background=dark
-    "let g:solarized_termcolors = 256  " +New line!!
-    colorscheme solarized
+	colorscheme material-theme
     "全屏 "如果底部有黑边
     "{
         "set background=dark
