@@ -151,3 +151,6 @@
 [submodule "bundle/delimitMate.vim"]
 	path = bundle/delimitMate.vim
 	url = https://github.com/Raimondi/delimitMate.git
+[submodule "bundle/vim-material-theme"]
+	path = bundle/vim-material-theme
+	url = https://github.com/jdkanani/vim-material-theme.git
