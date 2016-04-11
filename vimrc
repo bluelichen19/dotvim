@@ -188,8 +188,9 @@ if has('gui_running')
     "colorscheme solarized
     "以下另一种配色
     set background=dark
-	"colorscheme material-theme
-	colorscheme dracula
+	colorscheme material-theme
+	"colorscheme dracula
+	"colorscheme vombatidae
     "全屏 "如果底部有黑边
     "{
         "set background=dark
