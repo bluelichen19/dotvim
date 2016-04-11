@@ -1,0 +1,3 @@
+# Complied Object files
+*.o
+*.o.d
