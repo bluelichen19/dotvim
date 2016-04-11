@@ -174,6 +174,9 @@ set nofoldenable
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable
+syntax on
+filetype on
+
 
 if has('gui_running')
     set fuoptions=maxvert,maxhorz
@@ -185,7 +188,8 @@ if has('gui_running')
     "colorscheme solarized
     "以下另一种配色
     set background=dark
-	colorscheme material-theme
+	"colorscheme material-theme
+	colorscheme dracula
     "全屏 "如果底部有黑边
     "{
         "set background=dark
@@ -335,7 +339,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 "function(Vundle){
     "Vundle.vim插件管理配置
     "set nocompatible              " be iMproved, required
-    filetype off                  " required
+    "filetype off                  " required
 
     " set the runtime path to include Vundle and initialize
     set rtp+=~/.vim/bundle/Vundle.vim

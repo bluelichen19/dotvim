@@ -145,12 +145,15 @@
 [submodule "bundle/Mark-and-Highlight.vim"]
 	path = bundle/Mark-and-Highlight.vim
 	url = https://github.com/vim-scripts/BOOKMARKS--Mark-and-Highlight-Full-Lines.git
-[submodule "bundle/syntax"]
-	path = bundle/syntax
-	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
 [submodule "bundle/delimitMate.vim"]
 	path = bundle/delimitMate.vim
 	url = https://github.com/Raimondi/delimitMate.git
 [submodule "bundle/vim-material-theme"]
 	path = bundle/vim-material-theme
 	url = https://github.com/jdkanani/vim-material-theme.git
+[submodule "bundle/dracula-theme.git"]
+	path = bundle/dracula-theme.git
+	url = https://github.com/zenorocha/dracula-theme.git
+[submodule "bundle/syntax"]
+	path = bundle/syntax
+	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
