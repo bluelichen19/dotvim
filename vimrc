@@ -174,46 +174,9 @@ set nofoldenable
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable
-syntax on
+"syntax on
 filetype on
-
-
-if has('gui_running')
-    set fuoptions=maxvert,maxhorz
-    au GUIEnter * set fullscreen
-
-    "不要"set background=light
-    "set background=dark
-    "不要"let g:solarized_termcolors = 256  " +New line!!
-    "colorscheme solarized
-    "以下另一种配色
-    set background=dark
-	colorscheme material-theme
-	"colorscheme dracula
-	"colorscheme vombatidae
-    "全屏 "如果底部有黑边
-    "{
-        "set background=dark
-        "colorscheme solarized
-        "let shellcmd = 'defaults write org.vim.MacVim MMNativeFullScreen 0 '
-        "let output = system(shellcmd)
-        "set fu
-    "}
-    set guitablabel=%M\ %t
-else
-    set background=light
-    colorscheme molokai
-    "light
-    hi IndentGuidesOdd  ctermbg=white
-    hi IndentGuidesEven ctermbg=lightgrey
-    "dark
-    "hi IndentGuidesOdd  ctermbg=black
-    "hi IndentGuidesEven ctermbg=darkgrey
-    "set nofu
-    "set background=dark
-endif
 "set background=dark
-let g:solarized_termcolors=256
 "colorscheme solarized
 "colorscheme molokai
 "colorscheme phd
@@ -398,7 +361,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 "function(pathogen){
     "pathogen.vim插件管理配置
     execute pathogen#infect()
-    syntax on
+    "syntax on
     syntax enable
     filetype plugin indent on
 "}
@@ -453,7 +416,6 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "\ }
     "nmap <leader>tb :TagbarToggle<CR>  " \tb 打开tagbar窗口
     "let g:tagbar_autofocus = 1
-
     " 设置 tagbar 子窗口的位置出现在主编辑区的左边 
     "let tagbar_left=1 
     " 设置显示／隐藏标签列表子窗口的快捷键。速记：tag list 
@@ -1049,6 +1011,52 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 	"<SHIFT-F5> Remove the mark on the current line
 
 	"Then, just jump from one mark to the next using the classic [' and ]' jumps
+"}
+"function(color-setting){
+  let g:solarized_termcolors=256
+  if has('gui_running')
+    set fuoptions=maxvert,maxhorz
+    au GUIEnter * set fullscreen
+
+    "不要"set background=light
+    "set background=dark
+    "不要"let g:solarized_termcolors = 256  " +New line!!
+    "colorscheme solarized
+    "以下另一种配色
+    set background=dark
+    colorscheme material-theme
+    "colorscheme dracula
+    "colorscheme vombatidae
+    "全屏 "如果底部有黑边
+    "{
+        "set background=dark
+        "colorscheme solarized
+        "let shellcmd = 'defaults write org.vim.MacVim MMNativeFullScreen 0 '
+        "let output = system(shellcmd)
+        "set fu
+    "}
+    set guitablabel=%M\ %t
+  else
+    set background=light
+    "colorscheme molokai
+    colorscheme dracula
+    "light
+    hi IndentGuidesOdd  ctermbg=white
+    hi IndentGuidesEven ctermbg=lightgrey
+    "dark
+    "hi IndentGuidesOdd  ctermbg=black
+    "hi IndentGuidesEven ctermbg=darkgrey
+    "set nofu
+    "set background=dark
+  endif
+    "set background=dark
+    let g:solarized_termcolors=256
+    "colorscheme solarized
+    "colorscheme molokai
+    "colorscheme phd
+
+    "colorscheme desert
+    "set background=dark  
 "}
 
 
