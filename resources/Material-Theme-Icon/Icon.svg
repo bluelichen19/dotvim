@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="512" cy="512" r="468"></circle>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="6" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.21 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.14 0" in="shadowBlurOuter2" type="matrix" result="shadowMatrixOuter2"></feColorMatrix>
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feGaussianBlur stdDeviation="0" in="shadowOffsetInner1" result="shadowBlurInner1"></feGaussianBlur>
+            <feComposite in="shadowBlurInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.608311046   0 0 0 0 0.885044643   0 0 0 0 0.859216174  0 0 0 0.7 0" in="shadowInnerInner1" type="matrix" result="shadowMatrixInner1"></feColorMatrix>
+            <feOffset dx="0" dy="-2" in="SourceAlpha" result="shadowOffsetInner2"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetInner2" result="shadowBlurInner2"></feGaussianBlur>
+            <feComposite in="shadowBlurInner2" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner2"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.388936635   0 0 0 0 0.653964711   0 0 0 0 0.629228757  0 0 0 0.7 0" in="shadowInnerInner2" type="matrix" result="shadowMatrixInner2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+                <feMergeNode in="shadowMatrixInner1"></feMergeNode>
+                <feMergeNode in="shadowMatrixInner2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path id="path-4" d="M564.604664,607.893952 C564.604664,593.427498 559.485119,582.155105 549.245876,574.076436 C539.006633,565.997767 521.017773,557.63741 495.278758,548.995112 C469.539743,540.352815 448.497943,531.992458 432.152729,523.913789 C378.983814,497.799021 352.399756,461.915239 352.399756,416.261365 C352.399756,393.528366 359.022286,373.472901 372.267546,356.094369 C385.512806,338.715836 404.253158,325.188966 428.489165,315.51335 C452.725172,305.837735 479.966787,301 510.214827,301 C539.711363,301 566.154517,306.26045 589.545082,316.781507 C612.935647,327.302565 631.11238,342.285453 644.075825,361.730621 C657.039271,381.17579 663.520897,403.391796 663.520897,428.379308 L564.886477,428.379308 C564.886477,411.658342 559.766932,398.69509 549.527689,389.489165 C539.288445,380.28324 525.432796,375.680346 507.960326,375.680346 C490.29998,375.680346 476.350394,379.578715 466.111151,387.37557 C455.871908,395.172425 450.752363,405.082737 450.752363,417.106803 C450.752363,427.62786 456.388559,437.162425 467.66112,445.710784 C478.933682,454.259143 498.754305,463.089184 527.123585,472.201171 C555.492864,481.313159 578.789142,491.129534 597.013116,501.650591 C641.351858,527.20173 663.520897,562.427956 663.520897,607.330326 C663.520897,643.214647 649.994026,671.395628 622.939878,691.874115 C595.885731,712.352601 558.780772,722.591691 511.62389,722.591691 C478.369834,722.591691 448.263153,716.626717 421.302943,704.696589 C394.342734,692.766462 374.052427,676.421493 360.431416,655.661192 C346.810404,634.900891 340,610.994026 340,583.939878 L439.198045,583.939878 C439.198045,605.921373 444.881209,622.125437 456.247709,632.552556 C467.614208,642.979676 486.072751,648.193157 511.62389,648.193157 C527.969104,648.193157 540.885387,644.670535 550.373127,637.625184 C559.860866,630.579833 564.604664,620.669521 564.604664,607.893952 L564.604664,607.893952 Z"></path>
+        <linearGradient x1="25.7710154%" y1="24.2985724%" x2="96.5898426%" y2="88.8512757%" id="linearGradient-5">
+            <stop stop-color="#80CBC4" stop-opacity="0.193387681" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Material-Design-Icon-Template" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Icon" sketch:type="MSArtboardGroup">
+            <mask id="mask-2" sketch:name="Mask" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <g id="Mask">
+                <use fill="#263238" sketch:type="MSShapeGroup" xlink:href="#path-1"></use>
+                <use fill-opacity="0.0190648321" fill="none" xlink:href="#path-1"></use>
+            </g>
+            <g id="S" filter="url(#filter-3)">
+                <use fill="#80CBC4" sketch:type="MSShapeGroup" mask="url(#mask-2)" xlink:href="#path-4"></use>
+                <use fill-opacity="0.0240788246" fill="none" xlink:href="#path-4"></use>
+            </g>
+            <circle id="Color" fill="url(#linearGradient-5)" sketch:type="MSShapeGroup" mask="url(#mask-2)" cx="512" cy="512" r="468"></circle>
+        </g>
+    </g>
+</svg>

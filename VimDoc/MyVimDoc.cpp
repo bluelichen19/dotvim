@@ -52,7 +52,7 @@
 "    -> iTerm2 配色方案 
 "    -> zsh 
 "    -> python相关 
-"    ->  
+"    -> sublimeText相关 
 "    ->  
 "    ->  
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -4348,6 +4348,19 @@ Successfully installed pip-8.1.1 setuptools-20.6.7
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => tmux命令
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  packetcontrol 连接不上服务器
+  You would need to add the following: "channels": [ "https://packagecontrol.io/channel_v3.json", "https://web.archive.org/web/20150905194312/https://packagecontrol.io/channel_v3.json" ]
+
+  to the JSON that is found in the menu under: Preferences > Package Settings > Package Control > Settings - User
+
+  As written by MattDMo, apparently the hosting company for Package Control was under a DDoS attack and therefore there was the downtime, everything seems in order right now so I will suggest to remove the channels from the Settings - User JSON underneath Preferences > Package Settings > Package Control > Settings - User
+  instal 里面搜 Material
+  To activate this awesome theme, add in your current settings this code:
+  
+  {
+      "theme": "Material-Theme.sublime-theme",
+      "color_scheme": "Packages/Material Theme/schemes/Material-Theme.tmTheme",
+  }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => tmux命令
