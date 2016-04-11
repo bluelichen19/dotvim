@@ -652,12 +652,14 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "youcompleteme  默认tab  s-tab 和 ultisnips 冲突
     "let g:ycm_key_list_select_completion = ['<Down>']
     "let g:ycm_key_list_previous_completion = ['<Up>']
+    let g:ycm_key_list_previous_completion = ['<M-tab>']
     " 修改对C函数的补全快捷键，默认是CTRL + space，修改为ALT + ;
     let g:ycm_key_invoke_completion = "<Leader><Space>"
 
     let g:UltiSnipsExpandTrigger="<leader><tab>"
-    let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
-    let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
+    let g:UltiSnipsJumpForwardTrigger="<leader><tab>"                           
+    let g:UltiSnipsJumpBackwardTrigger="<leader><M-tab>"
+
 
 
 
@@ -832,7 +834,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     let g:miniBufExplUseSingleClick = 0
 "}
 "function(CtrlSF){
-    " 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project
+    " 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project ctrlsf插件依赖于ack支持，因此还需要先装一下ack
     nnoremap <Leader>sp :CtrlSF<CR>
 
     let g:ctrlsf_auto_close = 0
