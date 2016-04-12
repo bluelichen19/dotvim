@@ -652,7 +652,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "youcompleteme  默认tab  s-tab 和 ultisnips 冲突
     "let g:ycm_key_list_select_completion = ['<Down>']
     "let g:ycm_key_list_previous_completion = ['<Up>']
-    let g:ycm_key_list_previous_completion = ['<M-tab>']
+    "let g:ycm_key_list_previous_completion = ['<M-tab>']
     " 修改对C函数的补全快捷键，默认是CTRL + space，修改为ALT + ;
     let g:ycm_key_invoke_completion = "<Leader><Space>"
 
@@ -997,8 +997,10 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     
 "}
 
-"function(delimitMate){
+"function(AutoPairs){
 	
+	let g:AutoPairsFlyMode = 1
+	let g:AutoPairsShortcutBackInsert = '<M-b>'
 "}
 "function(syntax高亮C++语法)
 "{
