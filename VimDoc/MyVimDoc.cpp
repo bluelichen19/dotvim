@@ -1817,6 +1817,35 @@ git submodule update
 "【13】https://github.com/gmarik/Vundle.vim/issues/176
 "【14】所需即所获：像 IDE 一样使用 vim（https://github.com/yangyangwithgnu/use_vim_as_ide）
 "本文永久更新地址：http://www.linuxdiyf.com/linux/18110.html
+ 当出现类似以下问题，运行submodule foreach --recursive git checkout .
+git subproject commit xxxxxxxxxxxxxxxxxxxxx -dirty
+-Subproject commit 8c75e65b647238febd0257658b150f717a136359
++Subproject commit 8c75e65b647238febd0257658b150f717a136359-dirty
+不知道如何操作出现的 dirty , 可印象中又什么都修改过
+
+解决办法, 进入提示的那个文件夹中 git checkout .
+
+摘录出来的部分英文回复如下:
+
+As mentioned in Mark Longair's blog post Git Submodules Explained,
+
+Versions 1.7.0 and later of git contain an annoying change in the behavior of git submodule.
+Submodules are now regarded as dirty if they have any modified files or untracked files, whereas previously it would only be the case if HEAD in the submodule pointed to the wrong commit.
+
+The meaning of the plus sign (+) in the output of git submodule has changed, and the first time that you come across this it takes a little while to figure out what’s going wrong, for example by looking through changelogs or using git bisect on git.git to find the change. It would have been much kinder to users to introduce a different symbol for “at the specified version, but dirty”.
+
+You can fix it by:
+
+either committing or undoing the changes/evolutions within each of your submodules, before going back to the parent repo (where the diff shouldn't report "dirty" files anymore). To undo all changes to your submodule just cd into the root directory of your submodule and do git checkout .
+
+dotnetCarpenter comments that you can do a: git submodule foreach --recursive git checkout .
+
+or add --ignore-submodules to your git diff, to temporarily ignore those "dirty" submodules.
+
+New in Git version 1.7.2
+As Noam comments below, this question mentions that, since git version 1.7.2, you can ignore the dirty submodules with:
+
+git status --ignore-submodules=dirty
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => CtrlP 插件
