@@ -173,6 +173,7 @@ set nofoldenable
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
+"difference between these two is that 'on' switch does search for first cpp file it find inside $VIMRUNTIME directory while enable switch searches in .vim directory too. more info about that
 syntax enable
 "syntax on
 filetype on
