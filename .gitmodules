@@ -160,3 +160,6 @@
 [submodule "bundle/auto-pairs.vim"]
 	path = bundle/auto-pairs.vim
 	url = https://github.com/jiangmiao/auto-pairs.git
+[submodule "bundle/vim-ultimate-colorcheme-utility.vim"]
+	path = bundle/vim-ultimate-colorcheme-utility.vim
+	url = https://github.com/biskark/vim-ultimate-colorscheme-utility.git

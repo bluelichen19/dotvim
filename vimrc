@@ -1016,6 +1016,11 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 
 	"Then, just jump from one mark to the next using the classic [' and ]' jumps
 "}
+"function(vim-ultimate-colorscheme-utility){
+	let g:ulti_color_auto_save = 0
+	let g:ulti_color_default_keys = 0
+	let g:ulti_color_auto_load = 0
+"}
 "function(color-setting){
   let g:solarized_termcolors=256
   if has('gui_running')
@@ -1025,6 +1030,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "不要"set background=light
     "set background=dark
     "不要"let g:solarized_termcolors = 256  " +New line!!
+    "colorscheme molokai
     "colorscheme solarized
     "以下另一种配色
     set background=dark
@@ -1062,7 +1068,6 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "colorscheme desert
     "set background=dark  
 "}
-
 
 
 

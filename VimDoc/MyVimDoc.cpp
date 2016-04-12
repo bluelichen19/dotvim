@@ -308,6 +308,92 @@ scriptnames 显示插件启动顺序
 ":bunload   卸载缓冲区
 ":bwipe     彻底删除缓冲区
 
+本命令列出所有的语法项目:
+
+    :sy[ntax] [list]
+
+要显示单个语法组的所有语法项目:
+
+    :sy[ntax] list {group-name}
+
+要列出单个簇的所有语法组:                                      
+
+    :sy[ntax] list @{cluster-name}
+有三种类型的高亮组:
+- 用于特定语言的。这些组的名字以该语言的名字开始。它们中很多没有属性，而是链接
+  到第二种类型的组。
+- 用于所有语法语言的。
+- 用于 'highlight' 选项的。
+                                                        *hitest.vim*
+用这个命令，你可以看到当前激活的所有组:
+    :so $VIMRUNTIME/syntax/hitest.vim
+它会打开一个新窗口，其中包含所有的高亮组名，以它们本身的颜色显示。
+
+                                                *:colo* *:colorscheme* *E185*
+:colo[rscheme]          输出当前激活的色彩方案名。基本上等同
+                                :echo g:colors_name
+                        如果 g:colors_name 没有定义 :colo 会输出 "default"。如
+                        果编译时没有带 |+eval| 特性，输出 "unknown"。
+
+:colo[rscheme] {name}   载入色彩方案 {name}。它会在 'runtimepath' 里搜索
+                        "colors/{name}.vim"，载入第一个找到的文件。
+                        要看到当前激活的色彩方案的名字:
+                                :colo
+                        该名字也保存在 g:colors_name 变量里。
+                        它不能递归调用，所以你不能在色彩方案脚本里使用
+                        ":colorscheme"。
+                        色彩方案载入后，激活 |ColorScheme| 自动命令事件。关于
+                        如何编写色彩方案文件的信息:
+                                :edit $VIMRUNTIME/colors/README.txt
+
+:hi[ghlight]            列出当前所有的有属性设置的高亮组。
+
+:hi[ghlight] {group-name}
+                        列出一个高亮组。
+
+:hi[ghlight] clear      复位高亮设置为缺省值。删除所有用户增加的组的高亮属性。
+                        用当前的 'background' 的值来决定所使用的缺省颜色。
+
+:hi[ghlight] clear {group-name}
+:hi[ghlight] {group-name} NONE
+                        屏蔽一个高亮组的所有高亮设置。并_不_复原缺省的颜色。
+
+:hi[ghlight] [default] {group-name} {key}={arg} ..
+                        增加高亮组，或者更改已有的组高亮设置。
+                        |highlight-args| 说明 {key}={arg} 的参数。
+                        |:highlight-default| 说明可选的 [default] 参数。
+
+通常，在启动时加入高亮组。它设置高亮的缺省值。在这之后，你可以使用附加的
+highlight 命令来修改你希望设置为非缺省值的参数。也可以用 "NONE" 来撤销某个值并
+恢复缺省的值。
+
+修改颜色的简单方式是 |:colorscheme| 命令。它载入一个文件，里面包含了这样的
+":highlight" 命令:
+
+   :hi Comment  gui=bold
+
+注意 所有没有包含在内的设置都保持原样，只使用指定的字段，从而和以前的设置进行
+了合并。所以实际结果就像用了下面这样的一条命令:
+   :hi Comment  term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
+
+                                                        *:highlight-verbose*
+如果列出高亮组时 'verbose' 非零，同时列出高亮组最近在哪里设置。例如:
+        :verbose hi Comment
+        Comment        xxx term=bold ctermfg=4 guifg=Blue 
+           Last set from /home/mool/vim/vim7/runtime/syntax/syncolor.vim 
+
+如果使用了 ":hi clear"，那么列出缺省值的同时提到使用该命令的脚本。详见
+|:verbose-cmd|。
+
+                                        *highlight-args* *E416* *E417* *E423*
+用于高亮，有三种类型的终端:
+term    普通的终端 (vt100、xterm)
+cterm   色彩终端 (MS-DOS 控制台、color-xterm，带有 "Co" termcap 项目的终端)
+gui     GUI
+
+每种类型可以分别设置高亮属性。这样，单个语法文件就可用于所有的终端，并使用每个
+终端最优的高亮设置。
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim常用设置解释 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
