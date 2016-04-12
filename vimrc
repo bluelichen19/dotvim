@@ -1048,17 +1048,17 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "}
     set guitablabel=%M\ %t
   else
-    set background=light
+    set background=dark
     "colorscheme molokai
     colorscheme dracula
+    "colorscheme material-theme
     "light
-    hi IndentGuidesOdd  ctermbg=white
-    hi IndentGuidesEven ctermbg=lightgrey
+    "hi IndentGuidesOdd  ctermbg=white
+    "hi IndentGuidesEven ctermbg=lightgrey
     "dark
     "hi IndentGuidesOdd  ctermbg=black
     "hi IndentGuidesEven ctermbg=darkgrey
     "set nofu
-    "set background=dark
   endif
     "set background=dark
     let g:solarized_termcolors=256

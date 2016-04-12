@@ -10,7 +10,7 @@
 "    execute "silent !/bin/sh ".g:base16_shell_path."/base16-materialtheme.".&background.".sh"
 "  endif
 " endif
-echo 555555
+"echo 666666
 " GUI color definitions
 let s:gui00 = "263238"
 let s:gui01 = "37474F"
@@ -292,6 +292,29 @@ call <sid>hi("phpClassExtends",   s:gui0A, "", s:cterm0A, "", "")
 call <sid>hi("phpInclude",        s:gui05, "", s:cterm05, "", "")
 call <sid>hi("phpUseClass",       s:gui0A, "", s:cterm0A, "", "")
 call <sid>hi("phpBoolean",        s:gui05, "", s:cterm05, "", "")
+
+" C/C++ highlichting
+call <sid>hi("cTemplateOperatorDeclare",     s:gui05, "", s:cterm05, "", "")
+call <sid>hi("cUserCont",     s:gui07, "", s:cterm07, "", "")
+call <sid>hi("cCustomAngleBracketStart", s:gui04, "", s:cterm04, "", "")
+call <sid>hi("cCustomAngleBracketEnd", s:gui04, "", s:cterm04, "", "")
+call <sid>hi("cCppInElse2",     s:gui04, "", s:cterm04, "", "")
+call <sid>hi("cCppInElse",    s:gui04, "", s:cterm04, "", "")
+call <sid>hi("cCppOutIf",           s:gui05, "", s:cterm05, "", "")
+call <sid>hi("cCustomScope",          s:gui0C, "", s:cterm0C, "", "")
+call <sid>hi("cCustomClass",        s:gui0C, "", s:cterm0C, "", "")
+call <sid>hi("cCppOutIf2",         s:gui02, "", s:cterm02, "", "")
+call <sid>hi("cCppInSkip",      s:gui07, "", s:cterm07, "", "")
+call <sid>hi("cCppInSkip",       s:gui07, "", s:cterm07, "", "")
+call <sid>hi("cppNumber",         s:gui07, "", s:cterm07, "", "")
+call <sid>hi("cCppOutElse",       s:gui04, "", s:cterm04, "", "")
+call <sid>hi("cCppSkip",        s:gui05, "", s:cterm05, "", "")
+call <sid>hi("cTemplateDeclare",   s:gui0A, "", s:cterm0A, "", "")
+call <sid>hi("cCppInIf",        s:gui05, "", s:cterm05, "", "")
+call <sid>hi("cCustomTemplateClass",       s:gui0A, "", s:cterm0A, "", "")
+call <sid>hi("cNumbersCom",        s:gui05, "", s:cterm05, "", "")
+call <sid>hi("cppMinMax",  s:gui04, "", s:cterm04, "", "")
+
 
 " Python highlighting
 call <sid>hi("pythonOperator",  s:gui04, "", s:cterm04, "", "")
