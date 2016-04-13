@@ -58,7 +58,7 @@ let g:mapleader = "'"
 
 " Fast saving
 nmap <leader>w :w!<cr>
-
+set clipboard=unnamed
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
