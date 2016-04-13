@@ -1022,6 +1022,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 	let g:ulti_color_default_keys = 0
 	let g:ulti_color_auto_load = 0
 "}
+
 "function(color-setting){
   let g:solarized_termcolors=256
   if has('gui_running')
@@ -1062,6 +1063,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
   endif
     "set background=dark
     let g:solarized_termcolors=256
+    set t_Co=256
     "colorscheme solarized
     "colorscheme molokai
     "colorscheme phd
@@ -1124,7 +1126,7 @@ highlight Boolean  guifg=#F77669
 highlight Float  guifg=#F77669
 
 highlight Function  guifg=#82B1FF
-highlight Identifier  guifg=#A886A1
+highlight Identifier  guifg=#A886A1 "gui=bold
 highlight cAnsiFunction guifg=#82B1FF
 
 
@@ -1136,19 +1138,29 @@ highlight Operator guifg=#C792EA
 highlight Keyword guifg=#C792EA
 highlight Exception guifg=#C792EA
 highlight Type  guifg=#8BD649
+highlight Statement          guifg=#C792EA  
+highlight Statement         guifg=#C792EA
+highlight StorageClass         guifg=#C792EA
+highlight Structure          guifg=#C792EA
+highlight Typedef         guifg=#C792EA
 
-
-highlight Statement  guifg=#E0E7B8  
 "这需要再改
-highlight Todo  guifg=#F77669 guibg=#263238
-highlight PreProc guifg=#A886A1
-highlight Include guifg=#A886A1
-highlight Define guifg=#A886A1
-highlight Macro guifg=#A886A1
-highlight PreCondit guifg=#A886A1
+highlight Todo  guifg=#37474F   gui=inverse,bold,italic,underline"guibg=#263238 guibg=NONE
+highlight cTodo  guifg=#37474F   gui=inverse,bold,italic,underline"guibg=#263238 guibg=NONE
 
-"highlight Type  guifg=#8BD649
-"highlight Type  guifg=#8BD649
+"highlight PreProc guifg=#6272A4
+highlight PreProc guifg=#FF79C6
+"highlight Include guifg=#6272A4
+highlight Include guifg=#FF79C6
+"highlight Define guifg=#6272A4
+highlight Define guifg=#FF79C6
+"highlight Macro guifg=#6272A4
+highlight Macro guifg=#FF79C6
+"highlight PreCondit guifg=#6272A4
+highlight PreCondit guifg=#FF79C6
+highlight Delimiter guifg=#FF79C6
+"highlight Special  guifg=#80CBC4
+"highlight SpecialChar  guifg=#80CBC4
 
 
 

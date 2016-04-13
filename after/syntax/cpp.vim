@@ -1397,5 +1397,3 @@ if version >= 508 || !exists("did_cpp_syntax_inits")
   HiLink cppRawDelimiter    Delimiter
   delcommand HiLink
 endif
-"highlight cComment ctermfg=Green guifg=Green
-
