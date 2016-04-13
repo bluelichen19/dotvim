@@ -1124,6 +1124,7 @@ highlight Boolean  guifg=#F77669
 highlight Float  guifg=#F77669
 
 highlight Function  guifg=#82B1FF
+highlight Identifier  guifg=#A886A1
 highlight cAnsiFunction guifg=#82B1FF
 
 
