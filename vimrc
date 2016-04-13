@@ -1069,6 +1069,90 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "colorscheme desert
     "set background=dark  
 "}
+" 快速重载.vimrc
+		"*Comment        v 任何注释
+        "*Constant       v 任何常数
+         "String         v 一个字符串常数: "这是一个字符串"
+         "Character      v 一个字符常数: 'c'、'\n'
+         "Number         v 一个数字常数: 234、0xff
+         "Boolean        v 一个布尔型常数: TRUE、false
+         "Float          v 一个浮点常数: 2.3e10
+
+        "*Identifier     v 任何变量名
+         "Function       v 函数名 (也包括: 类的方法名)
+
+        "*Statement      v 任何语句
+         "Conditional    v if、then、else、endif、switch 等
+         "Repeat         v for、do、while、etc.
+         "Label          v case、default 等
+         "Operator       v "sizeof"、"+"、"*" 等
+         "Keyword        v 任何其它关键字
+         "Exception      v try、catch、throw
+
+        "*PreProc        v 通用预处理命令
+         "Include        v 预处理命令 #include
+         "Define         v 预处理命令 #define
+         "Macro          v 等同于 Define
+         "PreCondit      v 预处理命令 #if、#else、#endif 等
+
+        "*Type           v int、long、char 等
+         "StorageClass   v static、register、volatile 等
+         "Structure      v struct、union、enum 等
+         "Typedef        v 一个 typedef
+
+        "*Special        v 任何特殊符号
+         "SpecialChar    v 常数中的特殊字符
+         "Tag            v 这里可以使用 CTRL-]
+         "Delimiter      v 需要注意的字符
+         "SpecialComment v 注释里的特殊字符
+         "Debug          v 调试语句
+
+        "*Underlined     v 需要突出的文本，HTML 链接
+
+        "*Ignore         v 留空，被隐藏
+
+        "*Error          v 任何有错的构造
+
+        "*Todo           v 任何需要特殊注意的部分；多是关键字 TODO FIXME 和 XXX
+map <leader>s :source ~/.vimrc<cr>
+highlight Constant  guifg=#F77669
+highlight Comment  guifg=#5C7E8C
+highlight String  guifg=#C3E88D
+highlight Character  guifg=#C3E88D
+highlight Number  guifg=#F77669
+highlight Boolean  guifg=#F77669
+highlight Float  guifg=#F77669
+
+highlight Function  guifg=#82B1FF
+highlight cAnsiFunction guifg=#82B1FF
+
+
+highlight cCustomClass guifg=#F1E655
+highlight Repeat guifg=#C792EA
+highlight Label guifg=#C792EA
+highlight Conditional guifg=#C792EA
+highlight Operator guifg=#C792EA
+highlight Keyword guifg=#C792EA
+highlight Exception guifg=#C792EA
+highlight Type  guifg=#8BD649
+
+
+highlight Statement  guifg=#E0E7B8  
+"这需要再改
+highlight Todo  guifg=#F77669 guibg=#263238
+highlight PreProc guifg=#A886A1
+highlight Include guifg=#A886A1
+highlight Define guifg=#A886A1
+highlight Macro guifg=#A886A1
+highlight PreCondit guifg=#A886A1
+
+"highlight Type  guifg=#8BD649
+"highlight Type  guifg=#8BD649
+
+
+
+"}
+
 
 
 

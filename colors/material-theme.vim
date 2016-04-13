@@ -10,7 +10,7 @@
 "    execute "silent !/bin/sh ".g:base16_shell_path."/base16-materialtheme.".&background.".sh"
 "  endif
 " endif
-"echo 666666
+
 " GUI color definitions
 let s:gui00 = "263238"
 let s:gui01 = "37474F"
@@ -183,28 +183,28 @@ if has('nvim') && (!exists('g:material_hide_endofbuffer') || g:material_hide_end
 endif
 
 " Standard syntax highlighting
-call <sid>hi("Boolean",      s:gui0D, "", s:cterm0D, "", "none")
-call <sid>hi("Character",    s:gui08, "", s:cterm08, "", "none")
-call <sid>hi("Comment",      s:gui03, "", s:cterm03, "", "none")
-call <sid>hi("Conditional",  s:gui05, "", s:cterm05, "", "none")
-call <sid>hi("Constant",     s:gui0D, "", s:cterm0D, "", "none")
+"call <sid>hi("Boolean",      s:gui0D, "", s:cterm0D, "", "none")
+"call <sid>hi("Character",    s:gui08, "", s:cterm08, "", "none")
+"call <sid>hi("Comment",      s:gui03, "", s:cterm03, "", "none")
+"call <sid>hi("Conditional",  s:gui05, "", s:cterm05, "", "none")
+"call <sid>hi("Constant",     s:gui0D, "", s:cterm0D, "", "none")
 call <sid>hi("Define",       s:gui07, "", s:cterm07, "", "none")
 call <sid>hi("Delimiter",    s:gui04, "", s:cterm04, "", "none")
-call <sid>hi("Float",        s:gui0D, "", s:cterm0D, "", "none")
-call <sid>hi("Function",     s:gui07, "", s:cterm07, "", "none")
+"call <sid>hi("Float",        s:gui0D, "", s:cterm0D, "", "none")
+"call <sid>hi("Function",     s:gui07, "", s:cterm07, "", "none")
 call <sid>hi("Identifier",   s:gui05, "", s:cterm05, "", "none")
 call <sid>hi("Include",      s:gui05, "", s:cterm05, "", "none")
-call <sid>hi("Keyword",      s:gui05, "", s:cterm05, "", "none")
-call <sid>hi("Label",        s:gui06, "", s:cterm06, "", "none")
-call <sid>hi("Number",       s:gui0D, "", s:cterm0D, "", "none")
-call <sid>hi("Operator",     s:gui05, "", s:cterm05, "", "none")
+"call <sid>hi("Keyword",      s:gui05, "", s:cterm05, "", "none")
+"call <sid>hi("Label",        s:gui06, "", s:cterm06, "", "none")
+"call <sid>hi("Number",       s:gui0D, "", s:cterm0D, "", "none")
+"call <sid>hi("Operator",     s:gui05, "", s:cterm05, "", "none")
 call <sid>hi("PreProc",      s:gui05, "", s:cterm05, "", "none")
-call <sid>hi("Repeat",       s:gui04, "", s:cterm04, "", "none")
+"call <sid>hi("Repeat",       s:gui04, "", s:cterm04, "", "none")
 call <sid>hi("Special",      s:gui07, "", s:cterm07, "", "none")
 call <sid>hi("SpecialChar",  s:gui04, "", s:cterm04, "", "none")
 call <sid>hi("Statement",    s:gui05, "", s:cterm05, "", "none")
 call <sid>hi("StorageClass", s:gui07, "", s:cterm07, "", "none")
-call <sid>hi("String",       s:gui09, "", s:cterm09, "", "none")
+"call <sid>hi("String",       s:gui09, "", s:cterm09, "", "none")
 call <sid>hi("Structure",    s:gui07, "", s:cterm07, "", "none")
 call <sid>hi("Tag",          s:gui07, "", s:cterm07, "", "none")
 call <sid>hi("Todo",         s:gui0D, s:gui00, s:cterm0D, s:cterm00, "")
@@ -212,8 +212,8 @@ call <sid>hi("Type",         s:gui07, "", s:cterm07, "", "none")
 call <sid>hi("Typedef",      s:gui07, "", s:cterm07, "", "none")
 
 " C highlighting
-call <sid>hi("cOperator",   s:gui0C, "", s:cterm0C, "", "")
-call <sid>hi("cPreCondit",  s:gui0E, "", s:cterm0E, "", "")
+"call <sid>hi("cOperator",   s:gui0C, "", s:cterm0C, "", "")
+"call <sid>hi("cPreCondit",  s:gui0E, "", s:cterm0E, "", "")
 
 " C# highlighting
 call <sid>hi("csClass",                 s:gui0A, "", s:cterm0A, "", "")
@@ -292,29 +292,6 @@ call <sid>hi("phpClassExtends",   s:gui0A, "", s:cterm0A, "", "")
 call <sid>hi("phpInclude",        s:gui05, "", s:cterm05, "", "")
 call <sid>hi("phpUseClass",       s:gui0A, "", s:cterm0A, "", "")
 call <sid>hi("phpBoolean",        s:gui05, "", s:cterm05, "", "")
-
-" C/C++ highlichting
-call <sid>hi("cTemplateOperatorDeclare",     s:gui05, "", s:cterm05, "", "")
-call <sid>hi("cUserCont",     s:gui07, "", s:cterm07, "", "")
-call <sid>hi("cCustomAngleBracketStart", s:gui04, "", s:cterm04, "", "")
-call <sid>hi("cCustomAngleBracketEnd", s:gui04, "", s:cterm04, "", "")
-call <sid>hi("cCppInElse2",     s:gui04, "", s:cterm04, "", "")
-call <sid>hi("cCppInElse",    s:gui04, "", s:cterm04, "", "")
-call <sid>hi("cCppOutIf",           s:gui05, "", s:cterm05, "", "")
-call <sid>hi("cCustomScope",          s:gui0C, "", s:cterm0C, "", "")
-call <sid>hi("cCustomClass",        s:gui0C, "", s:cterm0C, "", "")
-call <sid>hi("cCppOutIf2",         s:gui02, "", s:cterm02, "", "")
-call <sid>hi("cCppInSkip",      s:gui07, "", s:cterm07, "", "")
-call <sid>hi("cCppInSkip",       s:gui07, "", s:cterm07, "", "")
-call <sid>hi("cppNumber",         s:gui07, "", s:cterm07, "", "")
-call <sid>hi("cCppOutElse",       s:gui04, "", s:cterm04, "", "")
-call <sid>hi("cCppSkip",        s:gui05, "", s:cterm05, "", "")
-call <sid>hi("cTemplateDeclare",   s:gui0A, "", s:cterm0A, "", "")
-call <sid>hi("cCppInIf",        s:gui05, "", s:cterm05, "", "")
-call <sid>hi("cCustomTemplateClass",       s:gui0A, "", s:cterm0A, "", "")
-call <sid>hi("cNumbersCom",        s:gui05, "", s:cterm05, "", "")
-call <sid>hi("cppMinMax",  s:gui04, "", s:cterm04, "", "")
-
 
 " Python highlighting
 call <sid>hi("pythonOperator",  s:gui04, "", s:cterm04, "", "")
