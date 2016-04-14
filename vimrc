@@ -1129,36 +1129,68 @@ highlight Function  guifg=#82B1FF
 highlight Identifier  guifg=#A886A1 "gui=bold
 highlight cAnsiFunction guifg=#82B1FF
 
+"宏粉，关键紫
+"highlight cCustomClass guifg=#F1E655
+"highlight Repeat guifg=#C792EA
+"highlight Label guifg=#C792EA
+"highlight Conditional guifg=#C792EA
+"highlight Operator guifg=#C792EA
+"highlight Keyword guifg=#C792EA
+"highlight Exception guifg=#C792EA
+"highlight Type  guifg=#8BD649
+"highlight Statement          guifg=#C792EA  
+"highlight Statement         guifg=#C792EA
+"highlight StorageClass         guifg=#C792EA
+"highlight Structure          guifg=#C792EA
+"highlight Typedef         guifg=#C792EA
 
+"宏紫，关键粉
 highlight cCustomClass guifg=#F1E655
-highlight Repeat guifg=#C792EA
-highlight Label guifg=#C792EA
-highlight Conditional guifg=#C792EA
-highlight Operator guifg=#C792EA
-highlight Keyword guifg=#C792EA
-highlight Exception guifg=#C792EA
+highlight Repeat guifg=#FF79C6
+highlight Label guifg=#FF79C6
+highlight Conditional guifg=#FF79C6
+highlight Operator guifg=#FF79C6
+highlight Keyword guifg=#FF79C6
+highlight Exception guifg=#FF79C6
 highlight Type  guifg=#8BD649
-highlight Statement          guifg=#C792EA  
-highlight Statement         guifg=#C792EA
-highlight StorageClass         guifg=#C792EA
-highlight Structure          guifg=#C792EA
-highlight Typedef         guifg=#C792EA
+highlight Statement          guifg=#FF79C6  
+highlight Statement         guifg=#FF79C6
+highlight StorageClass         guifg=#FF79C6
+highlight Structure          guifg=#FF79C6
+highlight Typedef         guifg=#FF79C6
 
 "这需要再改
 highlight Todo  guifg=#37474F   gui=inverse,bold,italic,underline"guibg=#263238 guibg=NONE
 highlight cTodo  guifg=#37474F   gui=inverse,bold,italic,underline"guibg=#263238 guibg=NONE
 
+"宏粉，关键紫
+
+"highlight PreProc guifg=#FF79C6
+"highlight Include guifg=#FF79C6
+"highlight Define guifg=#FF79C6
+"highlight Macro guifg=#FF79C6
+"highlight PreCondit guifg=#FF79C6
+"highlight Delimiter guifg=#FF79C6
+""highlight Macro guifg=#6272A4
+""highlight Macro guifg=#6272A4
+""highlight Include guifg=#6272A4
+""highlight Include guifg=#6272A4
+""highlight PreProc guifg=#6272A4
+""highlight Special  guifg=#80CBC4
+""highlight SpecialChar  guifg=#80CBC4
+
+"宏紫，关键粉
 "highlight PreProc guifg=#6272A4
-highlight PreProc guifg=#FF79C6
+highlight PreProc guifg=#C792EA
 "highlight Include guifg=#6272A4
-highlight Include guifg=#FF79C6
+highlight Include guifg=#C792EA
 "highlight Define guifg=#6272A4
-highlight Define guifg=#FF79C6
+highlight Define guifg=#C792EA
 "highlight Macro guifg=#6272A4
-highlight Macro guifg=#FF79C6
+highlight Macro guifg=#C792EA
 "highlight PreCondit guifg=#6272A4
-highlight PreCondit guifg=#FF79C6
-highlight Delimiter guifg=#FF79C6
+highlight PreCondit guifg=#C792EA
+highlight Delimiter guifg=#C792EA
 "highlight Special  guifg=#80CBC4
 "highlight SpecialChar  guifg=#80CBC4
 
