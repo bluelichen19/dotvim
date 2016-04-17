@@ -1119,7 +1119,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 
 	" 快速重载.vimrc
 	map <leader>s :source ~/.vimrc<cr>
-	if has('gui_running')
+	"if has('gui_running')
     "C3E88D "浅浅绿
     "5C7E8C "墨绿
     "F77669 "橙红
@@ -1128,76 +1128,149 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "8BD649 "绿色
     "82B1FF "蓝色
     "C792EA BD93F9 "紫色
-		highlight Constant  guifg=#F77669
-		highlight Comment  guifg=#5C7E8C
-		highlight String  guifg=#C3E88D
-		highlight Character  guifg=#C3E88D
-		highlight Number  guifg=#F77669
-		highlight Boolean  guifg=#F77669
-		highlight Float  guifg=#F77669
+        "===================================================
+        highlight Constant guifg=#f77669 guibg=NONE gui=NONE ctermfg=203 cterm=NONE
+        highlight Comment guifg=#5c7e8c guibg=NONE gui=NONE ctermfg=66 cterm=NONE
+        highlight String guifg=#c3e88d guibg=NONE gui=NONE ctermfg=150 cterm=NONE
+        highlight Character guifg=#c3e88d guibg=NONE gui=NONE ctermfg=150 cterm=NONE
+        highlight Number guifg=#f77669 guibg=NONE gui=NONE ctermfg=203 cterm=NONE
+        highlight Boolean guifg=#f77669 guibg=NONE gui=NONE ctermfg=203 cterm=NONE
+        highlight Float guifg=#f77669 guibg=NONE gui=NONE ctermfg=203 cterm=NONE
 
-		highlight Function  guifg=#82B1FF
-		highlight Identifier  guifg=#A886A1 "gui=bold
-		highlight cAnsiFunction guifg=#82B1FF
+        highlight Function guifg=#82b1ff guibg=NONE gui=NONE ctermfg=111 cterm=NONE
+        highlight cAnsiFunction guifg=#82b1ff guibg=NONE gui=NONE ctermfg=111 cterm=NONE
+        highlight Identifier guifg=#a886a1 guibg=NONE gui=NONE ctermfg=139 cterm=NONE
 		"这需要再改
-		highlight Todo  guifg=#37474F   gui=inverse,bold,italic,underline"guibg=#263238 guibg=NONE
-		highlight cTodo  guifg=#37474F   gui=inverse,bold,italic,underline"guibg=#263238 guibg=NONE
-        highlight cCustomClass     guifg=#F1E655
-        highlight Type             guifg=#8BD649
+        highlight Todo guifg=#37474f guibg=NONE gui=inverse,bold,italic,underline ctermfg=238 cterm=inverse,bold,underline ctermfg=61 ctermbg=NONE cterm=inverse,bold
+        highlight cTodo  guifg=#37474F   gui=inverse,bold,italic,underline guibg=NONE ctermfg=61 ctermbg=NONE cterm=inverse,bold "guibg=#263238  
+        highlight cCustomClass     guifg=#F1E655 guibg=NONE gui=NONE ctermfg=185 cterm=NONE
+        highlight Type guifg=#8bd649 guibg=NONE gui=NONE ctermfg=113 cterm=NONE
 
-        "highlight Type             guifg=#8BD649
+        "highlight Type  guifg=#8BD649 guibg=NONE gui=NONE
 		"宏粉，关键紫
         "{
             "关键字
-            highlight Repeat           guifg=#C792EA
-            highlight Label            guifg=#C792EA
-            highlight Conditional      guifg=#C792EA
-            highlight Operator         guifg=#C792EA
-            highlight Keyword          guifg=#C792EA
-            highlight Exception        guifg=#C792EA
-            highlight Statement        guifg=#C792EA  
-            highlight StorageClass     guifg=#C792EA
-            highlight Structure        guifg=#C792EA
-            highlight Typedef          guifg=#C792EA
+            highlight Repeat guifg=#c792ea guibg=NONE gui=NONE ctermfg=177 cterm=NONE
+            highlight Label guifg=#c792ea guibg=NONE gui=NONE ctermfg=177 cterm=NONE
+            highlight Conditional guifg=#c792ea guibg=NONE gui=NONE ctermfg=177 cterm=NONE
+            highlight Operator guifg=#c792ea guibg=NONE gui=NONE ctermfg=177 cterm=NONE
+            highlight Keyword guifg=#c792ea guibg=NONE gui=NONE ctermfg=177 cterm=NONE
+            highlight Exception guifg=#c792ea guibg=NONE gui=NONE ctermfg=177 cterm=NONE
+            highlight Statement guifg=#c792ea guibg=NONE gui=NONE ctermfg=177 cterm=NONE
+            highlight StorageClass guifg=#c792ea guibg=NONE gui=NONE ctermfg=177 cterm=NONE
+            highlight Structure guifg=#c792ea guibg=NONE gui=NONE ctermfg=177 cterm=NONE
+            highlight Typedef guifg=#c792ea guibg=NONE gui=NONE ctermfg=177 cterm=NONE
             "宏
-            highlight PreProc          guifg=#FF79C6
-		"highlight Include guifg=#FF79C6
-            highlight Include          guifg=#66D9DD
-            highlight Define           guifg=#FF79C6
-            highlight Macro            guifg=#FF79C6
-            highlight PreCondit        guifg=#FF79C6
-            highlight Delimiter        guifg=#FF79C6
+            highlight PreProc guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "highlight Include          guifg=#FF79C6 guibg=NONE gui=NONE
+            highlight Include guifg=#66d9dd guibg=NONE gui=NONE ctermfg=80 cterm=NONE
+            highlight Define guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            highlight Macro guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            highlight PreCondit guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            highlight Delimiter guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
 
-		"highlight Special  guifg=#80CBC4
-		"highlight SpecialChar  guifg=#80CBC4
+            "highlight Special guifg=#80cbc4 guibg=NONE gui=NONE ctermfg=116 cterm=NONE
+            "highlight SpecialChar guifg=#80cbc4 guibg=NONE gui=NONE ctermfg=116 cterm=NONE
+        "}
+        "宏紫，关键粉
+        "{
+            "关键字
+            "highlight Repeat guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "highlight Label guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "highlight Conditional guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "highlight Operator guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "highlight Keyword guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "highlight Exception guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "highlight Statement guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "highlight StorageClass guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "highlight Structure guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "highlight Typedef guifg=#ff79c6 guibg=NONE gui=NONE ctermfg=212 cterm=NONE
+            "宏
+            "highlight PreProc guifg=#bd93f9 guibg=NONE gui=NONE ctermfg=141 cterm=NONE
+            "highlight Include guifg=#bd93f9 guibg=NONE gui=NONE ctermfg=141 cterm=NONE
+            "highlight Define guifg=#bd93f9 guibg=NONE gui=NONE ctermfg=141 cterm=NONE
+            "highlight Macro guifg=#bd93f9 guibg=NONE gui=NONE ctermfg=141 cterm=NONE
+            "highlight PreCondit guifg=#bd93f9 guibg=NONE gui=NONE ctermfg=141 cterm=NONE
+            "highlight Delimiter guifg=#bd93f9 guibg=NONE gui=NONE ctermfg=141 cterm=NONE
+
+            "highlight Special guifg=#80cbc4 guibg=NONE gui=NONE ctermfg=116 cterm=NONE
+            "highlight SpecialChar guifg=#80cbc4 guibg=NONE gui=NONE ctermfg=116 cterm=NON
+            "}
+    "else
+    "endif
+    "}
+"function{ 自定义，仅包括GUI 将rgb.txt.拷贝到gui2term目录，sudo python3 gui2term.py dracula.vim new_vim.vim 运行sudo python3 gui2term.py dracula.vim new_vim.vim 
+    "if has('gui_running')
+    "highlight Constant  guifg=#F77669 guibg=NONE gui=NONE
+    "highlight Comment  guifg=#5C7E8C guibg=NONE gui=NONE
+    "highlight String  guifg=#C3E88D guibg=NONE gui=NONE
+    "highlight Character  guifg=#C3E88D guibg=NONE gui=NONE
+    "highlight Number  guifg=#F77669 guibg=NONE gui=NONE
+    "highlight Boolean  guifg=#F77669 guibg=NONE gui=NONE
+    "highlight Float  guifg=#F77669 guibg=NONE gui=NONE
+
+    "highlight Function  guifg=#82B1FF guibg=NONE gui=NONE
+    "highlight Identifier  guifg=#A886A1 guibg=NONE gui=NONE "gui=bold
+    "highlight cAnsiFunction guifg=#82B1FF guibg=NONE gui=NONE
+    "这需要再改
+    "highlight Todo  guifg=#37474F   gui=inverse,bold,italic,underline"guibg=#263238 guibg=NONE
+    "highlight cTodo  guifg=#37474F   gui=inverse,bold,italic,underline"guibg=#263238 guibg=NONE
+    "highlight cCustomClass     guifg=#F1E655 guibg=NONE gui=NONE
+    "highlight Type             guifg=#8BD649 guibg=NONE gui=NONE
+
+    "highlight Type             guifg=#8BD649 guibg=NONE gui=NONE
+    "宏粉，关键紫
+    "{
+        "关键字
+        "highlight Repeat           guifg=#C792EA guibg=NONE gui=NONE
+        "highlight Label            guifg=#C792EA guibg=NONE gui=NONE
+        "highlight Conditional      guifg=#C792EA guibg=NONE gui=NONE
+        "highlight Operator         guifg=#C792EA guibg=NONE gui=NONE
+        "highlight Keyword          guifg=#C792EA guibg=NONE gui=NONE
+        "highlight Exception        guifg=#C792EA guibg=NONE gui=NONE
+        "highlight Statement        guifg=#C792EA guibg=NONE gui=NONE
+        "highlight StorageClass     guifg=#C792EA guibg=NONE gui=NONE
+        "highlight Structure        guifg=#C792EA guibg=NONE gui=NONE
+        "highlight Typedef          guifg=#C792EA guibg=NONE gui=NONE
+        "宏
+        "highlight PreProc          guifg=#FF79C6 guibg=NONE gui=NONE
+        ""highlight Include          guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Include          guifg=#66D9DD guibg=NONE gui=NONE
+        "highlight Define           guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Macro            guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight PreCondit        guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Delimiter        guifg=#FF79C6 guibg=NONE gui=NONE
+
+        ""highlight Special         guifg=#80CBC4 guibg=NONE gui=NONE
+        ""highlight SpecialChar     guifg=#80CBC4 guibg=NONE gui=NONE
         "}
 
 		"宏紫，关键粉
         "{
             "关键字
-            "highlight Repeat guifg=#FF79C6
-            "highlight Label guifg=#FF79C6
-            "highlight Conditional guifg=#FF79C6
-            "highlight Operator guifg=#FF79C6
-            "highlight Keyword guifg=#FF79C6
-            "highlight Exception guifg=#FF79C6
-            "highlight Statement          guifg=#FF79C6  
-            "highlight StorageClass         guifg=#FF79C6
-            "highlight Structure          guifg=#FF79C6
-            "highlight Typedef         guifg=#FF79C6
+        "highlight Repeat guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Label guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Conditional guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Operator guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Keyword guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Exception guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Statement          guifg=#FF79C6 guibg=NONE gui=NONE 
+        "highlight StorageClass         guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Structure          guifg=#FF79C6 guibg=NONE gui=NONE
+        "highlight Typedef         guifg=#FF79C6 guibg=NONE gui=NONE
             "宏
-            "highlight PreProc guifg=#BD93F9
-            "highlight Include guifg=#BD93F9
-            "highlight Define guifg=#BD93F9
-            "highlight Macro guifg=#BD93F9
-            "highlight PreCondit guifg=#BD93F9
-            "highlight Delimiter guifg=#BD93F9
+        "highlight PreProc guifg=#BD93F9 guibg=NONE gui=NONE
+        "highlight Include guifg=#BD93F9 guibg=NONE gui=NONE
+        "highlight Define guifg=#BD93F9 guibg=NONE gui=NONE
+        "highlight Macro guifg=#BD93F9 guibg=NONE gui=NONE
+        "highlight PreCondit guifg=#BD93F9 guibg=NONE gui=NONE
+        "highlight Delimiter guifg=#BD93F9 guibg=NONE gui=NONE
 
-		""highlight Special  guifg=#80CBC4
-		""highlight SpecialChar  guifg=#80CBC4
+        ""highlight Special  guifg=#80CBC4 guibg=NONE gui=NONE
+        ""highlight SpecialChar  guifg=#80CBC4 guibg=NONE gui=NONE
         "}
-	else
-	endif
+    "else
+    "endif
 "}
 
 
