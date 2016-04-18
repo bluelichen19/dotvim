@@ -567,8 +567,8 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     set statusline+=%*
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_auto_loc_list = 1
-    let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 0
+	let g:syntastic_check_on_open = 0
+	let g:syntastic_check_on_wq = 1
     let g:syntastic_ignore_files=[".*\.py$"]
     let g:syntastic_check_on_open = 1
     let g:syntastic_cpp_include_dirs = ['/usr/include/']
@@ -880,7 +880,12 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     let MRU_Filename_Format={'formatter':'v:val', 'parser':'.*'}
 "}
 "function(Vundle插件管理){
-    let g:multi_cursor_next_key="\<C-s>"
+	let g:multi_cursor_use_default_mapping=0
+	" Default mapping
+	let g:multi_cursor_next_key='<C-m>'
+	let g:multi_cursor_prev_key='<C-p>'
+	let g:multi_cursor_skip_key='<C-x>'
+	let g:multi_cursor_quit_key='<Esc>'
 "}
 "function(Unite){
     "ctrl f ctrl b 本来是翻页
