@@ -969,8 +969,8 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 	map <leader>xf :Dox<CR>
 
 	map <leader>xb :DoxBlock<CR>
-
-	map <leader>xc a /*  */<LEFT><LEFT><LEFT>
+	map <leader>xc a/* <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR> by lichen  */<LEFT><LEFT><LEFT>
+	"map <leader>xc a /*  */<LEFT><LEFT><LEFT>
 	"添加liscens信息
 	map <Leader>xl :DoxLic<CR>
 "}
