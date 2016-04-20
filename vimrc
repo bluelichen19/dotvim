@@ -58,7 +58,13 @@ let g:mapleader = "'"
 
 " Fast saving
 nmap <leader>w :w!<cr>
+"使用鼠标
+set mouse=a "v "or "a
 set clipboard=unnamed
+"map <D-v> :r !pbpaste<CR><CR> 
+"map <D-c> :w !pbcopy<CR><CR> 
+"map <D-v> :r !pbpaste<CR><CR> 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -145,8 +151,7 @@ set smartcase
 " Makes search act like search in modern browsers 输入时就开始找
 set incsearch 
 "incsearch(is) 
-"使用鼠标
-set mouse=a
+
 "去掉输入错误的提示声音
 set noeb
 let Tlist_Ctags_Cmd="/usr/local/bin/ctags"
