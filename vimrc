@@ -842,7 +842,7 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 "function(CtrlSF){
     " 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project ctrlsf插件依赖于ack支持，因此还需要先装一下ack
     nnoremap <Leader>sp :CtrlSF<CR>
-
+	let g:ctrlsf_ackprg = '/usr/local/bin/ag'
     let g:ctrlsf_auto_close = 0
 "}
 "function(YankRing){
