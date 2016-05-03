@@ -3187,9 +3187,9 @@ v<
 "find . -name "*.cpputf8" -type f | sed 's/.cpputf8$//' | xargs -I {} mv {}.cpputf8 {}
 "find . -name "*.cutf8" -type f | sed 's/.cutf8$//' | xargs -I {} mv {}.cutf8 {}
 
-find . -name "*.cpp" -type f -exec sh -c "iconv -c -f CP936 -t UTF8 {} > {}.cpputf8" \;
-find . -name "*.c" -type f -exec sh -c "iconv -c -f CP936 -t UTF8 {} > {}.cutf8" \;
-find . -name "*.h" -type f -exec sh -c "iconv -c  -f CP936 -t UTF8 {} > {}.hutf8" \;
+find . -name "*.cpp" -type f -exec sh -c "iconv  -f CP936 -t UTF8 {} > {}.cpputf8" \;
+find . -name "*.c" -type f -exec sh -c "iconv  -f CP936 -t UTF8 {} > {}.cutf8" \;
+find . -name "*.h" -type f -exec sh -c "iconv   -f CP936 -t UTF8 {} > {}.hutf8" \;
 find . -name "*.cpp" -type f | xargs rm -rf                             
 find . -name "*.c" -type f | xargs rm -rf                       
 find . -name "*.h" -type f | xargs rm -rf                               
