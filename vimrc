@@ -1005,7 +1005,28 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
 "}
 
 "function(vimproc){
-    
+
+"}
+"function(auto-format){
+"clang-format for formating cpp code
+nnoremap <leader>cf :call FormatCode("Chromium")<cr>
+nnoremap <leader>lf :call FormatCode("LLVM")<cr>
+vnoremap <leader>cf :call FormatCode("Chromium")<CR>
+vnoremap <leader>lf :call FormatCode("LLVM")<cr>
+let g:autoformat_verbosemode = 1
+
+function! FormatCode(style)
+  let firstline=line(".")
+  let lastline=line(".")
+  " Visual mode
+  if exists(a:firstline)
+    firstline = a:firstline
+    lastline = a:lastline
+  endif
+  let g:formatdef_clangformat = "'clang-format --lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=" . a:style . "'"
+  let formatcommand = ":" . firstline . "," . lastline . "Autoformat"
+  exec formatcommand
+endfunc
 "}
 
 "function(AutoPairs){

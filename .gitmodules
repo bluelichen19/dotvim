@@ -163,3 +163,6 @@
 [submodule "bundle/vim-ultimate-colorcheme-utility.vim"]
 	path = bundle/vim-ultimate-colorcheme-utility.vim
 	url = https://github.com/biskark/vim-ultimate-colorscheme-utility.git
+[submodule "bundle/vim-autoformat.vim"]
+	path = bundle/vim-autoformat.vim
+	url = https://github.com/Chiel92/vim-autoformat.git
