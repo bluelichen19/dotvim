@@ -541,6 +541,14 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "endif
 
     let g:CtrlSpaceStatuslineFunction = "airline#extensions#ctrlspace#statusline()"
+    let g:airline_section_b = ''
+    let g:airline_section_c = ''
+    let g:airline_section_gutter = ''
+    let g:airline_section_x = ''
+    let g:airline_section_y = ''
+    "let g:airline_section_z = ''
+let g:airline_section_error = '%F%m'
+let g:airline_section_warning = '%{strftime("%c")}'
 "}
 "function(BufferLine){
     "" 开启tabline
