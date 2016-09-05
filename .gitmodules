@@ -166,3 +166,6 @@
 [submodule "bundle/vim-autoformat.vim"]
 	path = bundle/vim-autoformat.vim
 	url = https://github.com/Chiel92/vim-autoformat.git
+[submodule "bundle/vim-clang-format.git"]
+	path = bundle/vim-clang-format.git
+	url = https://github.com/rhysd/vim-clang-format.git
