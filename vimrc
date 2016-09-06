@@ -1017,11 +1017,11 @@ let g:airline_section_warning = '%{strftime("%c")}'
 "}
 "function(auto-format){
 "clang-format for formating cpp code
-nnoremap <leader>CF :call FormatCode("Chromium")<cr>
-nnoremap <leader>LF :call FormatCode("LLVM")<cr>
-vnoremap <leader>CF :call FormatCode("Chromium")<cr>
-vnoremap <leader>LF :call FormatCode("LLVM")<cr>
-let g:autoformat_verbosemode = 1
+nnoremap <leader>cf :call FormatCode("Chromium")<cr>
+nnoremap <leader>lf :call FormatCode("LLVM")<cr>
+vnoremap <leader>cf :call FormatCode("Chromium")<cr>
+vnoremap <leader>lf :call FormatCode("LLVM")<cr>
+let g:autoformat_verbosemode = 0
 
 function! FormatCode(style)
   let firstline=line(".")
@@ -1034,13 +1034,13 @@ function! FormatCode(style)
   let g:formatdef_clangformat = "'clang-format --lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=" . a:style . "'"
   let formatcommand = ":" . firstline . "," . lastline . "Autoformat"
   exec formatcommand
-endfunc
+endfunction
 "}
 "function(clang-format){
 " map to <Leader>cf in C++ code
 let g:clang_format#code_style = "chromium"
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>CF :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
 
 "}
 
