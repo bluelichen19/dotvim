@@ -157,8 +157,9 @@ set noeb
 let Tlist_Ctags_Cmd="/usr/local/bin/ctags"
 "ctags -R --c++-kinds=+p --fields=+iaS --extra=+q src
 "map <c-F12> :!CTags -R --c++-kinds=+p --fields=+iaSl --extra=+q .<CR><CR>
-map <C-F12> :!CTags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++
-map <F12> :!CTags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++
+map <C-F12> :!CTags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++ .<CR><CR>
+map <F12> :!CTags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++ .<CR><CR>
+set tags=./tags;/
 
 "中文帮助和中文菜单
 "if version >= 603
@@ -605,6 +606,10 @@ let g:airline_section_warning = '%{strftime("%c")}'
 "}
 "function(Ycm){
 	"echo 1
+    "What's the value of the tags option for you? :set tags?
+    "What's the value of tagfiles()? :echo tagfiles()
+    "What's the content of the tags file?
+    "What's the filetype of the file you are writing? :set ft?
     let g:ycm_confirm_extra_conf = 1
     "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
     "let g:ycm_global_ycm_extra_conf = '/Users/BLUE/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
@@ -612,8 +617,8 @@ let g:airline_section_warning = '%{strftime("%c")}'
     let g:ycm_collect_identifiers_from_tags_files = 1
     let g:ycm_seed_identifiers_with_syntax = 1
     "set tags+=~/work/test/ctest/UPlayer_Refactoring_Tudou/tags
-    set tags+=./../tags,./../../tags,./../../../tags
-
+	"set tags+=./../tags,./../../tags,./../../../tags
+    set tags=./tags;/
 	let cwd = getcwd()
     let tagfilename = cwd . "/tags"
     "echo tagfilename
