@@ -1,12 +1,12 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer: 
+" Maintainer:
 "       bluelichen
 "       https://github.com/bluelichen19
 "
-" Version: 
+" Version:
 "       1.0 - 29/05/12 15:43:36
 "
-" Blog_post: 
+" Blog_post:
 "       http://amix.dk/blog/post/19691#The-ultimate-Vim-configuration-on-Github
 "
 " Awesome_version:
@@ -19,7 +19,7 @@
 " Syntax_highlighted:
 "       http://amix.dk/vim/vimrc.html
 "
-" Raw_version: 
+" Raw_version:
 "       http://amix.dk/vim/vimrc.txt
 "
 " Sections:
@@ -61,9 +61,9 @@ nmap <leader>w :w!<cr>
 "使用鼠标
 set mouse=a "v "or "a
 set clipboard=unnamed
-"map <D-v> :r !pbpaste<CR><CR> 
-"map <D-c> :w !pbcopy<CR><CR> 
-"map <D-v> :r !pbpaste<CR><CR> 
+"map <D-v> :r !pbpaste<CR><CR>
+"map <D-c> :w !pbcopy<CR><CR>
+"map <D-v> :r !pbpaste<CR><CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -91,7 +91,7 @@ set whichwrap+=<,>,h,l
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " Highlight search results
@@ -116,17 +116,17 @@ set noerrorbells
 set novisualbell
 set t_vb=
 set tm=500
-"防止特殊符号无法正常显示  
-set ambiwidth=double  
-"设置默认编码  
-set encoding=utf-8  
-set langmenu=zh_CN.UTF-8  
-"提示信息乱码解决"  
-language message zh_CN.UTF-8  
-"菜单乱码解决"  
-source $VIMRUNTIME/delmenu.vim  
-source $VIMRUNTIME/menu.vim  
-"设置文件编码  
+"防止特殊符号无法正常显示
+set ambiwidth=double
+"设置默认编码
+set encoding=utf-8
+set langmenu=zh_CN.UTF-8
+"提示信息乱码解决"
+language message zh_CN.UTF-8
+"菜单乱码解决"
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+"设置文件编码
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 
 "set termencoding=utf-8
@@ -149,16 +149,16 @@ set hlsearch
 " When searching try to be smart about cases 大小写不敏感
 set smartcase
 " Makes search act like search in modern browsers 输入时就开始找
-set incsearch 
-"incsearch(is) 
+set incsearch
+"incsearch(is)
 
 "去掉输入错误的提示声音
 set noeb
 let Tlist_Ctags_Cmd="/usr/local/bin/ctags"
 "ctags -R --c++-kinds=+p --fields=+iaS --extra=+q src
 "map <c-F12> :!CTags -R --c++-kinds=+p --fields=+iaSl --extra=+q .<CR><CR>
-map <C-F12> :!CTags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++ .<CR><CR>
-map <F12> :!CTags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++ .<CR><CR>
+map <C-F12> :!CTags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++ .
+map <F12> :!CTags -R --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+liaS --extra=+q --language-force=c++ .
 set tags=./tags;/
 
 "中文帮助和中文菜单
@@ -247,12 +247,12 @@ set laststatus=2
 
 " Format the status line
 "set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
-set statusline=%h%w%r\ %f\ %m%=\ %B\ \|\ %{&ff}\ \|\ %{&fenc!=''?&fenc:&enc}\ \|\ %{&ft!=''?&ft:'none'}\ \|\ %{&tabstop}\ %8(%l,%v%)\ %10(%p%%,%P%)
+"set statusline=%h%w%r\ %f\ %m%=\ %B\ \|\ %{&ff}\ \|\ %{&fenc!=''?&fenc:&enc}\ \|\ %{&ft!=''?&ft:'none'}\ \|\ %{&tabstop}\ %8(%l,%v%)\ %10(%p%%,%P%)
 " status line {
 "set laststatus=2
-"set statusline=\ %{HasPaste()}%<%-15.25(%f%)%m%r%h\ %w\ \ 
-"set statusline+=\ \ \ [%{&ff}/%Y] 
-"set statusline+=\ \ \ %<%20.30(%{hostname()}:%{CurDir()}%)\ 
+"set statusline=\ %{HasPaste()}%<%-15.25(%f%)%m%r%h\ %w\ \
+"set statusline+=\ \ \ [%{&ff}/%Y]
+"set statusline+=\ \ \ %<%20.30(%{hostname()}:%{CurDir()}%)\
 "set statusline+=%=%-10.(%l,%c%V%)\ %p%%/%L
 
 function! CurDir()
@@ -275,7 +275,7 @@ function! CurDir()
     let curdir = substitute(getcwd(), $HOME, "~", "g")
     return curdir
 endfunction
-"set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \|\ ascii=%b,hex=%b%{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\ \|\ %{$USER}\ @\ %{hostname()}\ 
+set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \|\ ascii=%b,hex=%b%{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\ \|\ %{$USER}\ @\ %{hostname()}\
 
 function! AutoLoadCTagsAndCScope()
     let max = 10
@@ -423,13 +423,13 @@ nmap <F10> :call AutoLoadCTagsAndCScope()<CR>
     "\ }
     "nmap <leader>tb :TagbarToggle<CR>  " \tb 打开tagbar窗口
     "let g:tagbar_autofocus = 1
-    " 设置 tagbar 子窗口的位置出现在主编辑区的左边 
-    "let tagbar_left=1 
-    " 设置显示／隐藏标签列表子窗口的快捷键。速记：tag list 
-    "nnoremap <Leader>tl :TagbarToggle<CR> 
-    " 设置标签子窗口的宽度 
-    let tagbar_width=32 
-    " tagbar 子窗口中不显示冗余帮助信息 
+    " 设置 tagbar 子窗口的位置出现在主编辑区的左边
+    "let tagbar_left=1
+    " 设置显示／隐藏标签列表子窗口的快捷键。速记：tag list
+    "nnoremap <Leader>tl :TagbarToggle<CR>
+    " 设置标签子窗口的宽度
+    let tagbar_width=32
+    " tagbar 子窗口中不显示冗余帮助信息
     let g:tagbar_compact=1
     " 设置 ctags 对哪些代码元素生成标签
     let g:tagbar_type_cpp = {
@@ -648,7 +648,7 @@ let g:airline_section_warning = '%{strftime("%c")}'
     " 禁止缓存匹配项,每次都重新生成匹配项
     let g:ycm_cache_omnifunc=0
     " 开启语义补全
-    let g:ycm_seed_identifiers_with_syntax=1    
+    let g:ycm_seed_identifiers_with_syntax=1
     "在注释输入中也能补全
     let g:ycm_complete_in_comments = 1
     "在字符串输入中也能补全
@@ -676,7 +676,7 @@ let g:airline_section_warning = '%{strftime("%c")}'
     let g:ycm_key_invoke_completion = "<Leader><Space>"
 
     let g:UltiSnipsExpandTrigger="<leader><tab>"
-    let g:UltiSnipsJumpForwardTrigger="<leader><tab>"                           
+    let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
     let g:UltiSnipsJumpBackwardTrigger="<leader><M-tab>"
 
 
@@ -702,7 +702,7 @@ let g:airline_section_warning = '%{strftime("%c")}'
     "let g:ycm_min_num_of_chars_for_completion=1
     " 禁止缓存匹配项，每次都重新生成匹配项
     "let g:ycm_cache_omnifunc=0
-    " 语法关键字补全         
+    " 语法关键字补全
     "let g:ycm_seed_identifiers_with_syntax=1
     "其中，工程自身代码的标签可借助 indexer 插件自动生成自动引入，但由于 YCM 要求 tag 文件中必须含有 language:<X> 字段（ctags 的命令行参数 --fields 必须含有 l 选项），所有必须通过 indexer_ctagsCommandLineOptions 告知 indexer 调用 ctags 时注意生成该字段，具体设置参见“代码导航”章节；前面章节介绍过如何生成、引入 C++ 标准库的 tag 文件，设置成正确路径即可。另外，由于引入过多 tag 文件会导致 vim 变得非常缓慢，我的经验是，只引入工程自身（indexer 自动引入）和 C++ 标准库的标签（上面配置的最后一行）。
 "}
@@ -741,7 +741,7 @@ let g:airline_section_warning = '%{strftime("%c")}'
     "let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
     "used VimShellPop open windows
     "    "let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
-        
+
     "    if has('win32') || has('win64')
     "      " Display user name on Windows.
     "      let g:vimshell_prompt = $USERNAME."% "
@@ -860,13 +860,13 @@ let g:airline_section_warning = '%{strftime("%c")}'
 "}
 "function(YankRing){
     "sudo git submodule add https://github.com/vim-scripts/YankRing.vim.git bundle/YankRing.vim
-    "在vim裡面，copy只有一次的歷史紀錄， 
+    "在vim裡面，copy只有一次的歷史紀錄，
     "如果希望能夠保留copy的歷史紀錄，就可以用這個plugin
 
     "這個plugin也提供了非常好用「歷史替代」的功能。
 
-    "把這個plugin裝好之後，試試多copy幾段文字， 
-    "然後在normal mode按p貼上，然後再按<c-p>或<c-n>， 
+    "把這個plugin裝好之後，試試多copy幾段文字，
+    "然後在normal mode按p貼上，然後再按<c-p>或<c-n>，
     "就會把剛才貼上的文字替換再前一次歷史的文字。
     "非常好用，強力推薦。
 "}
@@ -874,7 +874,7 @@ let g:airline_section_warning = '%{strftime("%c")}'
     map <leader>b :BufExplorer<cr>
     let g:bufExplorerDefaultHelp=0
     let g:bufExplorerDetailedHelp=0
-    let g:bufExplorerFindActive=1 
+    let g:bufExplorerFindActive=1
     let g:bufExplorerShowDirectories=1
     let g:bufExplorerShowNoName=1
     let g:bufExplorerShowRelativePath=1
@@ -955,12 +955,12 @@ let g:airline_section_warning = '%{strftime("%c")}'
     "let g:CtrlSpaceDefaultMappingKey = "<C-Space>"
 "}
 "function(DoxygenToolkit){
-    "let g:DoxygenToolkit_briefTag_pre="@Synopsis  " 
-    "let g:DoxygenToolkit_paramTag_pre="@Param " 
-    "let g:DoxygenToolkit_returnTag="@Returns   " 
-    "let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------" 
-    "let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------" 
-    "let g:DoxygenToolkit_authorName="BLUE" 
+    "let g:DoxygenToolkit_briefTag_pre="@Synopsis  "
+    "let g:DoxygenToolkit_paramTag_pre="@Param "
+    "let g:DoxygenToolkit_returnTag="@Returns   "
+    "let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
+    "let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
+    "let g:DoxygenToolkit_authorName="BLUE"
     "let g:DoxygenToolkit_licenseTag="1.0.1"   "<-- !!! Does not end with "\<enter>"
 
 	"map <Leader>dl :DoxLic<CR>
@@ -975,12 +975,12 @@ let g:airline_section_warning = '%{strftime("%c")}'
 	let g:DoxygenToolkit_authorName="LC"
 	let g:DoxygenToolkit_briefTag_funcName="yes"
 
-	let g:DoxygenToolkit_briefTag_pre="@Synopsis  " 
-	let g:DoxygenToolkit_paramTag_pre="@Param " 
-	let g:DoxygenToolkit_returnTag="@Returns   " 
+    let g:DoxygenToolkit_briefTag_pre="@Synopsis  "
+    let g:DoxygenToolkit_paramTag_pre="@Param "
+    let g:DoxygenToolkit_returnTag="@Returns   "
 	"Dox 命令后，上线添加两条线
-	let g:DoxygenToolkit_blockHeader="----------------------------------------------------------------------------" 
-	let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------" 
+    let g:DoxygenToolkit_blockHeader="----------------------------------------------------------------------------"
+    let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
 	"添加文件描述
 	map <leader>xa :DoxAuthor<CR>
 	"添加函数描述
@@ -1011,10 +1011,10 @@ let g:airline_section_warning = '%{strftime("%c")}'
 "}
 
 "function(tmux-navigator){
-    
+
 "}
 "function(vim-surround){
-    
+
 "}
 
 "function(vimproc){
@@ -1050,7 +1050,7 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
 "}
 
 "function(AutoPairs){
-	
+
 	let g:AutoPairsFlyMode = 1
 	let g:AutoPairsShortcutBackInsert = '<M-b>'
 "}
@@ -1120,7 +1120,7 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
     "colorscheme phd
 
     "colorscheme desert
-    "set background=dark  
+    "set background=dark
 "}
 "function(syntax-clolor-setting){
 		"*Comment        v 任何注释
@@ -1193,7 +1193,7 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
         highlight Identifier guifg=#a886a1 guibg=NONE gui=NONE ctermfg=139 cterm=NONE
 		"这需要再改
         highlight Todo guifg=#37474f guibg=NONE gui=inverse,bold,italic,underline ctermfg=238 cterm=inverse,bold,underline ctermfg=61 ctermbg=NONE cterm=inverse,bold
-        highlight cTodo  guifg=#37474F   gui=inverse,bold,italic,underline guibg=NONE ctermfg=61 ctermbg=NONE cterm=inverse,bold "guibg=#263238  
+        highlight cTodo  guifg=#37474F   gui=inverse,bold,italic,underline guibg=NONE ctermfg=61 ctermbg=NONE cterm=inverse,bold "guibg=#263238
         highlight cCustomClass     guifg=#F1E655 guibg=NONE gui=NONE ctermfg=185 cterm=NONE
         highlight Type guifg=#8bd649 guibg=NONE gui=NONE ctermfg=113 cterm=NONE
 
@@ -1250,7 +1250,7 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
     "else
     "endif
     "}
-"function{ 自定义，仅包括GUI 将rgb.txt.拷贝到gui2term目录，sudo python3 gui2term.py dracula.vim new_vim.vim 运行sudo python3 gui2term.py dracula.vim new_vim.vim 
+"function{ 自定义，仅包括GUI 将rgb.txt.拷贝到gui2term目录，sudo python3 gui2term.py dracula.vim new_vim.vim 运行sudo python3 gui2term.py dracula.vim new_vim.vim
     "if has('gui_running')
     "highlight Constant  guifg=#F77669 guibg=NONE gui=NONE
     "highlight Comment  guifg=#5C7E8C guibg=NONE gui=NONE
@@ -1305,7 +1305,7 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
         "highlight Operator guifg=#FF79C6 guibg=NONE gui=NONE
         "highlight Keyword guifg=#FF79C6 guibg=NONE gui=NONE
         "highlight Exception guifg=#FF79C6 guibg=NONE gui=NONE
-        "highlight Statement          guifg=#FF79C6 guibg=NONE gui=NONE 
+        "highlight Statement          guifg=#FF79C6 guibg=NONE gui=NONE
         "highlight StorageClass         guifg=#FF79C6 guibg=NONE gui=NONE
         "highlight Structure          guifg=#FF79C6 guibg=NONE gui=NONE
         "highlight Typedef         guifg=#FF79C6 guibg=NONE gui=NONE
@@ -1323,12 +1323,3 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
     "else
     "endif
 "}
-
-
-
-
-
-
-
-
-
