@@ -175,3 +175,6 @@
 [submodule "bundle/xptemplate.vim"]
 	path = bundle/xptemplate.vim
 	url = https://github.com/drmingdrmer/xptemplate.git
+[submodule "bundle/c-support.vim"]
+	path = bundle/c-support.vim
+	url = https://github.com/WolfgangMehner/c-support.git
