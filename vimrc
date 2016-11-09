@@ -1052,7 +1052,7 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
 "function(AutoPairs){
 
 	let g:AutoPairsFlyMode = 1
-	let g:AutoPairsShortcutBackInsert = '<M-b>'
+	let g:AutoPairsShortcutBackInsert = '<C-b>'
 "}
 "function(syntax高亮C++语法)
 "{
