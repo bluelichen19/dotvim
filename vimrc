@@ -50,7 +50,7 @@ filetype indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
-:verbose map
+":verbose map
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
 let mapleader = "'"
@@ -972,7 +972,7 @@ let g:airline_section_warning = '%{strftime("%c")}'
 
 	"-----------------------------------------------------------------
 
-	let g:DoxygenToolkit_authorName="LC"
+	let g:DoxygenToolkit_authorName="BLUE"
 	let g:DoxygenToolkit_briefTag_funcName="yes"
 
     let g:DoxygenToolkit_briefTag_pre="@Synopsis  "
@@ -1073,6 +1073,14 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
 	let g:ulti_color_default_keys = 0
 	let g:ulti_color_auto_load = 0
 "}
+
+"function(xptemplate){
+	"sudo git submodule add https://github.com/drmingdrmer/xptemplate.git bundle/xptemplate.vim
+	let g:xptemplate_vars = "SParg=&BRfun= &BRloop= "   " 代码紧贴括号,函数名单行,花括号不对齐  
+	let php_noShortTags = 1                             " 禁用php短标记  
+	"let g:xptemplate_key = '<leader><Tab>'	
+"}
+
 
 "function(color-setting){
   let g:solarized_termcolors=256
