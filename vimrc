@@ -1079,6 +1079,12 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
 	let g:xptemplate_vars = "SParg=&BRfun= &BRloop= "   " 代码紧贴括号,函数名单行,花括号不对齐  
 	let php_noShortTags = 1                             " 禁用php短标记  
 	"let g:xptemplate_key = '<leader><Tab>'	
+    "let g:xptemplate_vars="SPcmd=&BRloop=\n"
+    "let g:xptemplate_vars.="&BRfun= "
+    "let g:xptemplate_vars.="&SParg="
+    "let g:xptemplate_brace_comp    "lete ='([{"<'
+    "let g:xptemplate_vars.="&author=liu"
+    "let g:xptemplate_vars.="&email=lichen19@gmail.com"
 "}
 
 "function(c-support){
