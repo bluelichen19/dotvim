@@ -1189,6 +1189,8 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
 "\ct       date \&amp; time                        (n,i)
 "}
 
+"匹配并着色
+"syntax region UPLAYER_FOR_IOS start=/#if !UPLAYER_FOR_IOS/ end=/#endif/
 
 "function(color-setting){
   let g:solarized_termcolors=256
