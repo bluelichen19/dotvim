@@ -178,6 +178,3 @@
 [submodule "bundle/c-support.vim"]
 	path = bundle/c-support.vim
 	url = https://github.com/WolfgangMehner/c-support.git
-[submodule "bundle/lldb.vim"]
-	path = bundle/lldb.vim
-	url = https://github.com/gilligan/vim-lldb.git
