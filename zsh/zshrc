@@ -61,6 +61,9 @@ plugins=(git sudo autojump)
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/zhenghaishu/work/develop/android-ndk-r10e/android-ndk-r10e:/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk/platform-tools:/Users/zhenghaishu/work/develop/android-ndk-r10e/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin
 # export MANPATH="/usr/local/man:$MANPATH"
 
+#export ANDROID_SDK=/Users/zhenghaishu/work/develop/adt-bundle-mac-x86_64-20140321/sdk
+#export ANDROID_NDK=/Users/zhenghaishu/work/develop/android_ndk/android-ndk-r13b
+
 #source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
