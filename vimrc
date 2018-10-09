@@ -58,6 +58,7 @@ let g:mapleader = "'"
 
 " Fast saving
 nmap <leader>w :w!<cr>
+nmap <leader>dk :%s/\s\+$//g<cr>
 "使用鼠标
 set mouse=a "v "or "a
 set clipboard=unnamed
@@ -1076,9 +1077,9 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>CF :ClangFormat<CR>
 
 "function(xptemplate){
 	"sudo git submodule add https://github.com/drmingdrmer/xptemplate.git bundle/xptemplate.vim
-	let g:xptemplate_vars = "SParg=&BRfun= &BRloop= "   " 代码紧贴括号,函数名单行,花括号不对齐  
-	let php_noShortTags = 1                             " 禁用php短标记  
-	"let g:xptemplate_key = '<leader><Tab>'	
+	let g:xptemplate_vars = "SParg=&BRfun= &BRloop= "   " 代码紧贴括号,函数名单行,花括号不对齐
+	let php_noShortTags = 1                             " 禁用php短标记
+	"let g:xptemplate_key = '<leader><Tab>'
     "let g:xptemplate_vars="SPcmd=&BRloop=\n"
     "let g:xptemplate_vars.="&BRfun= "
     "let g:xptemplate_vars.="&SParg="
